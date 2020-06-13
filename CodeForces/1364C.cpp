@@ -1,3 +1,9 @@
+/*
+The key observation is: if for some index i, ai≠ai−1, then bi must be equal to ai−1.
+Then we fill the rest of the values with integers missing in a between 0 to n in 
+increasing order.
+*/
+
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -29,21 +35,27 @@ int main(){
 #endif
 	int n;
 	cin>>n;
-	vector<int> a(n), b(n, -1);
+	vector<int> a(n), b(n, -1), pres(n+1, 0);
 	F(a, n);
-	if(a[0] == 1){b[0]=0;}
+	if(a[0] == 1){
+		b[0]=0;
+		pres[0]=1;
+	}
 	for(int i=1; i<n; i++){
 		if(a[i] != a[i-1]){
 			b[i] = a[i-1];
+			pres[b[i]]=1;//to store numbers which are present in a
 		}
 	}
-	int pos=1;
+	pres[a[n-1]]=1;//to mark the last number as present
+	int pos=0;
 	for(int i=0; i<n; i++){
-		if(b[i] == -1){
-			b[i] = pos;
-		}
-		else{
+		//if the number is present we move to next number
+		while(pres[pos]){
 			pos++;
+		}
+		if(b[i] == -1){
+			b[i] = pos++;
 		}
 	}
 	P(b, n);

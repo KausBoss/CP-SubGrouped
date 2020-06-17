@@ -1,9 +1,5 @@
 2
-na
-banananobano
-6
-foobar
-foo
-9
-foobarfoo
-barfoobarfoobarfoobarfoobarfoo
+3
+aaa
+12
+aabaabaabaab

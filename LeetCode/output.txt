@@ -1,1 +1,18 @@
-6
+a 0 1 0
+clearing: 0
+a 1 1 1
+b 1 2 2
+clearing: 1
+a 2 2 3
+clearing: 2
+clearing: 3
+a 2 1 4
+b 2 2 5
+! 2 3 6
+clearing: 4
+clearing: 5
+b 3 2 7
+clearing: 6
+clearing: 7
+b 3 1 8
+3

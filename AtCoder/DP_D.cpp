@@ -20,23 +20,26 @@ using namespace std;
 #define PNF(a,n,m)  for(int i=0;i<n;i++){for(int j=0;j<m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 #define PNF1(a,n,m) for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 const int nax = 1e5 + 5;
-const int big = 1e9+7;
+const int mod = 1e9+7;
 ll n, w;
 ll *weight, *cost;
-ll dp[101][nax];// dp[ith item][ total cost ]
+ll dp[101][nax];
 
-ll func(ll i, ll cost_curr){
+ll func(ll i, ll w_curr){
 	//base case
+	if(w == 0){
+		return 0;
+	}
 	if(i == n){
 		return 0;
 	}
 	//recursive case
-	if(dp[i][cost_curr] != big){ return dp[i][cost_curr];}
+	if(dp[i][w_curr] != -1){ return dp[i][w_curr];}
 
-	ll op1 = func(i + 1, cost_curr);
-	ll op2 = cost[i] > cost_curr ? 0 : weight[i] + func(i + 1, cost_curr - cost[i]);
+	ll op1 = func(i + 1, w_curr);
+	ll op2 = weight[i] > w_curr ? 0 : cost[i] + func(i + 1, w_curr - weight[i]);
 
-	return dp[i][cost_curr] = min(op1, op2);
+	return dp[i][w_curr] = max(op1, op2);
 }
 
 int main(){
@@ -46,20 +49,12 @@ fastIO
     freopen("output.txt", "w", stdout);
 #endif
     cin>>n>>w;
-    memset(dp, big, sizeof(dp));
+    memset(dp, -1, sizeof(dp));
 	weight = new ll[n];
 	cost = new ll[n];
 	for(int i=0; i<n; i++){
 		cin>>weight[i];
 		cin>>cost[i];
 	}
-	func(0, 0);
-	ll ans =0;
-	for(ll i=0; i<nax; i++){
-		if(dp[n-1][i] <= w && dp[n-1][i] >= 0){
-			ans = i;
-		}
-	}
-	PNF(dp, n, 10);
-	cout<<ans;
+	cout<<func(0, w);
 }

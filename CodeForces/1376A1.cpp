@@ -1,5 +1,5 @@
 /*
-dp[i] = dp[i] = max(i*m[i] + dp[i+2], dp[i+1]);
+
 */
 #include <bits/stdc++.h>
 
@@ -19,21 +19,9 @@ using namespace std;
 #define NF1(a,n,m)   for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cin>>a[i][j];}}
 #define PNF(a,n,m)   for(int i=0;i<n;i++){for(int j=0;j<m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 #define PNF1(a,n,m) for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
-const int nax = 1e5 + 2;
+const int nax = 1e7;
 const int mod = 1e9+7;
-ll n, *dp = new ll[nax];
-ll m[nax] = {0};
 
-ll func(ll i){
-	//base case
-	if(i >= nax){
-		return 0;
-	}
-	//recursive case
-	if(dp[i] != -1){ return dp[i];}
-
-	return dp[i] = max(i*m[i] + func(i+2), func(i+1));
-}
 
 
 int main(){
@@ -42,14 +30,9 @@ fastIO
     freopen("input.txt", "r", stdin);
     freopen("output.txt", "w", stdout);
 #endif
-	cin>>n;
-	for(ll i=0; i<nax; i++){
-		dp[i] = -1;
-	}
-	for(ll i =0; i<n; i++){
-		ll temp;
-		cin>>temp;
-		m[temp]++;
-	}
-	cout<<func(1)<<endl;
+	ll n;
+	ll *a = new ll[n];
+	F(a, n);
+	sort(a, a+n);
+	P()
 }

@@ -87,18 +87,6 @@ fastIO
 		both.pop();
 	}
 
-	while(!both.empty() && !Adone.empty() && (Adone.top() > both.top())){
-		com += both.top();
-		Adone.pop();
-		both.pop();
-	}
-
-	while(!both.empty() && !Bdone.empty() && (Bdone.top() > both.top())){
-		com += both.top();
-		Bdone.pop();
-		both.pop();
-	}
-
 	while(!Adone.empty()){
 		com += Adone.top();
 		Adone.pop();

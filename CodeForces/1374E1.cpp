@@ -21,7 +21,7 @@ using namespace std;
 #define PNF1(a,n,m) for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 const int nax = 1e7;
 const int mod = 1e9+7;
-ll *t; int *a, *b;
+
 
 
 int main(){
@@ -30,21 +30,84 @@ fastIO
     freopen("input.txt", "r", stdin);
     freopen("output.txt", "w", stdout);
 #endif
-	ll n, k;
+    ll n, k, Atot=0, Btot=0, com=0;
+	priority_queue<ll, vector<ll>, greater<ll>> Awale, Bwale, both;
+	priority_queue<ll> Adone, Bdone;
 	cin>>n>>k;
-	t = new ll[n];
-	a = new int[n];
-	b = new int[n];
-	ll totalA=0, totalB=0;
-	for(int i=0; i<n; i++){
-		cin>>t[i]>>a[i]>>b[i];
-		if(a[i]){totalA++;}
-		if(b[i]){totalB++;}
+	for(ll i=0; i<n; i++){
+		ll time, a, b;
+		cin>>time>>a>>b;
+		if(a && b){
+			both.push(time);
+			Atot++; Btot++;
+		}
+		else if(a && !b){
+			Awale.push(time);
+			Atot++;
+		}
+		else if(!a && b){
+			Bwale.push(time);
+			Btot++;
+		}
 	}
-	if(totalA < k || totalB < k){
-		cout<<-1;
-		return 0;
+	//checking for possible or not
+	if(Atot <k || Btot < k){
+		cout<<-1; return 0;
 	}
-	memset(dp, )
-	cout<<mini()
+
+	while(!Awale.empty() && Adone.size() < k){
+		Adone.push(Awale.top());
+		Awale.pop();
+	}
+
+	while(!Bwale.empty() && Bdone.size() < k){
+		Bdone.push(Bwale.top());
+		Bwale.pop();
+	}
+
+	ll extra = max(k - Adone.size(), k - Bdone.size());
+
+	while(extra--){
+		com += both.top();
+
+		if(Bdone.size() > Adone.size()){
+			Bdone.pop();
+		}
+		else if(Adone.size() > Bdone.size()){
+			Adone.pop();
+		}
+
+		both.pop();
+	}
+
+	while(!both.empty() && !Adone.empty() && !Bdone.empty() && (Adone.top() + Bdone.top() > both.top())){
+		com += both.top();
+		Adone.pop();
+		Bdone.pop();
+		both.pop();
+	}
+
+	while(!both.empty() && !Adone.empty() && (Adone.top() > both.top())){
+		com += both.top();
+		Adone.pop();
+		both.pop();
+	}
+
+	while(!both.empty() && !Bdone.empty() && (Bdone.top() > both.top())){
+		com += both.top();
+		Bdone.pop();
+		both.pop();
+	}
+
+	while(!Adone.empty()){
+		com += Adone.top();
+		Adone.pop();
+	}
+
+	while(!Bdone.empty()){
+		com += Bdone.top();
+		Bdone.pop();
+	}
+
+	cout<<com;
 }

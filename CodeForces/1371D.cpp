@@ -21,41 +21,9 @@ using namespace std;
 #define PNF1(a,n,m) for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 const int nax = 1e7;
 const int mod = 1e9+7;
-ll m, d;
-ll dp[ 2001 ][ 2 ][ 2000 ][ 2 ];//dp[pos][odd/even pos][mod][tight]
-string s;
 
-ll func(ll pos, ll odd, ll rem, bool tight){
-	//base case
-	if(pos == s.length()){
-		return rem==0;
-	}
-	//recursive case
-	if(dp[pos][odd][rem][tight] != -1){ return dp[pos][odd][rem][tight];}
+void func(){
 	
-	ll ans=0;
-	ll end = tight ? s[pos]-'0' : 9;
-	for(ll i=0; i<=end; i++){
-		if(odd || (!odd && i == d)){
-			ans += func(pos+1, !odd, (rem*10+i)%m, (tight)&(i==end));
-		}
-		ans %= mod;
-	}
-	return dp[pos][odd][rem][tight] = ans;
-}
-
-bool magic(string a){
-	reverse(a.begin(), a.end());
-	for(int i=0; i<a.length(); i++){
-		if(i%2==0 && a[i]-'0' != d){return false;}
-	}
-	reverse(a.begin(), a.end());
-
-	ll rem=0;
-	for(int i=0; i<a.length(); i++){
-		rem = (10*rem + (a[i]-'0'))%m;
-	}
-	return rem == 0;
 }
 
 int main(){
@@ -64,21 +32,9 @@ fastIO
     freopen("input.txt", "r", stdin);
     freopen("output.txt", "w", stdout);
 #endif
-    string a, b;
-    cin>>m>>d;
-    cin>>a>>b;
-
-    memset(dp, -1, sizeof(dp));
-    s = b;
-    ll ans = func(0, (s.length()+1)%2, 0, 1);
-
-    memset(dp, -1, sizeof(dp));
-    s = a;
-    ans -= func(0, (s.length()+1)%2, 0, 1);
-    ans += mod;
-    ans %= mod;
-    
-    if(magic(a)){ans++;}
-
-    cout<<ans;
+	int t;
+	cin>>t;
+	while(t--){
+		func();
+	}
 }

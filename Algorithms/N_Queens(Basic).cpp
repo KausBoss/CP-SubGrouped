@@ -1,5 +1,5 @@
 /*
-Genrating unique permutations
+
 */
 #include <bits/stdc++.h>
 
@@ -21,23 +21,51 @@ using namespace std;
 #define PNF1(a,n,m) for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 const int nax = 1e7;
 const int mod = 1e9+7;
+int n;//n is number of queens to be placed and edge length of the board
+vector<vector<int>> board;
 
-void permute(int i, string s){
-	//base case
-	if(i == s.length()){
-		cout<<s<<endl;
-		return;
-	}
-	//recursive ecase
-	for(int j=i; j<s.length(); j++){
-		//condition to generate unique permutations
-	i	if(i == j || s[i] != s[j]){
-			swap(s[i], s[j]);
-			permute(i+1, s);
-			swap(s[i], s[j]);
+bool possible(int row, int col){
+	//the col above shoud be empty
+	for(int i=0; i<row; i++){
+		if(board[i][col]){
+			return false;
 		}
 	}
-	return;
+	//left diagonal should be empty
+	int i=row, j=col;
+	while(i >=0 && col >=0){
+		if(board[i][j] == 1){return false;}
+		i--;j--;
+	}
+
+	//righlt diagonal should be empty
+	i=row, j=col;
+	while(i>=0 && j<n){
+		if(board[i][j] == 1){return false;}
+		i--;j++;
+	}
+
+	return true;
+}
+
+bool Nqueens(int row){
+	//base case
+	if(row == n){
+		PNF(board, n, n);
+		return true;
+	}
+	//recrusive case
+	for(int col=0; col<n; col++){
+		if(possible(row, col)){
+			board[row][col] = 1;
+			bool nextPos = Nqueens(row+1);
+			if(nextPos){
+				return true;
+			}
+			board[row][col] = 0;
+		}
+	}
+	return false;
 }
 
 int main(){
@@ -46,7 +74,7 @@ fastIO
     freopen("input.txt", "r", stdin);
     freopen("output.txt", "w", stdout);
 #endif
-    string s;
-	cin>>s;
-	permute(0, s);
+	cin>>n;
+	board.resize(n, vector<int>(n, 0));
+	Nqueens(0);
 }

@@ -1,8 +1,4 @@
-
-c
-b
-bc
-a
-ac
-ab
-abc
+aaab
+aaba
+abaa
+baaa

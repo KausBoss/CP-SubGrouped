@@ -1,3 +1,19 @@
+/*
+first append an empty char before both strings text as well as pattern
+make a boolean dp matrix with all values as false
+make dp[0][0]=1 because empty string of text will match with empty string of pattern
+new we will edit the dp[0][~] row because strings like a* can matc with empty text
+now we will iterate over matrix
+if(char[s] == char[p] || char[p] == '.') make dp[i][j]=1
+if(char[p] == '*'){
+	we will have 2 case
+	case 1. dp[i][j] = d[i][j-2] //this is the case when char preceding the * has occurance == 0
+	case 2. if(char[s] == char preceding * || char preceding * == .){
+	dp[i][j] |= dp[i-1][j]
+	}
+}
+
+*/
 #include<bits/stdc++.h>
 
 using namespace std;

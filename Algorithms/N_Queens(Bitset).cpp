@@ -21,7 +21,28 @@ using namespace std;
 #define PNF1(a,n,m)  for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 const int nax = 1e7;
 const int mod = 1e9+7;
+int n, ans=0;
+bitset<200> col, diaL, diaR;
 
+bool Nqueen(int row){
+	//base case
+	if(row == n){
+		ans++;
+		return false;
+	}
+	//recursive case
+	for(int pos=0; pos<n; pos++){
+		if(!col[pos] && !diaL[row - pos + n -1 ] && !diaR[row + pos]){
+			col[pos] = diaL[row - pos + n] = diaR[row + pos] = 1;
+			bool nextPos = Nqueen(row + 1);
+			if(nextPos){
+				return true;
+			}
+			col[pos] = diaL[row - pos + n] = diaR[row + pos] = 0;
+		}
+	}
+	return false;
+}
 
 
 int main(){
@@ -30,5 +51,12 @@ fastIO
     freopen("input.txt", "r", stdin);
     freopen("output.txt", "w", stdout);
 #endif
-	
+	cin>>n;
+	Nqueen(0);
+	if(ans){
+		cout<<"Possible in "<<ans<<" ways";
+	}
+	else{
+		cout<<"Not Possible";
+	}
 }

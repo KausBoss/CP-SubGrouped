@@ -1,4 +1,1 @@
-Move 1th disc from T1 to T3
-Move 2th disc from T1 to T2
-Move 1th disc from T3 to T2
-3
+0 1 10 2 3 4 5 6 7 8 9 

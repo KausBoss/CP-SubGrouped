@@ -1,1 +1,4 @@
-[aabe, aay, ale, kbe, ky]
+Move 1th disc from T1 to T3
+Move 2th disc from T1 to T2
+Move 1th disc from T3 to T2
+3

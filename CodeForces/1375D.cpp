@@ -23,7 +23,49 @@ const int nax = 1e7;
 const int mod = 1e9+7;
 
 void func(){
-	
+	ll n, i, *a, freq[1002]={0};
+	cin>>n;
+	a = new ll[n];
+	set<ll> s;
+	vector<ll> ans;
+	for(int i=0; i<n; i++){
+		cin>>a[i];
+		freq[a[i]]++;
+	}
+	for(ll i=0; i<=n; i++){
+		if(freq[i] == 0){
+			s.insert(i);
+		}
+	}
+	while(!s.empty()){
+		ll ele = *s.begin();
+		s.erase(ele);
+		if(ele != n){
+			ans.pb(ele+1);
+			freq[a[ele]]--;
+			if(freq[a[ele]] == 0){
+				s.insert(a[ele]);
+			}
+			a[ele] = ele;
+			freq[ele]++;
+		}
+		else{
+			for(i = 0; i<n; i++){
+				if(a[i] != i){
+					s.insert(a[i]);
+					freq[a[i]]--;
+					freq[n]++;
+					a[i] = n;
+					ans.pb(i+1);
+					break;
+				}
+			}
+		}
+	}
+	ll h=ans.size();
+	cout<<h<<endl;
+	P(ans, h);
+	// P(a, n);
 }
 
 int main(){

@@ -1,1 +1,1 @@
-Possible in 42172 ways
+GCD of 546717 and 227863 is: 1

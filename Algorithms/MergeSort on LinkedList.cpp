@@ -40,33 +40,70 @@ void headInsert(Node *&head, int data){
 	head = n;
 }
 
+int lengthLL(Node *head){
+	int length=0;
+	while(head != NULL){
+		head = head->next;
+		length++;
+	}
+	return length;
+}
+
+Node* middleNode(Node *head){
+	Node *slow=head, *fast=head->next;
+	while(fast!=NULL && fast->next!=NULL){
+		slow=slow->next;
+		fast=fast->next->next;
+	}
+	return slow;
+}
+
+Node* merge(Node *a, Node *b){
+	//base case
+	if(a == NULL){
+		return b;
+	}
+	if(b == NULL){
+		return a;
+	}
+
+	//recursve case
+	Node *c;
+	if(a->data < b->data){
+		c = a;
+		c->next = merge(a->next, b);
+	}
+	else{
+		c = b;
+		c->next = merge(a, b->next);
+	}
+	return c;
+}
+
+Node* mergeSort(Node *head){
+	//base case
+	if(lengthLL(head) == 1){
+		return head;
+	}
+
+	//recursive case
+	Node *a = head;
+	Node *temp = middleNode(head);
+	Node *b = temp->next;
+	temp->next = NULL;
+
+	a = mergeSort(a);
+	b = mergeSort(b);
+
+	return merge(a, b); 
+}
+
 void printLL(Node *head){
 	while(head != NULL){
 		cout<<head->data<<"->";
 		head = head->next;
 	}
 	cout<<endl;
-}
-
-int middleNode(Node *head){
-	Node *slow=head, *fast=head->next;
-	while(fast!=NULL && fast->next!=NULL){
-		slow=slow->next;
-		fast=fast->next->next;
-	}
-	return slow->data;
-}
-
-int kthEnd(Node *head, int pos){
-	Node *fast=head;
-	while(pos--){
-		fast=fast->next;
-	}
-	while(fast != NULL){
-		head=head->next;
-		fast=fast->next;
-	}
-	return head->data;
 }
 
 int main(){
@@ -77,15 +114,14 @@ fastIO
 #endif
 	//preparing a Linked List
     Node  *head = NULL;
+    srand(time(NULL));
 	//insert at head
-	for(int i=0; i<2; i++){
-		headInsert(head, i);
+	for(int i=0; i<10; i++){
+		headInsert(head, rand()%20);
 	}
 	printLL(head);
 
-	//Middle Node using runner method
-	cout<<middleNode(head)<<endl;
-
-	//Kth Node from end
-	cout<<kthEnd(head, 6);
+	//applying Merge Sort
+	head = mergeSort(head);
+	printLL(head);
 }

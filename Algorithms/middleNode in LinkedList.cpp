@@ -34,57 +34,10 @@ public:
 	}
 };
 
-int lengthLL(Node *head){
-	int length=0;
-	while(head != NULL){
-		head = head->next;
-		length++;
-	}
-	return length;
-}
-
 void headInsert(Node *&head, int data){
 	Node *n= new Node(data);
 	n->next = head;
 	head = n;
-}
-
-void tailInsert(Node *head, int data){
-	if(head == NULL){
-		headInsert(head, data);
-		return;
-	}
-	Node *temp=head;
-	while(temp->next != NULL){
-		temp = temp->next;
-	}
-	temp->next = new Node(data);
-
-}
-
-void middleInsert(Node *head, int pos, int data){
-	//case 1
-	if(head == NULL || pos == 0){
-		headInsert(head, data);
-		return;
-	}
-	
-	//case 2
-	if(pos >= lengthLL(head)){
-		tailInsert(head, data);
-		return;
-	}
-
-	//case 3
-	Node *temp = head;
-	int len=1;
-	while(len < pos-1){
-		temp = temp->next;
-		len++;
-	}
-	Node *n = new Node(data);
-	n->next = temp->next;
-	temp->next = n;
 }
 
 void printLL(Node *head){
@@ -93,28 +46,46 @@ void printLL(Node *head){
 		head = head->next;
 	}
 	cout<<endl;
-
 }
+
+int middleNode(Node *head){
+	Node *slow=head, *fast=head->next;
+	while(fast!=NULL && fast->next!=NULL){
+		slow=slow->next;
+		fast=fast->next->next;
+	}
+	return slow->data;
+}
+
+int kthEnd(Node *head, int pos){
+	Node *fast=head;
+	while(pos--){
+		fast=fast->next;
+	}
+	while(fast != NULL){
+		head=head->next;
+		fast=fast->next;
+	}
+	return head->data;
+}
+
 int main(){
 fastIO
 #ifndef ONLINE_JUDGE
     freopen("input.txt", "r", stdin);
     freopen("output.txt", "w", stdout);
 #endif
-	Node  *head = NULL;
+	//preparing a Linked List
+    Node  *head = NULL;
 	//insert at head
-	for(int i=0; i<5; i++){
+	for(int i=0; i<=17; i++){
 		headInsert(head, i);
 	}
 	printLL(head);
 
-	//Insert at tail
-	for(int i=0; i<5; i++){
-		tailInsert(head, i);
-	}
-	printLL(head);
+	//Middle Node using runner method
+	cout<<middleNode(head)<<endl;
 
-	//Insert in Middle
-	middleInsert(head, 7, 16);
-	printLL(head);
+	//Kth Node from end
+	cout<<kthEnd(head, 6);
 }

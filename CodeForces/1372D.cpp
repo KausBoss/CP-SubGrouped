@@ -22,9 +22,7 @@ using namespace std;
 const int nax = 1e7;
 const int mod = 1e9+7;
 
-void func(){
-	cout<<"Hello";
-}
+
 
 int main(){
 fastIO
@@ -32,8 +30,5 @@ fastIO
     freopen("input.txt", "r", stdin);
     freopen("output.txt", "w", stdout);
 #endif
-	ll t;cin>>t;
-	while(t--){
-		func();
-	}
+	
 }

@@ -30,5 +30,22 @@ fastIO
     freopen("input.txt", "r", stdin);
     freopen("output.txt", "w", stdout);
 #endif
-	
+    ll n, *a;
+    cin>>n;
+    a = new ll[n];
+    F(a, n);
+    ll totSum[2]={0};
+    for(ll i=0; i<n; i++){
+    	totSum[i%2] += a[i];
+    }
+    ll preSum[n]={0}, ans=0;
+    preSum[0] = a[0];preSum[1]=a[1];
+    for(ll i=2; i<n; i++){
+    	preSum[i] = a[i] + preSum[i-2];
+    }
+    for(ll i=1; i<n; i++){
+    	ans = max(ans, preSum[i] + totSum[(i+1)%2]-preSum[i-1]);
+    }
+    ans = max(ans, a[0] + totSum[1]);
+    cout<<ans;
 }

@@ -30,53 +30,5 @@ fastIO
     freopen("input.txt", "r", stdin);
     freopen("output.txt", "w", stdout);
 #endif
-	ll t;
-	cin>>t;
-	while(t--){
-		ll n, m;
-		cin>>n>>m;
-		vector<string> s(n);
-		F(s, n);
-		string ans="";
-		ll j=0, i=0;
-		for(j=0; j<m;){
-			if(j == 0){
-				ans.pb(s[i][j]);
-				j++;
-			}
-			else if(s[i][j] == '#'){
-				ans.pb(s[i+1][j-1]);
-				i++;
-			}
-			else if(s[i+1][j-1] == '#'){
-				ans.pb(s[i][j]);
-				j++;
-			}
-			else if((s[i][j] <= s[i+1][j-1])){
-				ans.pb(s[i][j]);
-				j++;
-			}
-			else{
-				ans.pb(s[i+1][j-1]);
-				i++;
-			}
-			if(i==n-1){break;}
-		}
-		if(i == n-1){
-
-		}
-		if(i == n-1){
-			while(j < m){
-				ans.pb(s[i][j++]);
-			}
-			cout<<ans<<"\n";
-			continue;
-		}
-		i++;
-		while(i<n){
-			ans.pb(s[i++][j-1]);
-		}
-
-		cout<<ans<<"\n";
-	}
+	ll
 }

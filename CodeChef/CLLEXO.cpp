@@ -30,5 +30,57 @@ fastIO
     freopen("input.txt", "r", stdin);
     freopen("output.txt", "w", stdout);
 #endif
-	ll
+	int t, n, m, k, i, j;
+	string ans="";
+	char c;
+	cin>>t;
+	while(t--){
+		cin>>n>>m;
+		string s[n];
+
+		vector<vector<bool>> v(n, vector<bool>(m, 0)), v2(n, vector<bool>(m, 0));
+
+		F(s, n);
+
+		v[n-1][m-1]=1;
+
+		for(k=n+m-3; k>=0; k--){
+			for(i=max(0, k-(m-1)); i<n && i<=k; i++){
+				j=k-i;
+
+				if(s[i][j]!='#' && i+1<n && v[i+1][j]){
+					v[i][j]=1;
+				}
+				else if(s[i][j]!='#' && j+1<m && v[i][j+1]){
+					v[i][j]=1;
+				}
+			}
+		}
+
+		v2[0][0]=1;
+		ans="";
+		for(k=1; k<n+m-1; k++){
+			c='z';
+			for(i=max(0, k-(m-1)); i<n && i<=k; i++){
+				j=k-i;
+				if(i>0 && v2[i-1][j] && v[i][j]){
+					c=min(c, s[i][j]);
+				}
+				else if(j>0 && v2[i][j-1] && v[i][j]){
+					c=min(c, s[i][j]);
+				}
+			}
+			ans += c;
+			for(i=max(0, k-(m-1)); i<n && i<=k; i++){
+				j=k-i;
+				if(i>0 &&v2[i-1][j] && v[i][j] && c==s[i][j]){
+					v2[i][j]=1;
+				}
+				else if(j>0 && v2[i][j-1] && v[i][j] && c==s[i][j]){
+					v2[i][j]=1;
+				}
+			}
+		}
+		cout<<ans<<"\n";
+	}
 }

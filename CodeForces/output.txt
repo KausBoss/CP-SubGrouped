@@ -1,0 +1,9 @@
+NO
+YES
+abacaba
+YES
+abazabacaba
+YES
+abacabazaba
+NO
+NO

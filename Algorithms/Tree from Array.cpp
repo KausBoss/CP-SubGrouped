@@ -43,16 +43,18 @@ public:
 	}
 };
 
-//Function to buil Tree
-Node* Build(){
-	int d;
-	cin>>d;
-	if(d == -1){
+//Function to buil Tree from Array
+Node* Build(int *a, int s, int e){
+	//base case
+	if(s > e){
 		return NULL;
 	}
-	Node *n = new Node(d, Build(), Build());
+	//recursive case
+	int mid = (s+e)/2;
+	Node *n = new Node(a[mid], Build(a, s, mid-1), Build(a, mid+1, e));
 	return n;
 }
+
 
 //Printing PreOrder of Tree
 void prePrint(Node* root){
@@ -72,7 +74,8 @@ fastIO
     freopen("input.txt", "r", stdin);
     freopen("output.txt", "w", stdout);
 #endif
-	Node* root = Build();
+    int a[]={2, 3, 5, 1, 67, 12, 5, 22, 7, 8, 9};
+    int n = sizeof(a)/sizeof(int);
+	Node* root = Build(a, 0, n-1);
 	prePrint(root);
 }
-// 4 1 -1 -1 2 3 -1 -1 -1

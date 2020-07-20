@@ -54,7 +54,48 @@ Node* Build(){
 	return n;
 }
 
+//Finding Height of the tree
 
+int TreeHeight(Node* root){
+	//base case
+	if(root == NULL){
+		return 0;
+	}
+	//recursive case
+	return 1 + max(TreeHeight(root->left), TreeHeight(root->right));
+}
+
+//Finding Diameter Basic way
+int DiameterBasic(Node *root){
+	//base case
+	if(root == NULL){
+		return 0;
+	}
+	//recursive case
+	int left_height = TreeHeight(root->left);
+	int right_height = TreeHeight(root->right);
+	int op1 = DiameterBasic(root->left);
+	int op2 = DiameterBasic(root->right);
+	int op3 = left_height + right_height;
+
+	return max(op1, max(op2, op3));
+}
+
+//Faster way to Calculate Diameter (pair<height, diameter>)
+pair<int, int> DiameterFast(Node *root){
+	//base case
+	if(root == NULL){
+		return {0, 0};
+	}
+	//recursive case
+	pair<int, int> p;
+	auto left = DiameterFast(root->left);
+	auto right = DiameterFast(root->right);
+	p.fi = 1 + max(left.fi, right.fi);
+	p.si = max(left.fi + right.fi, max(left.si, right.si));
+
+	return p;
+}
 
 int main(){
 fastIO
@@ -63,5 +104,7 @@ fastIO
     freopen("output.txt", "w", stdout);
 #endif
 	Node *root = Build();
-	BFS_Linewise(root);
+
+	cout<<DiameterBasic(root)<<endl;
+	cout<<DiameterFast(root).si;
 }

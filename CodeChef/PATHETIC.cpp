@@ -26,13 +26,12 @@ using namespace std;
 const int nax = 1e7;
 const int mod = 1e9+7;
 ll prime[] = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 111};
-vector<vector<ll>> g;
 
 void func(){
 	ll n;
 	cin>>n;
-	g.resize(n);
-	for(int i=0; i<n-1; i++){
+	vector<vector<ll>> g(n);
+	for(ll i=0; i<n-1; i++){
 		ll x, y;
 		cin>>x>>y;
 		x--; y--;
@@ -41,8 +40,8 @@ void func(){
 	}
 	
 	ll num[2] = {1, 1};
-	for(int i=0; prime[i]<=n; i++){
-		if(i&1){	
+	for(ll i=0; prime[i]<=n; i++){
+		if(i&1 || i==2){	
 			num[1] *= prime[i];
 		}
 		else{
@@ -51,7 +50,7 @@ void func(){
 	}
 
 	vector<ll> ans(n), visited(n, 0);
-	queue<pair<int, bool>> q;
+	queue<pair<ll, bool>> q;
 	q.push({0, 0});
 	while(!q.empty()){
 		auto tp = q.front();
@@ -68,7 +67,6 @@ void func(){
 		cout<<x<<" ";
 	}
 	cout<<"\n";
-	g.clear();
 }
 
 int main(){

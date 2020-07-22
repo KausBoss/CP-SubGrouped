@@ -43,15 +43,20 @@ public:
 	}
 };
 
-//Function to buil Tree
-Node* Build(){
-	int d;
-	cin>>d;
-	if(d == -1){
-		return NULL;
+//Function to build bST
+Node* buildBST(Node *root, int d){
+	//base case
+	if(root == NULL){
+		return new Node(d);
 	}
-	Node *n = new Node(d, Build(), Build());
-	return n;
+	//recursive case
+	if(d <= root->data){
+		root->left = buildBST(root->left, d);
+	}
+	else{
+		root->right = buildBST(root->right, d);
+	}
+	return root;
 }
 
 //Printing PreOrder of Tree
@@ -72,7 +77,11 @@ fastIO
     freopen("input.txt", "r", stdin);
     freopen("output.txt", "w", stdout);
 #endif
-	Node* root = Build();
+	Node* root = NULL;
+	vector<int> v{25, 20, 10, 5, 12, 22, 36, 30, 28, 40, 38, 48};
+	for(auto x:v){
+		root =buildBST(root, x);
+	}
 	prePrint(root);
 }
-// 25 20 10 5 -1 -1 12 -1 -1 22 -1 -1 36 30 28 -1 -1 -1 40 38 -1 -1 48 -1 -1
+// 4 1 -1 -1 2 3 -1 -1 -1

@@ -74,6 +74,54 @@ void prePrint(Node* root){
 	prePrint(root->right);
 }
 
+Node* Del(Node *root, int k){
+	//base case
+	if(root == NULL){
+		return NULL;
+	}
+	//recursive case
+	if(root->data > k){
+		root->left = Del(root->left, k);
+		return root;
+	}
+	if(root->data == k){
+		//case 1. No children or Leaf Node
+		if(root->left == NULL && root->right == NULL){
+			delete root;
+			return NULL;
+		}
+
+		//case 2. One children
+		if(root->left!=NULL && root->right==NULL){
+			Node *temp = root->left;
+			delete root;
+			return temp;
+		}
+		else if(root->left==NULL && root->right!=NULL){
+			Node *temp = root->right;
+			delete root;
+			return temp;
+		}
+
+		//Case 3. Both children
+		if(root->left!=NULL && root->right!=NULL){
+			Node *rep=root->right;
+			while(rep->left != NULL){
+				rep = rep->left;
+			}
+			root->data = rep->data;
+			root->right = Del(root->right, rep->data);
+		}
+	}
+
+	if(root->data < k){
+		root->right = Del(root->right, k);
+		return root;
+	}
+	return root;
+}
+
+
 int main(){
 fastIO
 #ifndef ONLINE_JUDGE
@@ -86,5 +134,7 @@ fastIO
 		root =buildBST(root, x);
 	}
 	prePrint(root);
+	cout<<endl;
+	root = Del(root, 25);
+	prePrint(root);
 }
-// 4 1 -1 -1 2 3 -1 -1 -1

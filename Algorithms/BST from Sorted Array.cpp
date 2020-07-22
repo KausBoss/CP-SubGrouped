@@ -35,25 +35,24 @@ public:
 	}
 	Node (int data, Node *left, Node *right){
 		this->data = data;
-		this->right = right;
 		this->left = left;
+		this->right = right;
 	}
 };
 
-//Function to build bST
-Node* buildBST(Node *root, int d){
+//Function to build bST from sorted array
+Node* arrayToBST(vector<int> v, int s, int e){
 	//base case
-	if(root == NULL){
-		return new Node(d);
+	if(s > e){
+		return NULL;
+	}
+	if(s== e){
+		return new Node(v[s]);
 	}
 	//recursive case
-	if(d <= root->data){
-		root->left = buildBST(root->left, d);
-	}
-	else{
-		root->right = buildBST(root->right, d);
-	}
-	return root;
+	int mid = (s+e)/2;
+	Node *n = new Node(v[mid], arrayToBST(v, s, mid-1), arrayToBST(v, mid+1, e));
+	return n;
 }
 
 //Printing PreOrder of Tree
@@ -68,17 +67,42 @@ void prePrint(Node* root){
 	prePrint(root->right);
 }
 
+//BFS to print
+void BFS(Node* root){
+	queue<Node*> q;
+	q.push(root);
+	q.push(NULL);
+	while(!q.empty()){
+		Node *n = q.front();
+		q.pop();
+		if(n == NULL){
+			cout<<endl;
+			if(!q.empty()){
+				q.push(NULL);
+			}
+		}
+		else{
+			cout<<n->data<<" ";
+			if(n->left != NULL){
+				q.push(n->left);
+			}
+			if(n->right != NULL){
+				q.push(n->right);
+			}
+		}
+	}
+}
+
 int main(){
 fastIO
 #ifndef ONLINE_JUDGE
     freopen("input.txt", "r", stdin);
     freopen("output.txt", "w", stdout);
 #endif
-	Node* root = NULL;
+    Node *root;
 	vector<int> v{25, 20, 10, 5, 12, 22, 36, 30, 28, 40, 38, 48};
-	for(auto x:v){
-		root =buildBST(root, x);
-	}
-	prePrint(root);
+	sort(v.begin(), v.end());
+	root = arrayToBST(v, 0, v.size()-1);
+	BFS(root);
 }
 // 4 1 -1 -1 2 3 -1 -1 -1

@@ -38,14 +38,15 @@ fastIO
 	cin>>n;
 	a = new int[n];
 	F(a, n);
-	int pt=0;
+	float pt=0;
 	for(int i=0; i<n; i++){
 		pt += a[i];
 	}
 	pt /= n;
+	pt = round(pt);
 	int ans=0;
 	for(int i=0; i<n; i++){
-		ans += ()
+		ans += pow(pt-a[i], 2);
 	}
-	cout<<pt/n;
+	cout<<ans;
 }

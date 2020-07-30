@@ -37,25 +37,22 @@ fastIO
 	cin>>n;
 	F(a, n);
 	F(b, n);
-	m.resize(n);
 	for(int i=0; i<n; i++){
-		if(b[i] !=-1){
-			if(a[i] >= 0){
-				m[i].pb(b[i]-1);
-			}
-			else{
-				m[b[i]-1].pb(i);
-			}
+		if(b[i]!=-1){
+			b[i]--;
 		}
 	}
+	m = vector<vector<ll>>(n);
 	vector<ll> indegree(n, 0);
-	for(int i=0; i<n; i++){
-		for(auto child:m[i]){
-			indegree[child]++;
+	for(ll i=0; i<n; i++){
+		if(b[i]!=-1){
+			m[i].pb(b[i]);
+			indegree[b[i]]++;
 		}
 	}
+
 	queue<ll> q;
-	for(int i=0; i<n; i++){
+	for(ll i=0; i<n; i++){
 		if(indegree[i]==0){
 			q.push(i);
 		}
@@ -73,14 +70,25 @@ fastIO
 		}
 	}
 	ll ans=0;
+	vector<ll> final, aux;
 	for(auto x:topo){
-		if(b[x]!=-1){
-			a[b[x]-1] += a[x];
+		if(a[x] >= 0){
+			ans += a[x];
+			final.pb(x);
+			if(b[x]!=-1){a[b[x]] += a[x];}
 		}
+		else{
+			aux.pb(x);
+		}
+	}
+	reverse(aux.begin(), aux.end());
+	for(auto x:aux){
 		ans += a[x];
+		final.pb(x);
+		if(b[x]!=-1){a[b[x]] += a[x];}
 	}
 	cout<<ans<<endl;
-	for(auto x: topo){
+	for(auto x: final){
 		cout<<x+1<<" ";
 	}
 }

@@ -23,25 +23,30 @@ using namespace std;
 #define NF1(a,n,m)   for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cin>>a[i][j];}}
 #define PNF(a,n,m)   for(int i=0;i<n;i++){for(int j=0;j<m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 #define PNF1(a,n,m)  for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
-const int nax = 2e5 + 5;
+const int nax = 1e7;
 const int mod = 1e9+7;
-ll dp[nax][11][11];
-string s;
-ll n;
-ll func(int i, int c1, int c2, int len){
-	//base case
-	if(i == n){
-		return ((len&1) && c1!=c2);
+
+void func(){
+	string s;
+	cin>>s;
+	ll count[10]={0};
+	for(auto x:s){
+		count[x-'0']++;
 	}
-	//recursive case
-	if(dp[i][c1][c2]!=-1){return dp[i][c1][c2];}
-	if(c1 == 10){
-		return dp[i][c1][c2] = min(func(i+1, c2, (s[i]-'0'), len+1), 1+func(i+1, c1, c2, len));
+	sort(count, count+10);
+	ll maxLen = count[9];
+
+	for(int i=0; i<10; i++){
+		for(int j=0; j<10; j++){
+			ll len=0;
+			for(auto x:s){
+				if(((len%2==0) && (x-'0')==i) || (len%2 && (x-'0')==j)){len++;}
+			}
+			len-=len%2;
+			maxLen = max(len, maxLen);
+		}
 	}
-	if((s[i]-'0') == c1){
-		return dp[i][c1][c2] = func(i+1, c2, c1, len+1);
-	}
-	return dp[i][c1][c2] = 1 + func(i+1, c1, c2, len);
+	cout<<(s.length()) - maxLen<<"\n";
 }
 
 int main(){
@@ -53,9 +58,6 @@ fastIO
 	int t;
 	cin>>t;
 	while(t--){
-		cin>>s;
-		n=s.length();
-		mem(dp, -1);
-		cout<<func(0, 10, 10, 0)<<endl;
+		func();
 	}
 }

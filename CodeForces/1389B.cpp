@@ -1,5 +1,5 @@
 /*
-
+Refer to prince's sol
 */
 #include <bits/stdc++.h>
 
@@ -27,37 +27,29 @@ const int nax = 1e7;
 const int mod = 1e9+7;
 
 void func(){
-	ll n, k, z, *a, ans=0;
+	ll n, k, z;
 	cin>>n>>k>>z;
-	a = new ll[n];
+
+	vector<ll> a(n);
 	F(a, n);
-	int j=k, i=0;
-	for(int kk=0; kk<=k; kk++){
-		cout<<i<<"**\n";
-		ans += a[i];
-		if(i == 0){
-			i++;
-		}
-		else{
-			if(kk < k-1){
-				if(z>0 && (a[i]+a[i-1]) > (a[j]+a[j-1]) && a[i+1] < a[i-1]){
-					i--;
-					z--;
-					j-=2;
-				}
-				else{
-					i++;
-				}
-			}
-			else{
-				if(i == 0){i++;}
-				else if(i==n-1){i--;}
-				else if(z>0 && a[i-1] > a[i+1]){i--;}
-				else{i++;}
-			}
-		}
+
+	vector<ll> prefix(k+1, 0), ajdSum(k+1, 0);
+	for(int i=1;i<=k; i++){
+		prefix[i] += prefix[i-1] + a[i];
 	}
-	cout<<ans<<endl;
+
+	for(ll i=1; i<=k; i++){
+		ajdSum[i] = a[i] + a[i-1];
+	}
+
+	ll ans=0, leftMove;
+	for(ll i=1; i<=k; i++){
+		leftMove = min(z, (k-i+1)/2);
+		ll sum = leftMove*ajdSum[i] + prefix[k-(2*leftMove)];
+		ans = max(ans, sum);
+	}
+	ans += a[0];
+	cout<<ans<<"\n";
 }
 
 int main(){

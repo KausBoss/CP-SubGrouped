@@ -24,42 +24,55 @@ using namespace std;
 #define PNF(a,n,m)   for(int i=0;i<n;i++){for(int j=0;j<m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 #define PNF1(a,n,m)  for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 const int nax = 1e7;
-const ll mod = 1e9+7;
+const int mod = 1e9+7;
+ll a[nax], temp[nax], n;
 
-void func(){
-	ll n, *a;
-	cin>>n;
-	a = new ll[n];
-	F(a, n);
-	ll prod=1, maxProd=INT_MIN;
-	int maxAns=0, minSoFar=1, maxSoFar=1;
-	bool checku = 0;
-	for(int i=0; i<n; i++){
-		if(a[i] > 0){
-			maxSoFar = (a[i]*maxSoFar)%mod;
-			minSoFar = min(minSoFar*a[i], 1ll);
-			checku=1;
-		}
-
-		else if(a[i] == 0){
-			maxSoFar = 1;
-			minSoFar = 1;
+ll merge(ll s, ll m, ll e){
+	// cout<<s<<" "<<m<<" "<<e<<endl;
+	ll ret = 0;
+	ll i=s, j=m+1;
+	ll k=s;
+	while((i<=m) && (j<=e)){
+		if(a[i] <= a[j]){
+			temp[k++] = a[i++];
 		}
 		else{
-			ll temp = maxSoFar;
-			maxSoFar = max(minSoFar*a[i], 1ll);
-			minSoFar = (temp*a[i])%mod;
+			temp[k++] = a[j++];
+			ret += (m-i);
 		}
-		maxAns = max(maxAns, maxSoFar);
 	}
-	if(!checku){
-		ll prod=1;
-		for(int i=0; i<n; i++){
-			if()
-		}
-		maxAns=0;
+	while(i <=m){temp[k++] = a[i++];}
+	while(j <= e){temp[k++] = a[j++];}
+	for(int i=s; i<=e; i++){
+		a[i]=temp[i];
 	}
-	cout<<maxAns<<endl;
+	return ret;
+}
+
+
+ll mergeSort(ll s, ll e){
+	//base case
+	// cout<<s<<" "<<e<<endl;
+	if(s >= e){
+		return 0;
+	} 
+	//recursive case
+	ll mid = (s+e)/2;
+	ll left =mergeSort(s, mid);
+	ll right = mergeSort(mid+1, e);
+
+	ll cur = merge(s, mid, e);
+	// cout<<s<<" "<<e<<" "<<left<<" "<<right<<" "<<cur<<endl;
+
+	return (left + cur + right);
+}
+
+
+
+void func(){
+	cin>>n;
+	F(a, n);
+	cout<<mergeSort(0, n-1)<<endl;
 }
 
 int main(){
@@ -72,4 +85,4 @@ fastIO
 	while(t--){
 		func();
 	}
-}						
+}

@@ -31,31 +31,30 @@ void func(){
 	cin>>n;
 	a = new int [n];
 	F(a, n);
-	int ct1=0, ct0=0;
-	if(a[0]){
-		ct1++;
-	}
-	else{
-		a[0]=-1;
-		ct0++;
-	}
-	map<int,int> m;
-	for(int i=1; i<n; i++){
-		if(a[i]==0){a[i]=-1;ct0++;}
+	int ct1=0, ct0=0, ans=0;
+	for(int i=0; i<n; i++){
+		if(a[i]==0){
+			a[i]=-1;ct0++;
+		}
 		else{ct1++;}
+	}
+	map<int,int> occ;
+	occ[a[0]] = 0;
+	for(int i=1; i<n; i++){
 		a[i] += a[i-1];
-		m[a[i]] = i;
+		if(a[i]==0){occ[a[i]]=i;}
+		if(a[i]!=0 && occ.count(a[i])){
+			ans = max(ans, i-occ[a[i]]);
+		}
+		else{
+			occ[a[i]]=i;
+		}
 	}
 	if(ct1==0 || ct0==0){
 		cout<<0;
 		return ;
 	}
-	P(a, n);
-	cout<<ct1<<" "<<ct0<<endl;
-	int ans=0;
-	for(int i=0; i<n; i++){
-		ans = max(ans, m[a[i]] - i);
-	}
+	ans = max(ans, occ[0]+1);
 	cout<<ans;
 }
 

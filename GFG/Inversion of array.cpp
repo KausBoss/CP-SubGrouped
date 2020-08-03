@@ -23,13 +23,13 @@ using namespace std;
 #define NF1(a,n,m)   for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cin>>a[i][j];}}
 #define PNF(a,n,m)   for(int i=0;i<n;i++){for(int j=0;j<m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 #define PNF1(a,n,m)  for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
-const int nax = 1e7;
+const int nax = 1e7 +4;
 const int mod = 1e9+7;
 ll a[nax], temp[nax], n;
 
 ll merge(ll s, ll m, ll e){
-	// cout<<s<<" "<<m<<" "<<e<<endl;
 	ll ret = 0;
+
 	ll i=s, j=m+1;
 	ll k=s;
 	while((i<=m) && (j<=e)){
@@ -49,10 +49,8 @@ ll merge(ll s, ll m, ll e){
 	return ret;
 }
 
-
 ll mergeSort(ll s, ll e){
 	//base case
-	// cout<<s<<" "<<e<<endl;
 	if(s >= e){
 		return 0;
 	} 
@@ -62,12 +60,9 @@ ll mergeSort(ll s, ll e){
 	ll right = mergeSort(mid+1, e);
 
 	ll cur = merge(s, mid, e);
-	// cout<<s<<" "<<e<<" "<<left<<" "<<right<<" "<<cur<<endl;
-
+	cout<<s<<" "<<e<<" "<<right<<" "<<left<<endl;
 	return (left + cur + right);
 }
-
-
 
 void func(){
 	cin>>n;

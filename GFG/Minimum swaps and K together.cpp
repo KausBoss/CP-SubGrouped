@@ -28,35 +28,28 @@ const int mod = 1e9+7;
 
 void func(){
 	int n, k, *a;
-	cin>>k>>n;
+	cin>>n;
 	a = new int[n];
 	F(a, n);
-	int minn = INT_MAX;
-	int maxx = INT_MIN;
-
+	cin>>k;
+	int numCount = 0;
 	for(int i=0; i<n; i++){
-		maxx = max(maxx, a[i]);
-		minn = min(minn, a[i]);
-	}
-	int mid = (minn + maxx)/2;
-
-	for(int i=0; i<n; i++){
-		if(a[i] <= mid){
-			a[i] += k;
-		}
-		else{
-			a[i] -= k;
+		if(a[i] <= k){
+			numCount++;
 		}
 	}
-	int min2 = INT_MAX;
-	int max2 = INT_MIN;
-
-	for(int i=0; i<n; i++){
-		max2 = max(max2, a[i]);
-		min2 = min(min2, a[i]);
+	int windowCount = 0, ans=INT_MAX;
+	for(int i=0; i<=n; i++){
+		if(i >= numCount){
+			ans = min(ans, windowCount);
+			if(a[i - numCount] > k){windowCount--;}
+		}
+		if(i == n){break;}
+		if(a[i] > k){
+			windowCount++;
+		}
 	}
-
-	cout<<min(maxx-minn, max2-min2)<<endl;
+	cout<<ans<<endl;
 }
 
 int main(){
@@ -69,4 +62,4 @@ fastIO
 	while(t--){
 		func();
 	}
-}			
+}

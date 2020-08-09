@@ -27,7 +27,20 @@ const int nax = 1e7;
 const int mod = 1e9+7;
 
 void func(){
+	ll n, m;
+	cin>>n>>m;
+	string s[n];
+	F(a, n);
+	if(n == 1 || m==1){
+		cout<<0<<endl;
+		return;
+	}
+	if(n >= 4){
+		cout<<-1<<endl;
+		return;
+	}
 	
+
 }
 
 int main(){

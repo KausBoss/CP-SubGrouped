@@ -27,7 +27,19 @@ const int nax = 1e7;
 const int mod = 1e9+7;
 
 void func(){
-	
+	int n, m;
+	cin>>n>>m;
+	string s[n];
+	F(s, n);
+	int ans=0;
+	for(int i=0; i<n; i++){
+		if(s[i][m-1] == 'R'){ans++;}
+	}
+	for(int i=0; i<m; i++){
+		if(s[n-1][i]=='D'){ans++;}
+	}
+	// ans -=2;
+	cout<<ans<<endl;
 }
 
 int main(){

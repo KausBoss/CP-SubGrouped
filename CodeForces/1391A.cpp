@@ -27,7 +27,12 @@ const int nax = 1e7;
 const int mod = 1e9+7;
 
 void func(){
-	
+	int n;
+	cin>>n;
+	for(int i=1; i<=n; i++){
+		cout<<i<<" ";
+	}
+	cout<<endl;
 }
 
 int main(){

@@ -31,7 +31,7 @@ void func(){
 	cin>>n>>m;
 	string s[n];
 	F(a, n);
-	if(n == 1 || m==1){
+	if(n == 1 || m==1){tele
 		cout<<0<<endl;
 		return;
 	}

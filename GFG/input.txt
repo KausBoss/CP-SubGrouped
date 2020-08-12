@@ -1,4 +1,5 @@
-3
-3 2 4
-10 9 6
-450 768 517
+2
+abcccdf
+abccdf
+uwnny
+uwnny

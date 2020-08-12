@@ -1,5 +1,7 @@
 /*
-
+	2 Steps ans
+	1. Take transpose
+	2. Reverse elements in a column
 */
 #include <bits/stdc++.h>
 
@@ -32,8 +34,19 @@ void func(){
 	int a[n][n];
 	NF(a, n, n);
 	for(int i=0; i<n; i++){
-		for(int j=n-1; j>=0; j--){
-			cout<<a[j][i]<<" ";
+		for(int j=i; j<n; j++){
+			swap(a[i][j], a[j][i]);
+		}
+	}
+
+	for(int i=0; i<(n/2); i++){
+		for(int j=0; j<n; j++){
+			swap(a[j][i], a[j][n-1-i]);
+		}
+	}
+	for(int i=0; i<n; i++){
+		for(int j=0; j<n; j++){
+			cout<<a[i][j]<<" ";
 		}
 	}
 	cout<<endl;

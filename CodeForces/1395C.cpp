@@ -25,6 +25,49 @@ using namespace std;
 #define PNF1(a,n,m)  for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 const int nax = 1e7;
 const int mod = 1e9+7;
+ll bb = 0;
+
+ll funk(ll pos, ll num, vector<ll> B){
+	if(pos == -1){
+		return 0;
+	}
+	if( ((num>>pos)&1)==1 && ((bb>>pos)&1) == 0){
+		vector<ll> zero, one;
+		for(int i=0; i<B.size(); i++){
+			if( ((B[i]>>pos)&1) == 1){one.pb(B[i]);}
+			else {zero.pb(B[i]);}
+		}
+		if(zero.size() != 0){
+			return funk(pos-1, num, zero);
+		}
+		return (1<<pos)|funk(pos-1, num, B);
+	}
+	else{
+		return (1<<pos)|funk(pos-1, num, B);
+	}
+}
+
+
+void gggg(){
+	ll n, m;
+	cin>>n>>m;
+	ll *a = new ll[n];
+	F(a, n);
+	sort(a, a+n);
+	ll temp=0;
+	for(int i=0; i<n; i++){
+		temp |= a[i];
+	}
+	vector<ll> B(m);
+	F(B, m);
+	ll sm = temp;
+	for(int i=0; i<m; i++){
+		if((temp&B[i]) < sm){
+			sm = temp&B[i];
+		} 
+	}
+	cout<<sm;
+}
 
 int main(){
 fastIO
@@ -32,24 +75,8 @@ fastIO
     freopen("input.txt", "r", stdin);
     freopen("output.txt", "w", stdout);
 #endif
-	int t=1;cin>>t;
+	int t=1;//cin>>t;
 	while(t--){
-		int n, k;
-		cin>>k>>n;
-		int dp[n+1][k+1];
-		memset(dp, 0, sizeof(dp));
-		for(int i=1; i<=k; i++)dp[1][i]=1;
-		for(int i=1; i<=n; i++)dp[i][1]=i;
-
-		for(int i=2; i<=n; i++){
-			for(int j=2; j<=k; j++){
-				dp[i][j] = INT_MAX;
-				for(int l=1; l<i; l++){
-					dp[i][j] = min(dp[i][j], max(dp[i-l][j], dp[l-1][j-1]) +1);
-				}
-			}
-		}
-
-		cout<<dp[n][k]<<endl;
+		gggg();
 	}
 }

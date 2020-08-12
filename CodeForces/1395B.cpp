@@ -26,30 +26,48 @@ using namespace std;
 const int nax = 1e7;
 const int mod = 1e9+7;
 
+void func(){
+	ll n, m, x, y;
+	cin>>n>>m>>x>>y;
+	set<ll> row[n], col[m];
+	for(int i=0; i<n; i++){
+		for(int j=0; j<m; j++){
+			row[i].insert(j);
+		}
+	}
+	for(int i=0; i<m; i++){
+		for(int j=0; j<n; j++){
+			col[i].insert(j);
+		}
+	}
+	cout<<x<<" "<<y<<endl;
+	x--;y--;
+	row[x].erase(y);
+	col[y].erase(x);
+	while(!row[x].empty() || !col[y].empty()){
+		while(!row[x].empty()){
+			cout<<x+1<<" "<<*row[x].begin()+1<<endl;
+			y = *row[x].begin();
+			row[x].erase(row[x].begin());
+			col[*row[x].begin()].erase(x);
+		}
+		while(!col[y].empty()){
+			cout<<*col[y].begin()+1<<" "<<y+1<<endl;
+			x = *col[y].begin();
+			col[y].erase(*col[y].begin());
+			row[*col[y].begin()].erase(y);
+		}
+	}
+}
+
 int main(){
 fastIO
 #ifndef ONLINE_JUDGE
     freopen("input.txt", "r", stdin);
     freopen("output.txt", "w", stdout);
 #endif
-	int t=1;cin>>t;
+	int t=1;//cin>>t;
 	while(t--){
-		int n, k;
-		cin>>k>>n;
-		int dp[n+1][k+1];
-		memset(dp, 0, sizeof(dp));
-		for(int i=1; i<=k; i++)dp[1][i]=1;
-		for(int i=1; i<=n; i++)dp[i][1]=i;
-
-		for(int i=2; i<=n; i++){
-			for(int j=2; j<=k; j++){
-				dp[i][j] = INT_MAX;
-				for(int l=1; l<i; l++){
-					dp[i][j] = min(dp[i][j], max(dp[i-l][j], dp[l-1][j-1]) +1);
-				}
-			}
-		}
-
-		cout<<dp[n][k]<<endl;
+		func();
 	}
 }

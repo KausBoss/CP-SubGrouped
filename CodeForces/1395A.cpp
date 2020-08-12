@@ -26,6 +26,29 @@ using namespace std;
 const int nax = 1e7;
 const int mod = 1e9+7;
 
+void func(){
+	ll r, g, b, w;
+	ll f[4], odd=0;
+	for(int i=0; i<4; i++){
+		cin>>f[i];
+	}
+	ll mn = min(f[0], min(f[1], f[2]));
+	for(ll i=0; i<=mn&& i<3; i++){
+		ll odd=0;
+		for(int j=0; j<3; j++){
+			if((f[j]-i)%2==1){odd++;}
+		}
+		if((f[3] + 3*i)%2==1){odd++;}
+
+		if(odd <=1){
+			cout<<"Yes\n";
+			return;
+		}
+	}
+	cout<<"No\n";
+}
+
+
 int main(){
 fastIO
 #ifndef ONLINE_JUDGE
@@ -34,22 +57,6 @@ fastIO
 #endif
 	int t=1;cin>>t;
 	while(t--){
-		int n, k;
-		cin>>k>>n;
-		int dp[n+1][k+1];
-		memset(dp, 0, sizeof(dp));
-		for(int i=1; i<=k; i++)dp[1][i]=1;
-		for(int i=1; i<=n; i++)dp[i][1]=i;
-
-		for(int i=2; i<=n; i++){
-			for(int j=2; j<=k; j++){
-				dp[i][j] = INT_MAX;
-				for(int l=1; l<i; l++){
-					dp[i][j] = min(dp[i][j], max(dp[i-l][j], dp[l-1][j-1]) +1);
-				}
-			}
-		}
-
-		cout<<dp[n][k]<<endl;
+		func();
 	}
 }

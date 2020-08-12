@@ -25,6 +25,53 @@ using namespace std;
 #define PNF1(a,n,m)  for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 const int nax = 1e7;
 const int mod = 1e9+7;
+int a[9][9];
+
+
+bool possible(int row, int col, int num){
+	for(int i=0; i<9; i++){
+		if(a[row][i] == num || a[i][col] == num){
+			return false;
+		}
+	}
+	int boxR = (row/3)*3;
+	int boxC = (col/3)*3;
+
+	for(int i=boxR; i<boxR+3; i++){
+		for(int j=boxC; j<boxC+3; j++){
+			if(a[i][j] == num){
+				return false;
+			}
+		}
+	}
+	// cout<<"Placing "<<num<<" at "<<row<<" "<<col<<endl;
+	return 1;
+}
+
+
+bool sudoku(int i, int j){
+	// cout<<i<<" "<<j<<endl;
+	//base case
+	if(i == 9){
+		return 1;
+	}
+	if(j == 9){
+		return sudoku(i+1, 0);
+	}
+	if(a[i][j] != 0){return sudoku(i, j+1);}
+	//recursive case
+	for(int num=1; num<10; num++){
+		if(possible(i, j, num)){
+			a[i][j] = num;
+			bool next = sudoku(i, j+1);
+			if(next){
+				return true;
+			}
+			a[i][j]=0;
+		}
+	}
+	return false;
+}
 
 int main(){
 fastIO
@@ -34,22 +81,8 @@ fastIO
 #endif
 	int t=1;cin>>t;
 	while(t--){
-		int n, k;
-		cin>>k>>n;
-		int dp[n+1][k+1];
-		memset(dp, 0, sizeof(dp));
-		for(int i=1; i<=k; i++)dp[1][i]=1;
-		for(int i=1; i<=n; i++)dp[i][1]=i;
-
-		for(int i=2; i<=n; i++){
-			for(int j=2; j<=k; j++){
-				dp[i][j] = INT_MAX;
-				for(int l=1; l<i; l++){
-					dp[i][j] = min(dp[i][j], max(dp[i-l][j], dp[l-1][j-1]) +1);
-				}
-			}
-		}
-
-		cout<<dp[n][k]<<endl;
+		NF(a, 9, 9);
+		// PNF(a, 9, 9);
+		cout<<sudoku(0, 0)<<endl;
 	}
 }

@@ -1,5 +1,5 @@
 # CP-SubGrouped
-## @@Solutions grouped by platforms@@
+## Solutions grouped by platforms
 **Platforms List -**
 1.  Algorithms(Topics)
 2.  Atcoder

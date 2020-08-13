@@ -26,43 +26,35 @@ using namespace std;
 const int nax = 1e7;
 const int mod = 1e9+7;
 
-void func(){
-	int n, m;
-	cin>>n>>m;
-	int *a  = new int[n];
-	F(a, n);
-	int *b = new int[m];
-	F(b, m);
-
-	for(int i=0; i<(1<<9); i++){
-		
-		bool success = 1;
-		for(int j=0; j<n; j++){
-			success=0;
-			for(int k=0; k<m; k++){
-				if(((a[j]&b[k])|i) == i){
-					success = 1;
-					break;
-				}
-			}
-			if(!success){break;}
-		}
-
-		if(success){
-			cout<<i<<endl;
-			return;
-		}
-	}
-}
-
 int main(){
 fastIO
 #ifndef ONLINE_JUDGE
     freopen("input.txt", "r", stdin);
     freopen("output.txt", "w", stdout);
 #endif
-	int t=1;//cin>>t;
+	static int count[1000001];
+	const int n= 1e6;
+	int cnt = 0;
+	bitset<n+1> prime;
+	for(int p=2; p*p<=n; p++){
+		if(!prime[p]){
+			for(int i=p*p; i<=n; i+= p){
+				prime[i] = 1;
+			}
+		}
+	}
+	for(int i=2; i<n+1; i++){
+		if(!prime[i]){cnt++;}
+		count[i] = cnt;
+	}
+	int t=1;cin>>t;
 	while(t--){
-		func();
+		int n;
+		cin>>n;
+		if(n<5){
+			cout<<n-1<<"\n";
+			continue;
+		}
+		cout<<n + count[n] - 3<<"\n";
 	}
 }

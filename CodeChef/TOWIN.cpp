@@ -26,32 +26,49 @@ using namespace std;
 const int nax = 1e7;
 const int mod = 1e9+7;
 
+bool desc(ll a, ll b){
+	return a > b;
+}
+
 void func(){
-	int n, m;
-	cin>>n>>m;
-	int *a  = new int[n];
+	ll n;
+	cin>>n;
+	ll *a = new ll[n];
 	F(a, n);
-	int *b = new int[m];
-	F(b, m);
-
-	for(int i=0; i<(1<<9); i++){
-		
-		bool success = 1;
-		for(int j=0; j<n; j++){
-			success=0;
-			for(int k=0; k<m; k++){
-				if(((a[j]&b[k])|i) == i){
-					success = 1;
-					break;
-				}
-			}
-			if(!success){break;}
-		}
-
-		if(success){
-			cout<<i<<endl;
+	sort(a, a+n, desc);
+	if(n == 1){
+		cout<<"first\n";
+		return;
+	}
+	if(n == 2){
+		if(a[0] == a[1]){
+			cout<<"draw\n";
 			return;
 		}
+		cout<<"first\n";
+		return;
+	}
+	ll fir=0, sec=0;
+	fir += a[0];
+	sec += (a[1] + a[2]);
+	for(int i=3; i<n; i++){
+		if(i&1){
+			fir += a[i];
+		}
+		else{
+			sec += a[i];
+		}
+	}
+	if(fir > sec){
+		cout<<"first\n";
+		return;
+	}
+	else if(sec > fir){
+		cout<<"second\n";
+		return;
+	}
+	else{
+		cout<<"draw\n";
 	}
 }
 
@@ -61,7 +78,7 @@ fastIO
     freopen("input.txt", "r", stdin);
     freopen("output.txt", "w", stdout);
 #endif
-	int t=1;//cin>>t;
+	int t=1;cin>>t;
 	while(t--){
 		func();
 	}

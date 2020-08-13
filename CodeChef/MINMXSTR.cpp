@@ -27,30 +27,37 @@ const int nax = 1e7;
 const int mod = 1e9+7;
 
 void func(){
-	int n, m;
-	cin>>n>>m;
-	int *a  = new int[n];
-	F(a, n);
-	int *b = new int[m];
-	F(b, m);
-
-	for(int i=0; i<(1<<9); i++){
-		
-		bool success = 1;
-		for(int j=0; j<n; j++){
-			success=0;
-			for(int k=0; k<m; k++){
-				if(((a[j]&b[k])|i) == i){
-					success = 1;
-					break;
-				}
-			}
-			if(!success){break;}
+	int n;
+	cin>>n;
+	vector<string> s(n);
+	F(s, n);
+	multiset<pair<string, int>> sett;
+	for(int i=0; i<n; i++){
+		sett.insert({s[i], i});
+	}
+	int q;cin>>q;
+	while(q--){
+		int t;
+		cin>>t;
+		if(t == 1){
+			int id;
+			char ch;
+			cin>>id;
+			cin>>ch;
+			id--;
+			string nai = s[id] + ch;
+			sett.erase({s[id], id});
+			s.pb(nai);
+			sett.insert({nai, (s.size()-1)});
 		}
-
-		if(success){
-			cout<<i<<endl;
-			return;
+		else if(t == 2){
+			cout<<(*sett.begin()).si +1 <<endl;
+			cout<<(*sett.begin()).fi<<endl;
+		}
+		else{
+			auto pt = sett.end();
+			pt--;
+			cout<<(*pt).si + 1<<endl;
 		}
 	}
 }
@@ -61,7 +68,7 @@ fastIO
     freopen("input.txt", "r", stdin);
     freopen("output.txt", "w", stdout);
 #endif
-	int t=1;//cin>>t;
+	int t=1;cin>>t;
 	while(t--){
 		func();
 	}

@@ -10,8 +10,6 @@ Case 2: I dont have stock on the day i, Represented by dp[i][0], select the maxi
 			dp[i][0] = dp[i][1] + p[i]
 	-case2: I sold a stock at some previous day. Doing nothing today
 			dp[i][0] = dp[i-1][0] 
-
-
 */
 
 class Solution {
@@ -30,4 +28,4 @@ public:
         }
         return max(dp[n-1][1], dp[n-1][0]);
     }
-};
+}; 

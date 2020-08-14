@@ -7,6 +7,7 @@
 4.  CodeForces
 5.  HackerBlocks
 6.  HackerRank
-7.  LeetCode
-8.  SPOJ
-9.  GFG
+7.  HackerEarth
+8.  LeetCode
+9.  SPOJ
+10.  GFG

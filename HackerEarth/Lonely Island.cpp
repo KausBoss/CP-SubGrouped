@@ -1,68 +1,98 @@
-/*
-*/
-#include <bits/stdc++.h>
-
+#include<bits/stdc++.h>
+#define rep(i, a, b) for(int i=(a); i<(b); i++)
+#define repi(i, a, b) for(int i=(a); i>(b); i--)
+#define db(x) (cerr << #x << ": " << (x) << '\n')
+#define sync ios_base::sync_with_stdio(false), cin.tie(NULL)
+#define tests(t) int t; cin >> t; while(t--)
+#define iceil(n, x) (((n) + (x) - 1) / (x))
+#define ll long long
+#define gcd __gcd
+#define mp make_pair
+#define pb push_back
+#define pf push_front
+#define pob pop_back
+#define pof pop_front
+#define sz size()
+#define all(v) (v).begin(), (v).end()
+#define pii pair<int, int>
+#define vi vector<int>
+#define vpii vector<pii>
+#define vvi vector<vi>
+#define fi first
+#define se second
+#define umap unordered_map
+#define uset unordered_set
+#define pqueue priority_queue
+#define si(a) scanf("%d", &a)
+#define sll(a) scanf("%lld", &a)
+#define bitcount(x) __builtin_popcount(x)
+#define cps CLOCKS_PER_SEC
+#define PI acos(-1.0)
+#define EPS 1e-9
+#define mod 1000000007
+#define MOD 1000000007
+#define N 200005
 using namespace std;
 
-#define ll          long long int
-#define mp          make_pair
-#define pb          push_back
-#define fi          first
-#define si          second
-#define fastIO      ios_base::sync_with_stdio(false); cin.tie(NULL);
-#define F(a,n)      for(int i=0;i<n;i++){cin>>a[i];}
-#define F1(a,n)     for(int i=1;i<=n;i++){cin>>a[i];}
-#define P(a,n)      for(int i=0;i<n;i++){cout<<a[i]<<' ';}cout<<endl;
-#define P1(a,n)     for(int i=1;i<=n;i++){cout<<a[i]<<' ';}cout<<endl;
-#define NF(a,n,m)   for(int i=0;i<n;i++){for(int j=0;j<m;j++){cin>>a[i][j];}}
-#define NF1(a,n,m)  for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cin>>a[i][j];}}
-#define PNF(a,n,m)  for(int i=0;i<n;i++){for(int j=0;j<m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
-#define PNF1(a,n,m) for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
-const int nax = 2e5 + 2;
-const int mod = 1e9+7;
-vector<list<ll>> g(nax);
-bool visited[nax]={0};
-ll freq[nax]={0};
-ll n, m, r;
+using namespace std;
+ 
+bool vis[N];
+double dp[N];
 
-void dfs(ll node){
-	visited[node] = 1;
-	bool leaf = 1;
-	for(auto child:g[node]){
-		if(!visited[child]){
-			leaf = 0;
-			dfs(child);
-		}
-	}
-	if(leaf){freq[node]++;}
-	visited[node] = 0;
+double P[N];
+
+vi adj[N];
+vi adjT[N];
+int n, m, r;
+ 
+double rec(int i) {
+    if(i == r) return 1;
+    double &ans = dp[i];
+ 
+    if(vis[i]) return ans;
+    vis[i] = 1;
+    ans = 0;
+    for(int j : adjT[i]) {
+        ans += rec(j) * 1.0 / adj[j].sz;
+    }
+    return ans;
 }
+ 
+int main(){   
+    #ifndef ONLINE_JUDGE
+        freopen("input.txt", "r", stdin);
+     	freopen("output.txt", "w", stdout);
+    #endif
 
-int main(){
-	fastIO
-	#ifndef ONLINE_JUDGE
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
-	#endif
-	cin>>n>>m>>r;
-	// memset(freq, 0, sizeof(freq));
-	// memset(visited, 0, sizeof(visited));
-	for(ll i=0; i<m; i++){
-		ll u, v;
-		cin>>u>>v;
-		u--, v--;
-		g[u].pb(v);
-	}
-	r--;
-	dfs(r);
-
-	ll ff=-1;
-	for(int i=0; i<n; i++){
-		ff = max(ff, freq[i]);
-	}
-	for(int i=0; i<n; i++){
-		if(ff == freq[i]){
-			cout<<i+1<<" ";
-		}
-	}
+    cin >> n >> m >> r;
+    for(int i=0; i<m; i++){
+        int u, v; cin >> u >> v;
+        --u, --v;
+        adj[u].pb(v);
+        adjT[v].pb(u);
+    }
+    r--;
+    dp[r] = 1;
+    vis[r] = 1;
+ 
+    for(int i = 0; i < n; i++) {
+        rec(i);
+        if(adj[i].sz) P[i] = 0;
+        else P[i] = dp[i];
+    }
+ 
+    vector<ll> v;
+    double mx = 0.0;
+ 
+    for(int i = 0; i < n; i++) {
+        if(abs(P[i] - mx) <= EPS) {
+            v.pb(i + 1);
+        }
+        else if(P[i] > mx) {
+            v.clear();
+            mx = P[i];
+            v.pb(i + 1);
+        }
+    }
+    for(int i : v) cout << i << ' '; cout << '\n';
 }

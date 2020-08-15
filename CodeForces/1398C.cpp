@@ -27,58 +27,19 @@ const int nax = 1e7;
 const int mod = 1e9+7;
 
 void func(){
-	ll n;cin>>n;
+	int n;cin>>n;
 	string s;
-	ll *a = new ll[n];
-	cin>>s;
+	cinb>>s;
+	map<int, int> m;
+	m[0] = 1;
+	ll ans = 0, sum = 0;
 	for(int i=0; i<n; i++){
-		a[i] = (s[i]-'0');
+		int val = s[i] - '0';
+		val--;
+		sum += val;
+		ans += (ll)
 	}
-	ll total =0;
-	ll curSum=0;
-	ll len=0;
-	for(int i=0; i<n; i++){
-		if(curSum < len){
-			curSum += a[i];
-		}
-		else{
-			if(a[i] == 0){
-				len++;
-			}
-			else if(a[i] == 1 && curSum == len){
-				len++;
-				curSum++;
-			}
-			else{
-				len=1;
-				curSum = a[i];
-			}
-		}
-		// if(a[i] == 1){total++;}
-		if(curSum == len){total++;}
-	}
-	curSum =0, len=0;
-	for(int i=n-1; i>=0; i--){
-		if(curSum < len){
-			curSum += a[i];
-		}
-		else{
-			if(a[i] == 0){
-				len++;
-			}
-			else if(a[i] == 1 && curSum == len){
-				len++;
-				curSum++;
-			}
-			else{
-				len=1;
-				curSum = a[i];
-			}
-		}
-		// if(a[i] == 1){total++;}
-		if(curSum == len){total++;}
-	}
-	cout<<total<<endl;
+	
 }
 
 int main(){

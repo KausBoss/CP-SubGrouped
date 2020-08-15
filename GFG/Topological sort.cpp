@@ -27,7 +27,36 @@ const int nax = 1e7;
 const int mod = 1e9+7;
 
 void func(){
-	
+	int e, v;
+	cin>>e>>v;
+	vector<list<int>> g(v);
+	vector<int> indegree(v, 0);
+	for(int i=0; i<e; i++){
+		int x, y;
+		cin>>x>>y;
+		g[x].pb(y);
+		indegree[y]++;
+	}
+	queue<int> q;
+	for(int i=0; i<v; i++){
+		if(indegree[i] == 0){
+			q.push(i);
+		}
+	}
+
+	while(!q.empty()){
+		int node = q.front();
+		q.pop();
+		cout<<node<<" ";
+		for(auto x:g[node]){
+			indegree[x]--;
+			if(indegree[x] == 0){
+				q.push(x);
+			}
+		}
+
+	}
+	cout<<endl;
 }
 
 int main(){

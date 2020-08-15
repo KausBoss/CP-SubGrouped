@@ -1,7 +1,7 @@
 class Solution {
 public:
     string getHint(string secret, string guess) {
-        int n = secret.length();
+        int n = secret.length();                 
         int bulls=0, cows=0;
         for(int i=0; i<n; i++){
         	if(secret[i] == guess[i]){

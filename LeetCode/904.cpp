@@ -36,3 +36,4 @@ public:
         return maxSeg;
     }
 };
+//soved using pointers

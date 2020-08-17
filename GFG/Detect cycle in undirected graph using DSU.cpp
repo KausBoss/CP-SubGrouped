@@ -26,43 +26,9 @@ using namespace std;
 const int nax = 1e7;
 const int mod = 1e9+7;
 
-class dsu{
-	vector<ll> parent, rank;
-	ll total_component;
-public:
-	dsu(int n){
-		parent.resize(n);
-		rank.resize(n);
-		for(int i=0; i<n; i++){
-			parent[i] = i;
-			rank[i] = 0;
-		}
-		total_component = n;
-	}
-
-	ll get(ll a){
-		if(parent[a] == a){
-			return a;
-		}
-		
-		return parent[a] = get(parent[a]);
-	}
-
-	void union_set(ll a, ll b){
-		a = get(a);
-		b = get(b);
-		if(a != b){
-			if(rank[a] < rank[b]){
-				swap(a, b);
-			}
-			parent[b] = a;
-			if(rank[a] == rank[b]){
-				rank[a]++;
-			}
-			total_component--;
-		}
-	}
-};
+void func(){
+	
+}
 
 int main(){
 	fastIO
@@ -72,20 +38,6 @@ int main(){
     #endif
 	int t=1;cin>>t;
 	while(t--){
-		int n, m, u, v;
-		bool cycle = 0;
-		cin>>n>>m;
-		dsu g(n);
-		vector<pair<int, int>> edge(m);
-		for(int i=0; i<m; i++){
-			cin>>u>>v;
-			if(g.get(u) == g.get(v)){
-				cycle = 1;
-			}
-			else{
-				g.union_set(u, v);
-			}
-		}
-		cout<<cycle<<endl;
+		func();
 	}
 }

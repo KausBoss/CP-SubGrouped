@@ -5,7 +5,7 @@
 
 using namespace std;
 
-#define ll          long long int
+#define ll           long long int
 #define vi 			 vector<int>
 #define pb           push_back
 #define fi           first
@@ -26,16 +26,42 @@ using namespace std;
 const int nax = 1e7;
 const int mod = 1e9+7;
 
+ll cntSub(ll n){
+	return n*(n+1)/2;
+}
+
 void func(){
-	
+	ll l, r, n;
+	cin>>n>>l>>r;
+	ll *a = new ll[n];
+	F(a, n);
+	ll res = 0, inc = 0, exc = 0;
+
+	for(int i=0; i<n; i++){
+		if(a[i] > r){
+			res += (cntSub(inc) - cntSub(exc));
+			inc = 0;
+			exc = 0;
+		}
+		else if(a[i] < l){
+			exc++; inc++;
+		}
+		else{
+			res -= cntSub(exc);
+			exc = 0;
+			inc++;
+		}
+	}
+	res += (cntSub(inc) - cntSub(exc));
+	cout<<res<<endl;
 }
 
 int main(){
-fastIO
-#ifndef ONLINE_JUDGE
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
-#endif
+	fastIO
+	#ifndef ONLINE_JUDGE
+	freopen("../inp.txt","r",stdin);
+    freopen("../out.txt","w",stdout);
+    #endif
 	int t=1;cin>>t;
 	while(t--){
 		func();

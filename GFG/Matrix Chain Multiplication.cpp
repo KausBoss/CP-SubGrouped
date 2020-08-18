@@ -25,11 +25,22 @@ using namespace std;
 #define PNF1(a,n,m)  for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 const int nax = 1e7;
 const int mod = 1e9+7;
-string s;
-int n;
+ll a[101];
+ll dp[101][101];
 
-ll func(int i){
-	
+
+ll matMul(ll i, ll j){
+	//bas case
+	if(i == j){
+		return 0;
+	}
+	//recursive case
+	if(dp[i][j] != -1){ return dp[i][j];}
+	ll ans = INT_MAX;
+	for(int k=i; k<j; k++){
+		ans = min(ans, matMul(i, k) + matMul(k+1, j) + a[i]*a[k+1]*a[j+1]);
+	}
+	return dp[i][j] = ans;
 }
 
 int main(){
@@ -40,12 +51,9 @@ int main(){
     #endif
 	int t=1;cin>>t;
 	while(t--){
-		cin>>n;
-		cin>>s;
-		for(int i=0; i<n; i++){
-			if(i&1){sym.pb(s[i]);}
-			else{op.pb(s[i]);}
-		}
-		cout<<func()<<endl;
+		mem(dp, -1);
+		ll n;cin>>n;
+		F(a, n);
+		cout<<matMul(0, n-2)<<endl;
 	}
 }

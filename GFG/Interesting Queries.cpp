@@ -25,12 +25,7 @@ using namespace std;
 #define PNF1(a,n,m)  for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 const int nax = 1e7;
 const int mod = 1e9+7;
-string s;
-int n;
-
-ll func(int i){
-	
-}
+ll a[10004];
 
 int main(){
 	fastIO
@@ -40,12 +35,33 @@ int main(){
     #endif
 	int t=1;cin>>t;
 	while(t--){
-		cin>>n;
-		cin>>s;
-		for(int i=0; i<n; i++){
-			if(i&1){sym.pb(s[i]);}
-			else{op.pb(s[i]);}
+		ll n, q, k;
+		cin>>n>>q>>k;
+		F(a, n);
+		vector<vector<ll>> freq(1, vector<ll>(1001, 0));
+		freq[0][a[0]]++;
+		for(int i=1; i<n; i++){
+			vector<ll> temp= freq[i-1];
+			temp[a[i]]++;
+			freq.pb(temp);
 		}
-		cout<<func()<<endl;
+		while(q--){
+			ll l, r, cnt=0;
+			cin>>l>>r;
+			l -= 2;r--;
+			vector<ll> temp = freq[r];
+			if(l >= 0){
+				for(int i=1; i<=1000; i++){
+					temp[i] -= freq[l][i];
+				}
+			}
+			for(int i=1; i<=1000; i++){
+				if(temp[i] >= k){
+					cnt++;
+				}
+			}
+			cout<<cnt<<" ";
+		}
+		cout<<"\n";
 	}
 }

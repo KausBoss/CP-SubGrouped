@@ -23,13 +23,41 @@ using namespace std;
 #define NF1(a,n,m)   for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cin>>a[i][j];}}
 #define PNF(a,n,m)   for(int i=0;i<n;i++){for(int j=0;j<m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 #define PNF1(a,n,m)  for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
-const int nax = 1e7;
+const int nax = 2e5 + 1;
 const int mod = 1e9+7;
-string s;
-int n;
 
-ll func(int i){
-	
+void func(){
+	ll n;cin>>n;
+	string s;
+	cin>>s;
+	ll cnt = 0, ans=0;
+	char cur = 'Y';
+	for(int i=1; i<n; i++){
+		if(s[i] != s[i-1]){
+			reverse(s.begin(), s.end());
+			reverse(s.end() - i, s.end());
+			reverse(s.begin(), s.end() - i);
+			break;
+		}
+	}
+	// cout<<s<<endl;
+	for(int i=0; i<n; i++){
+		if(s[i] == cur){
+			cnt++;
+		}
+		else{
+			if(cnt >=3){
+				ans += floor((double)cnt/3);
+			}
+			cnt = 1;
+			cur = s[i];
+		}
+	}
+	if(cnt >=3){
+		ans += floor((double)cnt/3);
+		if(cnt == n && n%3){ans++;}
+	}
+	cout<<ans<<endl;
 }
 
 int main(){
@@ -40,12 +68,6 @@ int main(){
     #endif
 	int t=1;cin>>t;
 	while(t--){
-		cin>>n;
-		cin>>s;
-		for(int i=0; i<n; i++){
-			if(i&1){sym.pb(s[i]);}
-			else{op.pb(s[i]);}
-		}
-		cout<<func()<<endl;
+		func();
 	}
 }

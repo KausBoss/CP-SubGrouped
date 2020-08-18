@@ -23,13 +23,33 @@ using namespace std;
 #define NF1(a,n,m)   for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cin>>a[i][j];}}
 #define PNF(a,n,m)   for(int i=0;i<n;i++){for(int j=0;j<m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 #define PNF1(a,n,m)  for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
-const int nax = 1e7;
+const int nax = 2e5 + 2;
 const int mod = 1e9+7;
-string s;
-int n;
+ll a[nax];
 
-ll func(int i){
-	
+void func(){
+	ll n, k;
+	cin>>n>>k;
+	F(a, n);
+	ll maxElem = -1e10;
+	k--;
+	for(int i=0; i<n; i++){
+		maxElem =max(a[i], maxElem);
+	}
+	for(int i=0; i<n; i++){
+		a[i] = maxElem - a[i];
+	}
+	k %= 2;
+	if(k){
+		maxElem = -1e10;
+		for(int i=0; i<n; i++){
+			maxElem =max(a[i], maxElem);
+		}
+		for(int i=0; i<n; i++){
+			a[i] = maxElem - a[i];
+		}
+	}
+	P(a, n);
 }
 
 int main(){
@@ -40,12 +60,6 @@ int main(){
     #endif
 	int t=1;cin>>t;
 	while(t--){
-		cin>>n;
-		cin>>s;
-		for(int i=0; i<n; i++){
-			if(i&1){sym.pb(s[i]);}
-			else{op.pb(s[i]);}
-		}
-		cout<<func()<<endl;
+		func();
 	}
 }

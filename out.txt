@@ -1,1 +1,2 @@
-34 28
+Floor of 9 is at 2 and as 8
+Ceil of 9 is at 3 and as 10

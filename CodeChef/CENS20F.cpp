@@ -1,5 +1,5 @@
 /*
-special case for dp[0], dp[1], dp[2]
+
 */
 #include <bits/stdc++.h>
 
@@ -23,19 +23,73 @@ using namespace std;
 #define NF1(a,n,m)   for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cin>>a[i][j];}}
 #define PNF(a,n,m)   for(int i=0;i<n;i++){for(int j=0;j<m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 #define PNF1(a,n,m)  for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
-const int nax = 102;
+const int nax = 200000;
 const int mod = 1e9+7;
-ll dp[nax];
+vector<ll> g[nax];
+vector<bool> visited(nax, 0);
+vector<ll> A(nax);
+vector<bool> gogo(nax, 0);
+vector<bool> visited2(nax, 0);
+vector<bool> init(nax);
 
-ll func(ll i){
-	//base case
-	if(i < 0){
-		return 0;
+
+ll helper_dfs(ll node, bool lelo, ll par){
+	visited2[node] = 1;
+	ll neeche=0;
+	for(auto child:g[node]){
+		if(!visited2[child] && child != par){
+			neeche += helper_dfs(child, !lelo, node);
+		}
 	}
-	//recursive case
-	if(dp[i]!=-1){ return dp[i];}
+	if(lelo){neeche += A[node];A[node]=0;}
+	visited2[node] = 0;
+	return neeche;
+}
 
-	return dp[i] = (func(i-1) + (i-1)*func(i-2))%mod;
+void dfs(ll node){
+	visited[node] = 1;
+	if((A[node]>0 || init[node]) && gogo[node]){
+		for(auto child:g[node]){
+			if(visited[child] == 0){
+				A[node] += helper_dfs(child,0, node);
+			}
+		}
+	}
+	for(auto child:g[node]){
+		if(visited[child] == 0){
+			dfs(child);
+		}
+	}
+}
+
+void func(){
+	ll n, q;
+	cin>>n>>q;
+	F(A, n);
+	for(int i=0; i<n; i++){
+		if(A[i] == 0){init[i] = 1;}
+	}
+	for(int i=0; i<n-1; i++){
+		ll x, y;
+		cin>>x>>y;
+		x--;y--;
+		g[x].pb(y);
+		g[y].pb(x);
+	}
+	while(q--){
+		ll node;cin>>node;
+		node--;
+		gogo[node] = 1;
+	}
+	dfs(0);
+	P(A, n);
+	for(int i=0; i<n; i++){
+		g[i].clear();
+		visited[i]=0;
+		visited2[i]=0;
+		gogo[i] = 0;
+		init[i] = 0;
+	}
 }
 
 int main(){
@@ -44,16 +98,8 @@ int main(){
 	freopen("../inp.txt","r",stdin);
     freopen("../out.txt","w",stdout);
     #endif
-    mem(dp, -1);
-    dp[0] = 0;
-    dp[1] = 1;
-    dp[2] = 2;
-    func(nax-1);
 	int t=1;cin>>t;
 	while(t--){
-		 ll n;
-		 cin>>n;
-		 cout<<dp[n]<<endl;
+		func();
 	}
-	P(dp, 4);
 }

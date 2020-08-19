@@ -1,5 +1,5 @@
 /*
-special case for dp[0], dp[1], dp[2]
+
 */
 #include <bits/stdc++.h>
 
@@ -23,20 +23,8 @@ using namespace std;
 #define NF1(a,n,m)   for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cin>>a[i][j];}}
 #define PNF(a,n,m)   for(int i=0;i<n;i++){for(int j=0;j<m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 #define PNF1(a,n,m)  for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
-const int nax = 102;
+const int nax = 1e7;
 const int mod = 1e9+7;
-ll dp[nax];
-
-ll func(ll i){
-	//base case
-	if(i < 0){
-		return 0;
-	}
-	//recursive case
-	if(dp[i]!=-1){ return dp[i];}
-
-	return dp[i] = (func(i-1) + (i-1)*func(i-2))%mod;
-}
 
 int main(){
 	fastIO
@@ -44,16 +32,31 @@ int main(){
 	freopen("../inp.txt","r",stdin);
     freopen("../out.txt","w",stdout);
     #endif
-    mem(dp, -1);
-    dp[0] = 0;
-    dp[1] = 1;
-    dp[2] = 2;
-    func(nax-1);
 	int t=1;cin>>t;
 	while(t--){
-		 ll n;
-		 cin>>n;
-		 cout<<dp[n]<<endl;
+		string s;
+		cin>>s;
+		ll Rmax=0, Lmax=0, Dmax=0, Umax=0;
+		for(int i=0; i<s.length(); i++){
+			if(s[i] == 'R'){Rmax++;}
+			else if(s[i]=='L'){Lmax++;}
+			else if(s[i]=='D'){Dmax++;}
+			else{Umax++;}
+		}
+		ll curX, curY;
+		cin>>curX>>curY;
+		ll q;
+		cin>>q;
+		while(q--){
+			ll X, Y;
+			cin>>X>>Y;
+			if((X <= (Rmax+curX) && X >= (curX-Lmax)) &&
+			   (Y <= (Umax+curY) && Y >= (curY-Dmax))){
+				cout<<"YES "<<abs(curX - X)+abs(curY - Y)<<"\n";
+			}
+			else{
+				cout<<"NO\n";
+			}
+		}
 	}
-	P(dp, 4);
 }

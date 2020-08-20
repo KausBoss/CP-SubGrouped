@@ -5,7 +5,7 @@
 
 using namespace std;
 
-#define int          long long int
+#define ll          long long int
 #define vi 			 vector<int>
 #define pb           push_back
 #define fi           first
@@ -23,38 +23,27 @@ using namespace std;
 #define NF1(a,n,m)   for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cin>>a[i][j];}}
 #define PNF(a,n,m)   for(int i=0;i<n;i++){for(int j=0;j<m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 #define PNF1(a,n,m)  for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
-const int nax = 2e5 + 10;
+const int nax = 1e4 + 10;
 const int mod = 1e9+7;
-int visited[nax][2];
-int val[nax], parent[nax];
+ll a[nax], dp[nax], n;
 
-void dfs(int node, bool parity, vector<int> g[], int src, int par){
-	if(node != src && parity==0){
-		val[src] += val[node];
-		val[node] = 0;
+ll maxSum(ll i){
+	if(i >= n){
+		return 0;
 	}
-
-	if(visited[node][parity] == 0){
-		for(auto  child: g[node]){
-			if(child != par){
-				dfs(child, parity^1, g, src, node);
-			}
-		}
-		visited[node][parity] = 1;
-	}
+	//recursive case
+	if(dp[i] != -1){return dp[i];}
+	return dp[i] = max(a[i] + maxSum(i+2), maxSum(i+1));
 }
 
-void findParent(int v, vector<int> g[], int par){
-	parent[v] = par;
-	for(auto child:g[v]){
-		if(child != par){
-			findParent(child, g, v);
-		}
-	}
-	return;
+void func(){
+	mem(dp, -1);
+	cin>>n;
+	F(a, n);
+	cout<<maxSum(0)<<endl;
 }
 
-int32_t main(){
+int main(){
 	fastIO
 	#ifndef ONLINE_JUDGE
 	freopen("../inp.txt","r",stdin);
@@ -62,35 +51,6 @@ int32_t main(){
     #endif
 	int t=1;cin>>t;
 	while(t--){
-		int n, i, j, x, u, v, q;
-		cin>>n>>q;
-
-		for(i=0; i<nax; i++){
-			visited[i][0] = 0;
-			visited[i][1] = 0;
-		}
-
-		for(i=0; i<n; i++){
-			cin>>val[i];
-		}
-
-		vector<int> g[n];
-		for(int i=0; i<n-1; i++){
-			cin>>u>>v;
-			u--;v--;
-			g[u].pb(v);
-			g[v].pb(u);
-		}
-
-		findParent(0, g, -1);
-		while(q--){
-			cin>>x;x--;
-			if(visited[x][0] == 1){
-				continue;
-			}
-			dfs(x, 0, g, x, parent[x]);
-			visited[x][0]=1;
-		}
-		P(val, n);
+		func();
 	}
 }

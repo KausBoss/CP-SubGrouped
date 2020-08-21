@@ -25,54 +25,53 @@ using namespace std;
 #define PNF1(a,n,m)  for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 const int nax = 1e7;
 const int mod = 1e9+7;
+ll lcsP[104][104], lcsS[104][104];
+ll n, m;
 string a, b;
-int m, n;
 
-int LCS(int i, int j){
-	if(i >= m || j >= n){return 0;}
-	string a1 = " " + a.substr(i, a.length() -i);
-	string b1 = " " + b.substr(j, b.length() -j);
-	cout<<a1<<" "<<b1<<endl;
-	vector<vector<int>> dp(a1.length(), vector<int>(b1.length(), 0));
-	for(int k=1; k<a1.length(); k++){
-		for(int l=1; l<b1.length(); l++){
-			if(a1[k] == b1[l]){
-				dp[k][l] = dp[k-1][l-1] + 1;
+void fillMatrix(){
+	for(int i=1; i<=n; i++){
+		for(int j=1; j<=m; j++){
+			if(a[i-1] == b[j-1]){
+				lcsP[i][j] = 1 + lcsP[i-1][j-1];
 			}
 			else{
-				dp[k][l] = max(dp[k-1][l], dp[k][l-1]);
+				lcsP[i][j] = max(lcsP[i-1][j], lcsP[i][j-1]);
 			}
 		}
 	}
-	return dp[a1.length() -1][b1.length() - 1];
-	return 0;
+
+	for(int i=n; i>0; i--){
+		for(int j=m; j>0; j--){
+			if(a[i-1] == b[j-1]){
+				lcsS[i][j] = 1 + lcsS[i+1][j+1];
+			}
+			else{
+				lcsS[i][j] = max(lcsS[i+1][j], lcsS[i][j+1]);
+			}
+		}
+	}
 }
 
+
 void func(){
-	int ans=0;
-	cin>>m>>n;
-	m--;
+	cin>>n>>m;
+	n--;
 	cin>>a>>b;
-	int ToatlLCS = LCS(0, 0);
-	cout<<ToatlLCS<<endl;
-	for(int i=0; i<m; i++){
-		for(int j=0; j<26; j++){
-			char ch = 'a' + j;
-			for(int k=0; k<n; k++){
-				if(b[k] == ch){
-					if(LCS(i, k-1) + LCS(i+1, k+1) == ToatlLCS){
+	mem(lcsP, 0);
+	mem(lcsS, 0);
+	fillMatrix();
+	int ans=0, total = lcsP[n][m];
+	// PNF(lcsP, n+1, m+1);
+	// PNF(lcsS, n+1, m+1);
+	for(int i=0; i<n; i++){
+		for(int k=0; k<26; k++){
+			char ch = 'a' + k;
+			for(int j=0; j<m; j++){
+				if(b[j] == ch){	
+					if (lcsP[i][j] + lcsS[i+1][j] == total){
 						ans++;
-					}
-				}
-			}
-		}
-	}
-	for(int j=0; j<26; j++){
-		char ch = 'a' + j;
-		for(int k=0; k<n; k++){
-			if(b[k] == ch){
-				if(LCS(0, k+1) == ToatlLCS){
-					ans++;
+					} 
 				}
 			}
 		}

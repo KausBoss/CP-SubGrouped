@@ -27,30 +27,18 @@ const int nax = 1e7;
 const int mod = 1e9+7;
 
 void func(){
-	string s;
-	cin>>s;
-	int n = s.length();
-	vector<int> freq(26, 0);
-	int dist_char=0;
-	for(int i=0; i<n; i++){
-		if(freq[s[i] - 'a']==0){dist_char++;}
-		freq[s[i] - 'a']++;
+	ll n, k;
+	cin>>n>>k;
+	if(k >= n){
+		cout<<k - n<<endl;
+		return;
 	}
-	freq = vector<int>(26, 0);
-	int cnt = 0, j=0;
-	int minSize = n;
-	for(int i=0; i<n; i++){
-		freq[s[i] - 'a']++;
-		if(freq[s[i] - 'a'] == 1){cnt++;}
-		//shrinking from left pointer
-		while(freq[s[j] - 'a'] > 1){
-			freq[s[j] - 'a']--;
-			j++;
-		}
-		if(cnt == dist_char){minSize = min (minSize, i-j+1);}
-		// cout<<j<<endl;
+	ll sum = n+k;
+	if(sum&1){
+		cout<<1<<endl;
+		return;
 	}
-	cout<<minSize<<endl;
+	cout<<0<<endl;
 }
 
 int main(){

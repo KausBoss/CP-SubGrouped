@@ -25,32 +25,41 @@ using namespace std;
 #define PNF1(a,n,m)  for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 const int nax = 1e7;
 const int mod = 1e9+7;
+ll ans;
+
+void foo(ll &op, ll &x, ll &y){
+	y -= op;
+	x -= op;
+}
 
 void func(){
-	string s;
-	cin>>s;
-	int n = s.length();
-	vector<int> freq(26, 0);
-	int dist_char=0;
-	for(int i=0; i<n; i++){
-		if(freq[s[i] - 'a']==0){dist_char++;}
-		freq[s[i] - 'a']++;
-	}
-	freq = vector<int>(26, 0);
-	int cnt = 0, j=0;
-	int minSize = n;
-	for(int i=0; i<n; i++){
-		freq[s[i] - 'a']++;
-		if(freq[s[i] - 'a'] == 1){cnt++;}
-		//shrinking from left pointer
-		while(freq[s[j] - 'a'] > 1){
-			freq[s[j] - 'a']--;
-			j++;
-		}
-		if(cnt == dist_char){minSize = min (minSize, i-j+1);}
-		// cout<<j<<endl;
-	}
-	cout<<minSize<<endl;
+	ll x1, y1, z1;
+	ll x2, y2, z2;
+	cin>>x1>>y1>>z1;
+	cin>>x2>>y2>>z2;
+	ans =0;
+	ll op = min(z1, y2);
+	foo(op, z1, y2);
+	ans += 2*op;
+	
+	op = min(z1, z2);
+	foo(op, z1, z2);
+
+	op = min(x1, z2);
+	foo(op, x1, z2);
+
+	op = min(y1, x2);
+	foo(op, y1, x2);
+
+	op = min(y1, y2);
+	foo(op, y1, y2);
+
+	op = min(y1, z2);
+	foo(op, y1, z2);
+	ans -= 2*op;
+	cout<<ans<<endl;
+
+
 }
 
 int main(){

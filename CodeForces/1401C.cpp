@@ -27,30 +27,34 @@ const int nax = 1e7;
 const int mod = 1e9+7;
 
 void func(){
-	string s;
-	cin>>s;
-	int n = s.length();
-	vector<int> freq(26, 0);
-	int dist_char=0;
+	ll n;
+	cin>>n;
+	ll *a = new ll[n];
+	ll *b = new ll[n];
+	F(a, n);
+	ll minele = 1e10;
 	for(int i=0; i<n; i++){
-		if(freq[s[i] - 'a']==0){dist_char++;}
-		freq[s[i] - 'a']++;
+		b[i] = a[i];
+		minele = min(minele, a[i]);
 	}
-	freq = vector<int>(26, 0);
-	int cnt = 0, j=0;
-	int minSize = n;
+	if(minele == 1){
+		cout<<"YES\n";
+		return;
+	}
+	sort(a, a+n);
+	vector<ll> v;
 	for(int i=0; i<n; i++){
-		freq[s[i] - 'a']++;
-		if(freq[s[i] - 'a'] == 1){cnt++;}
-		//shrinking from left pointer
-		while(freq[s[j] - 'a'] > 1){
-			freq[s[j] - 'a']--;
-			j++;
+		if(a[i] != b[i]){
+			v.pb(b[i]);
 		}
-		if(cnt == dist_char){minSize = min (minSize, i-j+1);}
-		// cout<<j<<endl;
 	}
-	cout<<minSize<<endl;
+	for(int i=0; i<v.size(); i++){
+		if(v[i] % minele){
+			cout<<"NO\n";
+			return;
+		}
+	}
+	cout<<"YES\n";
 }
 
 int main(){

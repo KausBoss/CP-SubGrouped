@@ -25,32 +25,59 @@ using namespace std;
 #define PNF1(a,n,m)  for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 const int nax = 1e7;
 const int mod = 1e9+7;
+string a, b;
+int m, n;
+
+int LCS(int i, int j){
+	if(i >= m || j >= n){return 0;}
+	string a1 = " " + a.substr(i, a.length() -i);
+	string b1 = " " + b.substr(j, b.length() -j);
+	cout<<a1<<" "<<b1<<endl;
+	vector<vector<int>> dp(a1.length(), vector<int>(b1.length(), 0));
+	for(int k=1; k<a1.length(); k++){
+		for(int l=1; l<b1.length(); l++){
+			if(a1[k] == b1[l]){
+				dp[k][l] = dp[k-1][l-1] + 1;
+			}
+			else{
+				dp[k][l] = max(dp[k-1][l], dp[k][l-1]);
+			}
+		}
+	}
+	return dp[a1.length() -1][b1.length() - 1];
+	return 0;
+}
 
 void func(){
-	string s;
-	cin>>s;
-	int n = s.length();
-	vector<int> freq(26, 0);
-	int dist_char=0;
-	for(int i=0; i<n; i++){
-		if(freq[s[i] - 'a']==0){dist_char++;}
-		freq[s[i] - 'a']++;
-	}
-	freq = vector<int>(26, 0);
-	int cnt = 0, j=0;
-	int minSize = n;
-	for(int i=0; i<n; i++){
-		freq[s[i] - 'a']++;
-		if(freq[s[i] - 'a'] == 1){cnt++;}
-		//shrinking from left pointer
-		while(freq[s[j] - 'a'] > 1){
-			freq[s[j] - 'a']--;
-			j++;
+	int ans=0;
+	cin>>m>>n;
+	m--;
+	cin>>a>>b;
+	int ToatlLCS = LCS(0, 0);
+	cout<<ToatlLCS<<endl;
+	for(int i=0; i<m; i++){
+		for(int j=0; j<26; j++){
+			char ch = 'a' + j;
+			for(int k=0; k<n; k++){
+				if(b[k] == ch){
+					if(LCS(i, k-1) + LCS(i+1, k+1) == ToatlLCS){
+						ans++;
+					}
+				}
+			}
 		}
-		if(cnt == dist_char){minSize = min (minSize, i-j+1);}
-		// cout<<j<<endl;
 	}
-	cout<<minSize<<endl;
+	for(int j=0; j<26; j++){
+		char ch = 'a' + j;
+		for(int k=0; k<n; k++){
+			if(b[k] == ch){
+				if(LCS(0, k+1) == ToatlLCS){
+					ans++;
+				}
+			}
+		}
+	}
+	cout<<ans<<endl;
 }
 
 int main(){

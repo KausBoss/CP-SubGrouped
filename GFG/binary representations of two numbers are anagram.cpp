@@ -26,20 +26,17 @@ using namespace std;
 const int nax = 1e7;
 const int mod = 1e9+7;
 
-bool areKAnagrams(string str1, string str2, int k){
-	vector<int> freq(26, 0);
-	int n=str1.length(), m=str2.length();
-	for(int i=0; i<n; i++){
-		freq[str1[i]-'a']++;
+void func(){
+	ll a, b;
+	cin>>a>>b;
+	ll bitsA = log2(a), bitsB = log2(b);
+	ll setA = __builtin_popcountll(a);
+	ll setB = __builtin_popcountll(b);
+	if((bitsA==bitsB) && (setA==setB)){
+		cout<<"YES\n";
+		return;
 	}
-	for(int i=0; i<m; i++){
-		freq[str2[i]-'a']--;
-	}
-	int pos=0;
-	for(int i=0; i<26; i++){
-		if(freq[i] > 0){pos += freq[i];}
-	}
-	return (pos<=k)&&(n==m) ? 1 : 0;
+	cout<<"NO\n";
 }
 
 int main(){
@@ -50,10 +47,6 @@ int main(){
     #endif
 	int t=1;cin>>t;
 	while(t--){
-		string s, t;
-		int k;
-		cin>>s>>t;
-		cin>>k;
-		cout<<areKAnagrams(s, t, k)<<endl;
+		func();
 	}
 }

@@ -26,20 +26,42 @@ using namespace std;
 const int nax = 1e7;
 const int mod = 1e9+7;
 
-bool areKAnagrams(string str1, string str2, int k){
-	vector<int> freq(26, 0);
-	int n=str1.length(), m=str2.length();
+void func(){
+	string s;
+	cin>>s;
+	ll maxLen = 0, n=s.length(), start, end;
 	for(int i=0; i<n; i++){
-		freq[str1[i]-'a']++;
+		//making odd len palindrome
+		ll curLen = 1;
+		ll it1=i-1, it2=i+1;
+		while(it1>=0 && it2<n && s[it1] == s[it2]){
+			curLen += 2;
+			it1--; it2++;
+		}
+		if(curLen > maxLen){
+			start = it1+1; end = it2-1;
+			maxLen = curLen;
+		}
+		maxLen = max(maxLen, curLen);
+
+		//making even len palindrome
+		curLen = 0;
+		it1=i, it2=i+1;
+		while(it1>=0 && it2<n && s[it1]==s[it2]){
+			curLen += 2;
+			it1--; it2++;
+		}
+		if(curLen > maxLen){
+			start = it1+1; end = it2-1;
+			maxLen = curLen;
+		}
 	}
-	for(int i=0; i<m; i++){
-		freq[str2[i]-'a']--;
+	if(maxLen != 0){
+		for(int i=start; i<=end; i++){
+			cout<<s[i];
+		}
 	}
-	int pos=0;
-	for(int i=0; i<26; i++){
-		if(freq[i] > 0){pos += freq[i];}
-	}
-	return (pos<=k)&&(n==m) ? 1 : 0;
+	cout<<endl;
 }
 
 int main(){
@@ -50,10 +72,6 @@ int main(){
     #endif
 	int t=1;cin>>t;
 	while(t--){
-		string s, t;
-		int k;
-		cin>>s>>t;
-		cin>>k;
-		cout<<areKAnagrams(s, t, k)<<endl;
+		func();
 	}
 }

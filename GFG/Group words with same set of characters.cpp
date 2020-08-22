@@ -35,6 +35,7 @@ void func(string w[], int n){
 		}
 		m[freq].pb(w[i]);
 	}
+	vcetor<int>ans
 	for(auto x:m){
 		if(x.si.size() > 1){
 			for(auto y:x.si){

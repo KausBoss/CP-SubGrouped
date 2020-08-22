@@ -25,58 +25,27 @@ using namespace std;
 #define PNF1(a,n,m)  for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 const int nax = 1e7;
 const int mod = 1e9+7;
-ll lcsP[1004][1004], lcsS[1004][1004];
-ll n, m;
-string a, b;
-
-void fillMatrix(){
-	for(int i=1; i<=n; i++){
-		for(int j=1; j<=m; j++){
-			if(a[i-1] == b[j-1]){
-				lcsP[i][j] = 1 + lcsP[i-1][j-1];
-			}
-			else{
-				lcsP[i][j] = max(lcsP[i-1][j], lcsP[i][j-1]);
-			}
-		}
-	}
-
-	for(int i=n; i>0; i--){
-		for(int j=m; j>0; j--){
-			if(a[i-1] == b[j-1]){
-				lcsS[i][j] = 1 + lcsS[i+1][j+1];
-			}
-			else{
-				lcsS[i][j] = max(lcsS[i+1][j], lcsS[i][j+1]);
-			}
-		}
-	}
-}
-
 
 void func(){
-	cin>>n>>m;
-	n--;
-	cin>>a>>b;
-	mem(lcsP, 0);
-	mem(lcsS, 0);
-	fillMatrix();
-	int ans=0, total = lcsP[n][m];
-	// PNF(lcsP, n+1, m+1);
-	// PNF(lcsS, n+1, m+1);
+	int n;
+	cin>>n;
+	string w[n];
+	F(w, n);
+	map<vector<int>, vector<string>> m;
 	for(int i=0; i<n; i++){
-		for(int k=0; k<26; k++){
-			char ch = 'a' + k;
-			for(int j=0; j<m; j++){
-				if(b[j] == ch){	
-					if (lcsP[i][j] + lcsS[i+2][j] == total){
-						ans++;
-					} 
-				}
-			}
+		vector<int> freq(26, 0);
+		for(int j=0; j<w[i].length(); j++){
+			freq[w[i][j] - 'a']++;
 		}
+		m[freq].pb(w[i]);
 	}
-	cout<<ans<<endl;
+	vector<int> ans;
+	for(auto x:m){
+		ans.pb(x.si.size());
+	}
+	sort(ans.begin(), ans.end());
+	P(ans, ans.size());
+	return;
 }
 
 int main(){
@@ -85,7 +54,7 @@ int main(){
 	freopen("../inp.txt","r",stdin);
     freopen("../out.txt","w",stdout);
     #endif
-	int t=1;cin>>t;
+	int t;cin>>t;
 	while(t--){
 		func();
 	}

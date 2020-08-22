@@ -1,3 +1,5 @@
-1
-5 3
-abab abc
+2
+5
+act cat tac god dog
+3
+act cat tac

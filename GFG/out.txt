@@ -1,10 +1,1 @@
-kaus
-kaus
-kaus
-kaus
-kaus
-kaus
-kaus
-kaus
-kaus
-kaus
+Number of ways = -1289228135

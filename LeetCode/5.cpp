@@ -2,8 +2,8 @@ class Solution {
 public:
     string longestPalindrome(string s) {
         int n= s.length();
+        if(n == 0){return "";}
         int ans = 0, st;
-        if(n == 0){return 0;}
         for(int k=0; k<n; k++){
         	int i=k-1, j=k+1, len=1;
         	while(i>=0 && j<n && s[i]==s[j]){

@@ -23,89 +23,46 @@ using namespace std;
 #define NF1(a,n,m)   for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cin>>a[i][j];}}
 #define PNF(a,n,m)   for(int i=0;i<n;i++){for(int j=0;j<m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 #define PNF1(a,n,m)  for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
-const int nax = 1e5 + 1;
+const int nax = 1e7;
 const int mod = 1e9+7;
-ll a[nax];
 
-ll FastExp(ll a, ll b){
-	a %= mod;
-	ll res =1;
-	while(b>0){
-		if(b%2){
-			res *= a;
-			res %= mod;
+class dsu{
+public:
+	vector<ll> parent, rank;
+	ll total_component;
+	dsu(int n){
+		parent.resize(n);
+		rank.resize(n);
+		for(int i=0; i<n; i++){
+			parent[i] = i;
+			rank[i] = 0;
 		}
-		a *= a;
-		a %= mod;
-		b /= 2;
+		total_component = n;
 	}
-	return res;
-}
 
-ll minv(ll base) {
-  return FastExp(base, mod - 2);
-}
-
-ll nCr(ll n, ll k){ 
-    if (n < k) return 0;
-	ll r = 1;
-	
-	for (ll i = n; i > n - k; i--) {
-		r = (r * i) % mod;
-	}
-	
-	for (ll i = 1; i <= k; i++) {
-		r = (r * minv(i)) % mod;
-	}
-	return r;
-} 
-
-
-void func(){
-	ll n, m;
-	cin>>n>>m;
-	ll extraEdge=m-n+1;
-	F(a, n-1);
-	sort(a, a+n-1);
-	ll dis=0;
-	ll freq[n+1] = {0};
-	if(m < n-1){
-		cout<<0<<"\n";
-		return;
-	}
-	for(int i=0; i<n-1; i++){
-		if(a[i] == dis+1){dis++;}
-		else if(a[i] > dis+1){
-			cout<<0<<"\n";
-			return;
+	ll get(ll a){
+		if(parent[a] == a){
+			return a;
 		}
-		freq[a[i]]++;
-	}
-	m -= (n-1);
-	for(int i=1; i<=n; i++){
-		if(freq[i]==0){break;}
-		m -= freq[i]-1;
-	}
-	if(m > 0){
-		cout<<0<<"\n";
-		return;
-	}
-	ll ans=1;
-	for(int i=2; i<=n; i++){
-		if(freq[i]==0){break;}
-		ans *= FastExp(freq[i-1],freq[i]);
-		ans %= mod;
+		
+		return parent[a] = get(parent[a]);
 	}
 
-	ll midConn = 0;
-	for(int i=1; i<=n; i++){
-		if(freq[i]==0){break;}
-		midConn += (freq[i] * (freq[i]-1) )/2;
+	void union_set(ll a, ll b){
+		a = get(a);
+		b = get(b);
+		if(a != b){
+			if(rank[a] < rank[b]){
+				swap(a, b);
+			}
+			parent[b] = a;
+			if(rank[a] == rank[b]){
+				rank[a]++;
+			}
+			total_component--;
+		}
 	}
-	ans = ans * nCr(midConn, extraEdge);
-	ans %= mod;
-	cout<<fixed<<setprecision(10)<<ans<<"\n";
-}
+};
 
 int main(){
 	fastIO
@@ -113,8 +70,19 @@ int main(){
 	freopen("../inp.txt","r",stdin);
     freopen("../out.txt","w",stdout);
     #endif
-	int t=1;cin>>t;
-	while(t--){
-		func();
+	ll n, m, k, ans=0;
+	cin>>n>>m>>k;
+	dsu g(n);
+	for(int i=0; i<m ;i++){
+		ll x, y;
+		cin>>x>>y;
+		x--; y--;
+		if(g.get(x) == g.get(y)){ans++;}
+		else{g.union_set(x, y);}
 	}
+	if(g.total_component > k){
+		cout<<-1;
+		return 0;
+	}
+	cout<<ans + (k - g.total_component);
 }

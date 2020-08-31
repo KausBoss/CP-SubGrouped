@@ -27,17 +27,7 @@ const int nax = 1e7;
 const int mod = 1e9+7;
 
 void func(){
-	ll n;
-	cin>>n;
-	ll *a = new ll[n];
-	F(a, n);
-	ll md = n/2;
-	for(int i=0; i<n-1; i++){
-		ll d = abs(a[i])%n;
-		if(d != 0){
-			
-		}
-	}
+	
 }
 
 int main(){

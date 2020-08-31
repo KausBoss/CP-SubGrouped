@@ -32,34 +32,18 @@ void func(){
 	ll *a = new ll[n];
 	F(a, n);
 	sort(a, a+n);
-	ll sum=0;
-	for(int i=0; i<n; i++){
-		sum += a[i];
-	}
-	bool same=0;
-	ll c = ceil((double)pow(a[n-1], 1.0/(n-1)));
-	ll c1 = floor((double)pow(a[n-1], 1.0/(n-1)));
-	if(c1 == c){same=1;c1--;}
-	ll ans =0;ll dem=1;
-	for(int i=0; i<n; i++){
-		ans += abs(dem - a[i]);
-		dem *= c;
-	}
-	ll ans2 =0;dem=1;
-	for(int i=0; i<n; i++){
-		ans2 += abs(dem - a[i]);
-		dem *= c1;
-	}
-	if(same){
-		c++;
-		ll ans3 =0;dem=1;
-		for(int i=0; i<n; i++){
-			ans3 += abs(dem - a[i]);
-			dem *= c;
+	ll ans=1e15, curAns=0;
+	for(ll c=0; pow(c,n-1)<1e10; c++){
+		// cout<<c<<endl;
+		curAns = 0;
+		ll b = 1;
+		for(ll i=0; i<n; i++){
+			curAns += abs(a[i] - b);
+			b *= c;
 		}
-		ans2 = min(ans3, ans2);
-	}
-	cout<<min(ans,min(ans2, sum-1))<<endl;
+		ans = min(curAns, ans);
+	} 
+	cout<<ans;
 }
 
 int main(){

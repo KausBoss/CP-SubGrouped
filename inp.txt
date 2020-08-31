@@ -1,3 +1,7 @@
-2
-100001abc101
-1001ab010abc01001
+3
+5  
+hello
+12
+zxvczbtxyzvy
+6
+xxyyzz

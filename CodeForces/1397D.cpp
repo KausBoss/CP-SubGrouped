@@ -26,32 +26,16 @@ using namespace std;
 const int nax = 1e7;
 const int mod = 1e9+7;
 
-void func(){
-	ll n;
-	cin>>n;
-	ll *a = new ll[n];
+bool func(){
+	int n, a[100];cin>>n;
 	F(a, n);
-	if(n==1){
-		cout<<1<<" "<<1<<"\n";
-		cout<<-a[0]<<"\n";
-		cout<<1<<" "<<1<<"\n";
-		cout<<0<<"\n";
-		cout<<1<<" "<<1<<"\n";
-		cout<<0<<"\n";
-		return;
+	int maxPile=0, total=0;
+	for(int i=0; i<n; i++){
+		total += a[i];
+		maxPile = max(maxPile, a[i]);
 	}
-	cout<<1<<" "<<n-1<<"\n";
-	for(int i=0; i<n-1; i++){
-		cout<<(n-1)* a[i]<<" ";
-	}
-	cout<<"\n";
-	cout<<1<<" "<<n<<"\n";
-	for(int i=0; i<n-1; i++){
-		cout<<-(n)* a[i]<<" ";
-	}
-	cout<<0<<"\n";
-	cout<<n<<" "<<n<<"\n";
-	cout<<-a[n-1]<<endl;
+	if(maxPile > total/2){return 1;}
+	return (total&1) ? 1 : 0;
 }
 
 int main(){
@@ -60,8 +44,9 @@ int main(){
 	freopen("../inp.txt","r",stdin);
     freopen("../out.txt","w",stdout);
     #endif
-	int t=1;//cin>>t;
+	int t=1;cin>>t;
 	while(t--){
-		func();
+		if(func()){cout<<"T\n";}
+		else{cout<<"HL\n";}
 	}
 }

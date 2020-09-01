@@ -1,2 +1,5 @@
-1
-aababbccd
+2
+ge*ks
+geeks
+ge?ks*
+geeksforgeeks

@@ -1,3 +1,2 @@
-2
-abc
-vsrtkjpre
+5 4
+baa abcd abca cab cad

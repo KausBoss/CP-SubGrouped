@@ -1,2 +1,3 @@
-5 4
-baa abcd abca cab cad
+2
+27
+51

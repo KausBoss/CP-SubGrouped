@@ -1,4 +1,8 @@
-2
-4
-10
-6
+(a)(b)(c)(d)
+(a)(b)(cd)
+(a)(bc)(d)
+(a)(bcd)
+(ab)(c)(d)
+(ab)(cd)
+(abc)(d)
+(abcd)

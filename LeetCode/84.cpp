@@ -10,7 +10,7 @@ case 2: If s.empty() or h[s.top()] < h[i]
 class Solution {
 public:
     int largestRectangleArea(vector<int>& h) {
-        int ans = 0, n=h.size();
+        int ans = 0, n=0;
         stack<int> s;
         for(int i=0; i<n;){
         	if(!s.empty() && h[i] <= h[s.top()]){
@@ -18,10 +18,10 @@ public:
         		s.pop();
 
         		if(s.empty()){
-        			ans = max(ans, height*i);
+        			ans = max(ans, height * i);
         		}
         		else{
-        			ans = max(ans, height*(i-s.top()-1));
+        			ans = max(ans, height * (i - s.top()-1));
         		}
         	}
         	else{

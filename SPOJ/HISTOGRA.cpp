@@ -27,8 +27,8 @@ const int mod = 1e9+7;
 int main(){
 fastIO
 #ifndef ONLINE_JUDGE
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
+    freopen("../inp.txt", "r", stdin);
+    freopen("../out.txt", "w", stdout);
 #endif
 	ll n;
 	cin>>n;
@@ -55,6 +55,8 @@ fastIO
 			else{
 				s.push(i++);
 			}
+			if(!s.empty())cout<<s.top()<<" "<<i<<" "<<ans<<endl;
+			else{cout<<-1<<" "<<i<<" "<<ans<<endl;}
 		}
 
 		while(!s.empty()){

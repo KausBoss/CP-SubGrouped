@@ -28,46 +28,53 @@ const int mod = 1e9+7;
 
 class Node{
 	public:
-	unordered_map<char, Node*> m;
-	int freq;
-	bool isEnd;
+	Node *left, *right;
 	Node(){
-		isEnd = 0;
-		freq = 0;
+		left=NULL; right==NULL;
 	}
 };
 
 class Trie{
 	Node *root;
+	int maxAns;
 public:
 	Trie(){
 		root = new Node();
+		maxAns = 0;
 	}
-	void insert(char *word){
+	void insert(int val){
 		Node *temp = root;
-		for(int i=0; word[i]!='\0'; i++){
-			temp->freq++;
-			char ch= word[i];
-			if(temp->m.count(ch)==0){
-				temp->m[ch] = new Node;
+		for(int i=30; i>=0; i--){
+			bool bit = ( (val>>i)&1 );
+			if(bit){
+				if(temp->right==NULL){temp->right = new Node();}
+				temp = temp->right;
 			}
-			temp = temp->m[ch];
-		}
-		temp->freq++;
-		temp->isEnd = 1;
-	}
-	string UniquePrefix(char *word){
-		Node *temp = root;
-		for(int i=0; word[i]!='\0'; i++){
-			char ch = word[i];
-			temp= temp->m[ch];
-			if(temp->freq == 1){
-				string res(word, i+1);
-				return res;
+			else{
+				if(temp->left==NULL){temp->left = new Node();}
+				temp = temp->left;
 			}
 		}
-		return "";
+		xor_helper(val);
 	}
+	void xor_helper(int val){
+		int ans = 0;
+		Node *temp = root;
+		for(int i=30; i>=0; i--){
+			bool bit = ( (val>>i)&1 );
+			if(bit){
+				if(temp->left){ans += (1<<i); temp = temp->left;}
+				else{temp = temp->right;}
+			}
+			else{
+				if(temp->right){ans += (1<<i); temp = temp->right;}
+				else{temp = temp->left;}
+			}
+		}
+		maxAns = max(maxAns, ans);
+	}
+
+	int MaxXor(){return maxAns;}
 };
 
 
@@ -78,15 +85,12 @@ int main(){
 	freopen("../inp.txt","r",stdin);
     freopen("../out.txt","w",stdout);
     #endif
-	int n;
+	int n, a;
 	Trie t;
 	cin>>n;
-	char word[n][100];
 	for(int i=0; i<n; i++){
-		cin>>word[i];
-		t.insert(word[i]);
+		cin>>a;
+		t.insert(a);
 	}
-	for(int i=0; i<n; i++){
-		cout<<t.UniquePrefix(word[i])<<endl;
-	}
+	cout<<t.MaxXor()<<endl;
 }

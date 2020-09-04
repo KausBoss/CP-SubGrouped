@@ -1,11 +1,2 @@
-6
-wow
-wonderland
-Kaus
-Kaustubh
-cost
-costly
-3
-cost
-Kaustub
-Kaus
+4
+10 2 9 5

@@ -1,4 +1,4 @@
-/*
+ /*
 dp[len][2]
 
 case 1. We have a stock on day i, dp[i][1]
@@ -17,6 +17,7 @@ case 2. We have no stocks on the day i, dp[i][0]
 
 class Solution {
 public:
+    
     int maxProfit(vector<int>& P) {
         int n = P.size();
         if(n <= 1){

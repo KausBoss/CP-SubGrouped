@@ -7,6 +7,7 @@ case 2: If s.empty() or h[s.top()] < h[i]
 */
 
 
+
 class Solution {
 public:
     int largestRectangleArea(vector<int>& h) {

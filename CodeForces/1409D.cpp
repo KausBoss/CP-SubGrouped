@@ -2,10 +2,11 @@
 
 */
 #include <bits/stdc++.h>
-
 using namespace std;
 
-#define ll           long long int
+
+
+#define ll           int64_t
 #define vi 			 vector<int>
 #define pb           push_back
 #define fi           first
@@ -26,8 +27,31 @@ using namespace std;
 const int nax = 1e7;
 const int mod = 1e9+7;
 
+ll sum(ll n){
+	ll temp;
+	ll ret=0;
+	while(n){
+		ret += n%10;
+		n /= 10;
+	}
+	return ret;
+}
+
 void func(){
-	
+	ll n, s;
+	cin>>n>>s;
+	ll ans =0, pw=1;
+	for(ll i=0; i<=18; i++){
+		if(sum(n) <= s){
+			cout<<ans<<"\n";
+			return;
+		}
+		ll digit = (n / pw) % 10;
+		ll add = pw *((10 - digit)%10);
+		n += add;
+		ans += add;
+		pw *= 10;
+	}
 }
 
 int main(){

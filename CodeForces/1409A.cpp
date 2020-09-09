@@ -27,7 +27,9 @@ const int nax = 1e7;
 const int mod = 1e9+7;
 
 void func(){
-	
+	ll a, b;
+	cin>>a>>b;
+	cout<<(ll)ceil((double)abs(a-b)/10)<<endl;
 }
 
 int main(){

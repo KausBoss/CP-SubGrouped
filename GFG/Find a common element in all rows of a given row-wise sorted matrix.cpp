@@ -26,8 +26,30 @@ using namespace std;
 const int nax = 1e7;
 const int mod = 1e9+7;
 
-void func(){
-	
+#define M 4 
+#define N 5 
+
+int func(int a[M][N]){
+	vector<int> ptr(M, N-1);
+	int minVal = INT_MAX;
+	for(int i=0; i<M; i++){
+		minVal = min(minVal, a[i][ptr[i]]);
+	}
+	while(1){
+		bool change = 0;
+		for(int i=0; i<M; i++){
+			if(a[i][ptr[i]] != minVal){
+				change=1;
+				if(ptr[i] == 0){return -1;}
+				ptr[i]--;
+			}
+		}
+		if(change==0){return minVal;}
+		for(int i=0; i<M; i++){
+			minVal = min(minVal, a[i][ptr[i]]);
+		}
+	}
+	return 0;
 }
 
 int main(){
@@ -38,6 +60,17 @@ int main(){
     #endif
 	int t=1;cin>>t;
 	while(t--){
-		func();
+		int mat[M][N] = { 
+        { 1, 2, 3, 4, 5 }, 
+        { 2, 4, 5, 8, 10 }, 
+        { 3, 5, 7, 9, 11 }, 
+        { 1, 3, 5, 7, 9 }, 
+	    }; 
+	    int result = func(mat); 
+	    if (result == -1) 
+	        cout << "No common element"; 
+	    else
+	        cout << "Common element is " << result; 
+	    return 0; 
 	}
 }

@@ -26,8 +26,12 @@ using namespace std;
 const int nax = 1e7;
 const int mod = 1e9+7;
 
-void func(){
-	
+ll func(ll a, ll b, ll x, ll y, ll n){
+	ll newA = max(x, a-n);
+	n -= (a - newA);
+	a = newA;
+	b = max(y, b-n);
+	return newA*b;
 }
 
 int main(){
@@ -38,6 +42,10 @@ int main(){
     #endif
 	int t=1;cin>>t;
 	while(t--){
-		func();
+		ll a, b, x, y, n;
+		cin>>a>>b>>x>>y>>n;
+		ll op1 = func(a, b, x, y, n);
+		ll op2 = func(b, a, y, x, n);
+		cout<<min(op1, op2)<<endl;
 	}
 }

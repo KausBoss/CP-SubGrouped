@@ -27,7 +27,33 @@ const int nax = 1e7;
 const int mod = 1e9+7;
 
 void func(){
+	ll n, m, x;
+	cin>>n>>m;
+	vector<vector<int>> a(n, vector<int>(m));
+	NF(a, n, m);
+	cin>>x;
+	x %= m;
+	vector<vector<int>> b(a);
+	for(int i=0; i<n; i++){
+		int t = (i&1) ? x : (m-x);
+		if(t!=0 || t!=n){
+			reverse(b[i].begin(), b[i].end());
+			reverse(b[i].begin(), b[i].begin() + t);
+			reverse(b[i].begin()+t, b[i].end());
+		}
+	}
+	PNF(a, n, m);
+	PNF(b, n, m);
+	for(int i=0; i<n; i++){
+		for(int j=0; j<m; j++){
+			if(a[i][j] != b[i][j]){
+				cout<<0<<endl;
+				return;
+			}
+		}
+	}
 	
+	cout<<1<<endl;
 }
 
 int main(){

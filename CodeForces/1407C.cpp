@@ -26,8 +26,11 @@ using namespace std;
 const int nax = 1e7;
 const int mod = 1e9+7;
 
-void func(){
-	
+ll ask(ll a, ll b){
+	ll res;
+	cout<<"? "<<a<<" "<<b<<endl;
+	cin>>res;
+	return res;
 }
 
 int main(){
@@ -36,8 +39,36 @@ int main(){
 	freopen("../inp.txt","r",stdin);
     freopen("../out.txt","w",stdout);
     #endif
-	int t=1;cin>>t;
-	while(t--){
-		func();
+	ll n;
+	cin>>n;
+	vector<ll> a(n+1, -1);
+	int i=1, j=n;
+	while(i < j){
+		while(i<j && a[i]!=-1){i++;}
+		while(j>i && a[j]!=-1){j--;}
+		ll op1 = ask(i, j);
+		ll op2 = ask(j, i);
+		if(op1 > op2){
+			a[i] = op1;
+			i++;
+		}
+		else{
+			a[j] = op2;
+			j--;
+		}
 	}
+	vector<bool> present(n+1, 0);
+	for(int k=1; k<=n; k++){
+		if(a[k]!=-1){
+			present[a[k]]=1;
+		}
+	}
+	for(int k=1; k<=n; k++){
+		if(present[k]==0){
+			a[j] = k;
+			break;
+		}
+	}
+	cout<<"! ";
+	P1(a, n);
 }

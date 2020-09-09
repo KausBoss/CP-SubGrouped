@@ -27,7 +27,30 @@ const int nax = 1e7;
 const int mod = 1e9+7;
 
 void func(){
-	
+	ll n, x, y;
+	cin>>n>>x>>y;
+	ll diff = y-x;
+	ll ans = INT_MAX, effI;
+	for(int i=1; i<=diff; i++){
+		if(diff%i!=0){continue;}
+		if((diff/i)+1 <= n){
+			ll minVal = y - (n-1)*i;
+			ll cand=y;
+			while(minVal <= 0){
+				minVal += i;
+				cand += i;
+			}
+			if(cand < ans){
+				ans = cand;
+				effI = i;
+			}
+		}
+	}
+	for(int i=0; i<n; i++){
+		cout<<ans<<" ";
+		ans -= effI;
+	}
+	cout<<endl;
 }
 
 int main(){

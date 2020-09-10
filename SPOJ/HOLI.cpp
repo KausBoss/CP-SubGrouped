@@ -25,9 +25,21 @@ using namespace std;
 #define PNF1(a,n,m)  for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 const int nax = 1e7;
 const int mod = 1e9+7;
+ll n, ans=0;
+vector<list<pair<ll,ll>>> g;
+vector<bool> visited;
 
-void func(){
-	
+ll dfs(ll node){
+	visited[node] = 1;
+	ll cnt = 1;
+	for(auto child:g[node]){
+		if(!visited[child.fi]){
+			ll val = dfs(child.fi);
+			ans += 2 * child.si * min(val, (n - val));
+			cnt += val;
+		}
+	}
+	return cnt ;
 }
 
 int main(){
@@ -37,7 +49,19 @@ int main(){
     freopen("../out.txt","w",stdout);
     #endif
 	int t=1;cin>>t;
-	while(t--){
-		func();
+	for(int ii=1; ii<=t; ii++){
+		cin>>n;
+		g = vector<list<pair<ll,ll>>>(n);
+		visited = vector<bool>(n, 0);
+		ans = 0;
+		for(int i=0; i<n-1; i++){
+			ll x, y, w;
+			cin>>x>>y>>w;
+			x--;y--;
+			g[x].pb({y, w});
+			g[y].pb({x, w});
+		}
+		dfs(0);
+		cout<<"Case #"<<ii<<": "<<ans<<endl;
 	}
 }

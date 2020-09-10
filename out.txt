@@ -1,1 +1,2 @@
-Common element is 5
+Case #1: 18
+Case #2: 62

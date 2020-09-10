@@ -27,14 +27,14 @@ const int nax = 1e7;
 const int mod = 1e9+7;
 
 void func(){
-	cout<<"Kaus\n";
+	
 }
 
 int main(){
 	fastIO
 	#ifndef ONLINE_JUDGE
-	freopen("inp.txt","r",stdin);
-    freopen("out.txt","w",stdout);
+	freopen("../inp.txt","r",stdin);
+    freopen("../out.txt","w",stdout);
     #endif
 	int t=1;cin>>t;
 	while(t--){

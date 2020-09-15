@@ -29,9 +29,7 @@ const int mod = 1e9+7;
 void func(){
 	ll x, y, k;
 	cin>>x>>y>>k;
-	ll val = ((y+1ll)*k - 1ll)/ (x - 1ll);
-	if(1ll +val*x - val < (y + 1ll)*k){val++;}
-	cout<<k + val<<endl;
+	cout<<k + (ll)ceil((long double)((y+1ll)*k - 1ll)/ (x - 1ll))<<endl;;
 }
 
 int main(){

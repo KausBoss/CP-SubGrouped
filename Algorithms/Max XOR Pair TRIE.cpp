@@ -30,7 +30,7 @@ class Node{
 	public:
 	Node *left, *right;
 	Node(){
-		left=NULL; right==NULL;
+		left=NULL; right=NULL;
 	}
 };
 

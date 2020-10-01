@@ -20,5 +20,5 @@ int main(){
 			dp[j] += dp[i];
 		}
 	}
-	cout<<dp[n];
+	cout<<dp[n]; 
 }

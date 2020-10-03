@@ -31,11 +31,6 @@ ll tryit(ll a){
 void func(){
 	cin>>n;
 	ll s=0, e=1e10, ans;
-	// if(n==1){cout<<0<<endl;return;}
-	// if(n==2){cout<<1<<endl;return;}
-	// if(n==3){cout<<2<<endl;return;}
-	// if(n==4){cout<<2<<endl;return;}
-	// if(n==5){cout<<3<<endl;return;}
 	while(s<=e){
 		ll mid = (s+e)/2;
 		ll val = (1 + mid) * (1 + mid);

@@ -69,11 +69,15 @@ int main(){
     sort(paths.begin(), paths.end());
     n = paths.size() - 1;
     pair<int, string> srch({criteria, ""});
-    auto low = lower_bound(paths.begin(), paths.end(), srch);
-    auto up = upper_bound(paths.begin(), paths.end(), srch);
+    auto x = paths.begin();
+    while(x->fi < criteria){x++;}
     cout<<"Smallest Path = "<<paths[0].si<<"@"<<paths[0].fi<<"\n";
     cout<<"Largest Path = "<<paths[n].si<<"@"<<paths[n].fi<<"\n";
-    cout<<"Just Larger Path than "<<criteria<<" = "<<up->si<<"@"<<up->fi<<"\n";
-    cout<<"Just Smaller Path than "<<criteria<<" = "<<low->si<<"@"<<low->fi<<"\n";
-    cout<<k<<"th Largest path = "<<paths[k-1].si<<"@"<<paths[k-1].fi;
+    cout<<"Just Larger Path than "<<criteria<<" = "<<x->si<<"@"<<x->fi<<"\n";
+    x--;
+    cout<<"Just Smaller Path than "<<criteria<<" = "<<x->si<<"@"<<x->fi<<"\n";
+    cout<<k<<"th Largest path = "<<paths[k-1].si<<"@"<<paths[k-1].fi<<"\n";
+    for(auto x:paths){
+    	cout<<x.fi<<" "<<x.si<<endl;
+    }
 }

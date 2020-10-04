@@ -27,8 +27,53 @@ using namespace std;
 const int nax = 1e7;
 const int mod = 1e9+7;
 
+struct job{
+	int id, deadline, profit;
+};
+
+bool sorter(job a, job b){
+	if(a.profit == b.profit){
+		return a.deadline < b.deadline;
+	}
+	return a.profit > b.profit;
+}
+
 void func(){
-	
+	int n, maxline=0;
+	cin>>n;
+	job allJobs[n];
+	for(int i=0; i<n; i++){
+		cin>>allJobs[i].id>>allJobs[i].deadline>>allJobs[i].profit;
+		maxline = max(maxline, allJobs[i].deadline);
+	}
+	sort(allJobs, allJobs + n, sorter);
+	vector<int> prof(maxline, 0);
+	for(int i=0; i<n; i++){
+		if(prof[allJobs[i].deadline-1] == 0){
+			prof[allJobs[i].deadline-1] = allJobs[i].profit;
+			// cout<<"Placed "<<allJobs[i].id<<" at *"<<allJobs[i].deadline-1<<endl;
+		}
+		else{
+			int j = allJobs[i].deadline-1;
+			while(j >= 0){
+				if(prof[j] == 0){
+					// cout<<"Placed "<<allJobs[i].id<<" at "<<j<<endl;
+					prof[j] = allJobs[i].profit;
+					break;
+				}
+				j--;
+			}
+		}
+	}
+	int done=0, ans=0;
+	for(int i=0; i<maxline; i++){
+		if(prof[i]){
+			done++;
+			ans += prof[i];
+		}
+	}
+	// P(prof, n);
+	cout<<done<<" "<<ans<<endl;
 }
 
 int main(){

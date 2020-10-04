@@ -27,8 +27,8 @@ using namespace std;
 const int nax = 1e7;
 const int mod = 1e9+7;
 
-void func(){
-	
+bool func(pair<float, float> a, pair<float, float> b){
+	return (a.fi/a.si) > (b.fi/b.si);
 }
 
 int main(){
@@ -37,8 +37,26 @@ int main(){
 	freopen("../inp.txt","r",stdin);
     freopen("../out.txt","w",stdout);
     #endif
-	int t=1;cin>>t;
-	while(t--){
-		func();
-	}
+    int t;
+    cin>>t;
+    while(t--){	
+		int n;
+		float cap, ans=0;
+		cin>>n;
+		cin>>cap;
+		vector<pair<float, float>> items(n);//<val, weight>
+		for(int i=0; i<n; i++){
+			cin>>items[i].fi;
+			cin>>items[i].si;
+		}
+
+		sort(items.begin(), items.end(), func);
+		for(int i=0; i<n; i++){
+			if(cap == 0){break;}
+			float curWeight = min(items[i].si, cap);
+			ans += curWeight * (items[i].fi / items[i].si);
+			cap -= curWeight;
+		}
+		cout<<fixed<<setprecision(2)<<ans<<endl;
+    }
 }

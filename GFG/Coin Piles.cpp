@@ -28,7 +28,35 @@ const int nax = 1e7;
 const int mod = 1e9+7;
 
 void func(){
-	
+	ll n, k;
+	cin>>n>>k;
+	vector<ll> a;
+	for(int i=0; i<n; i++){
+		ll temp;
+		cin>>temp;
+		if(temp != 0){a.pb(temp);}
+	}
+	ll ans=0;
+	sort(a.begin(), a.end());
+	n = a.size();
+	for(int i=0; i<n; i++){
+		ll val=0;
+		for(int j=n-1; a[j] - a[i] > k; j--){
+			if(a[j] - a[i] > k){
+				val += a[j] - a[i] - k;
+			}
+		}
+		if(val > a[i]){
+			ans += a[i];
+		}
+		else{
+			ans += val;
+			for(int j=n-1; a[j] - a[i] > k; j--){
+				a[j] = a[i] + k;
+			}
+		}
+	}
+	cout<<ans<<endl;
 }
 
 int main(){

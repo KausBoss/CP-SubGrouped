@@ -1,13 +1,3 @@
-Smallest Path = 01256@28
-Largest Path = 032546@66
-Just Larger Path than 30 = 012546@36
-Just Smaller Path than 30 = 01256@28
-4th Largest path = 012346@40
-28 01256
-36 012546
-38 0123456
-40 012346
-48 03456
-50 0346
-58 03256
-66 032546
+0
+1
+3

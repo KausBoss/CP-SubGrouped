@@ -1,27 +1,11 @@
-class Solution {
-public:
-	static bool func(string a, string b){
-		if(a[1] == '='){return 1;}
-		else{return 0;}
-	}
-    map<char, char> p;
-    char getParent(char ch){
-    	return p[ch] == ch ? ch : getParent(p[ch]);
-    }
-    bool equationsPossible(vector<string>& equations) {
-    	sort(equations.begin(), equations.end(), func);
-        for(string str:equations){
-        	p[str[0]] = str[0];
-        	p[str[3]] = str[3];
-        }
-        for(string str:equations){
-        	if(str[1] == '!'){
-        		if(getParent(str[0]) == getParent(str[3])){return 0;}
-        	}
-        	else{
-        		p[str[3]] = getParent(str[0]);
-        	}
-        }
-        return 1;
-    }
-};
+int uf_find(vector<int> &uf, int i) {
+  return uf[i] == -1 || uf[i] == i ? i : uf_find(uf, uf[i]);
+}
+bool equationsPossible(vector<string>& equations) {
+  vector<int> uf('z' + 1, -1);
+  for (auto s : equations)
+    if (s[1] == '=') uf[uf_find(uf, s[0])] = uf_find(uf, s[3]);
+  for (auto s : equations)
+    if (s[1] == '!' && uf_find(uf, s[0]) == uf_find(uf, s[3])) return false;
+  return true;
+}   

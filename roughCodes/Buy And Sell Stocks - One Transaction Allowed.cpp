@@ -33,17 +33,15 @@ int main(){
 	freopen("../inp.txt","r",stdin);
     freopen("../out.txt","w",stdout);
     #endif
-	ll n, k;
-	cin>>n>>k;
-	ll dp[n+1][k+1];
-	mem(dp, 0);
-	for(int i=0; i<=n; i++){
-		dp[i][1]=1;
-	}
-	for(int i=2;i<=n; i++){
-		for(int j=2; j<=k; j++){
-			dp[i][j] = dp[i-1][j-1] + dp[i-1][j]*j;
-		}
-	}
-	cout<<dp[n][k];
+    ll n, *a;
+    cin>>n;
+    a = new ll[n];
+    F(a, n);
+    ll minVal = a[0];
+    ll ans = 0;
+    for(int i=1; i<n; i++){
+    	ans = max(ans, a[i] - minVal);
+    	minVal = min(minVal, a[i]);
+    }
+    cout<<ans;
 }

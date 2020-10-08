@@ -39,8 +39,12 @@ int main(){
 	a = new ll[n];
 	F(a, n);
 	cin>>fee;
+	ll dp[n+1][2];
+	dp[0][1] = -a[0];
+	dp[0][0] = 0;
 	for(int i=1; i<n; i++){
-		ans += max(0ll, a[i]-a[i-1] - fee);
+		dp[i][1] = max(dp[i-1][1], dp[i-1][0] -a[i]);
+		dp[i][0] = max(dp[i-1][0], dp[i-1][1] + a[i] - fee);
 	}
-	cout<<ans;
+	cout<<dp[n-1][0];
 }

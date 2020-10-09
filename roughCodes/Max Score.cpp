@@ -25,72 +25,45 @@ using namespace std;
 #define PNF1(a,n,m)  for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 const int nax = 1e7;
 const int mod = 1e9+7;
+int n, m, cost[26], freq[26]={0};
+string s[14];
 
-class Node{
-	public:
-	Node *left, *right;
-	Node(){
-		left=NULL; right=NULL;
+
+int maxCost(int i){
+	//base case
+	if(i == n){return 0;}
+	//recursive case
+	int op1 = maxCost(i+1);
+	int op2 = -1;
+	int freqCurrent[26]={0};
+	for(auto x:s[i]){freqCurrent[x-'a']++;}
+	for(int i=0; i<26; i++){
+		if(freq[i] < freqCurrent[i]){return op1;}
 	}
-};
-
-class Trie{
-	Node *root;
-	int maxAns;
-public:
-	Trie(){
-		root = new Node();
-		maxAns = 0;
+	int temp =0 ;
+	for(int i=0; i<26; i++){
+		freq[i] -= freqCurrent[i];
+		temp += freqCurrent[i]*cost[i];
 	}
-	void insert(int val){
-		Node *temp = root;
-		for(int i=30; i>=0; i--){
-			bool bit = ( (val>>i)&1 );
-			if(bit){
-				if(temp->right==NULL){temp->right = new Node();}
-				temp = temp->right;
-			}
-			else{
-				if(temp->left==NULL){temp->left = new Node();}
-				temp = temp->left;
-			}
-		}
-		xor_helper(val);
-	}
-	void xor_helper(int val){
-		int ans = 0;
-		Node *temp = root;
-		for(int i=30; i>=0; i--){
-			bool bit = ( (val>>i)&1 );
-			if(bit){
-				if(temp->left){ans += (1<<i); temp = temp->left;}
-				else{temp = temp->right;}
-			}
-			else{
-				if(temp->right){ans += (1<<i); temp = temp->right;}
-				else{temp = temp->left;}
-			}
-		}
-		maxAns = max(maxAns, ans);
-	}
-
-	int MaxXor(){return maxAns;}
-};
-
-
+	op2  = temp + maxCost(i+1);
+	for(int i=0; i<26; i++){freq[i] += freqCurrent[i];}
+	return max(op1, op2);
+}
 
 int main(){
-		fastIO
+	fastIO
 	#ifndef ONLINE_JUDGE
 	freopen("../inp.txt","r",stdin);
     freopen("../out.txt","w",stdout);
     #endif
-	int n, a;
-	Trie t;
 	cin>>n;
-	for(int i=0; i<n; i++){
-		cin>>a;
-		t.insert(a);
+	F(s, n);
+	cin>>m;
+	for(int i=0; i<m; i++){
+		char ch;
+		cin>>ch;
+		freq[ch - 'a']++;
 	}
-	cout<<t.MaxXor()<<endl;
+	F(cost, 26);
+	cout<<maxCost(0);
 }

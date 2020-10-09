@@ -26,71 +26,57 @@ using namespace std;
 const int nax = 1e7;
 const int mod = 1e9+7;
 
-class Node{
-	public:
-	Node *left, *right;
-	Node(){
-		left=NULL; right=NULL;
-	}
-};
-
-class Trie{
-	Node *root;
-	int maxAns;
-public:
-	Trie(){
-		root = new Node();
-		maxAns = 0;
-	}
-	void insert(int val){
-		Node *temp = root;
-		for(int i=30; i>=0; i--){
-			bool bit = ( (val>>i)&1 );
-			if(bit){
-				if(temp->right==NULL){temp->right = new Node();}
-				temp = temp->right;
-			}
-			else{
-				if(temp->left==NULL){temp->left = new Node();}
-				temp = temp->left;
-			}
-		}
-		xor_helper(val);
-	}
-	void xor_helper(int val){
-		int ans = 0;
-		Node *temp = root;
-		for(int i=30; i>=0; i--){
-			bool bit = ( (val>>i)&1 );
-			if(bit){
-				if(temp->left){ans += (1<<i); temp = temp->left;}
-				else{temp = temp->right;}
-			}
-			else{
-				if(temp->right){ans += (1<<i); temp = temp->right;}
-				else{temp = temp->left;}
-			}
-		}
-		maxAns = max(maxAns, ans);
-	}
-
-	int MaxXor(){return maxAns;}
-};
-
-
-
 int main(){
-		fastIO
+	fastIO
 	#ifndef ONLINE_JUDGE
 	freopen("../inp.txt","r",stdin);
     freopen("../out.txt","w",stdout);
     #endif
-	int n, a;
-	Trie t;
+	ll n;
 	cin>>n;
-	for(int i=0; i<n; i++){
-		cin>>a;
-		t.insert(a);
+	string s;
+	cin>>s;
+	vector<bool> c(n, 0), t(n, 0), ca(n, 0), at(n, 0);
+	c[0] = (s[0]=='c');
+	for(int i=1; i<n; i++){
+		c[i] = c[i-1];
+		if(s[i]=='c'){c[i]=1;}
+		ca[i] = ca[i-1];
+		if(s[i]=='a'){ca[i] = c[i];}
 	}
-	cout<<t.MaxXor()<<endl;
+	t[n-1] = (s[n-1]=='t');
+	for(int i=n-2; i>=0; i--){
+		t[i] = 1;
+		if(s[i]=='t'){t[i]=1;}
+		at[i] = at[i+1];
+		if(s[i]=='a'){at[i] =t[i];}
+	}
+	int delC=0, delA=0, delT=0;
+	vector<bool> pres(n, 1);
+	for(int i=0; i<n; i++){
+		if(s[i]=='c' && at[i]>0){
+			delC++;
+			pres[i] = 0;
+		}
+		else if(s[i]=='a' && c[i]>0 && t[i]>0){
+			delA++;
+			pres[i] = 0;
+		}
+		else if(s[i]=='t' && ca[i]>0){
+			delT++;
+			pres[i] = 0;
+		}
+	}
+	int out = min(delC, min(delA, delT));
+	char ch;
+	if(out == delC){ch = 'c';}
+	else if(out == delA){ch = 'a';}
+	else{ch = 't';}
+	cout<<n-out<<endl;
+	for(int i=0; i<n; i++){
+		if(s[i]==ch && pres[i]==0){
+			continue;
+		}
+		cout<<s[i];
+	}
 }

@@ -26,71 +26,44 @@ using namespace std;
 const int nax = 1e7;
 const int mod = 1e9+7;
 
-class Node{
-	public:
-	Node *left, *right;
-	Node(){
-		left=NULL; right=NULL;
-	}
-};
-
-class Trie{
-	Node *root;
-	int maxAns;
-public:
-	Trie(){
-		root = new Node();
-		maxAns = 0;
-	}
-	void insert(int val){
-		Node *temp = root;
-		for(int i=30; i>=0; i--){
-			bool bit = ( (val>>i)&1 );
-			if(bit){
-				if(temp->right==NULL){temp->right = new Node();}
-				temp = temp->right;
-			}
-			else{
-				if(temp->left==NULL){temp->left = new Node();}
-				temp = temp->left;
-			}
+void func(){
+	int n, m;
+	cin>>n>>m;
+	int *a = new int[m];
+	F(a, m);
+	ll sum =0;
+	for(int i=0; i<m; i++){
+		if(n-i-a[i] < 0){
+			cout<<-1;
+			return;
 		}
-		xor_helper(val);
+		sum += a[i];
 	}
-	void xor_helper(int val){
-		int ans = 0;
-		Node *temp = root;
-		for(int i=30; i>=0; i--){
-			bool bit = ( (val>>i)&1 );
-			if(bit){
-				if(temp->left){ans += (1<<i); temp = temp->left;}
-				else{temp = temp->right;}
-			}
-			else{
-				if(temp->right){ans += (1<<i); temp = temp->right;}
-				else{temp = temp->left;}
-			}
-		}
-		maxAns = max(maxAns, ans);
+	if(sum < n){
+		cout<<-1;
+		return;
+	}
+	int *ans = new int[m+1];
+	ans[m] = n+1;
+	for(int i=m-1; i>=0; i--){
+		ans[i] = min(ans[i+1]-1, n-a[i]+1);
+	}
+	int cur = 1;
+	for(int i=0; i<m; i++){
+		cout<<cur<<" ";
+		cur = min(cur+a[i], ans[i+1]);
 	}
 
-	int MaxXor(){return maxAns;}
-};
-
-
+}
 
 int main(){
-		fastIO
+	fastIO
 	#ifndef ONLINE_JUDGE
 	freopen("../inp.txt","r",stdin);
     freopen("../out.txt","w",stdout);
     #endif
-	int n, a;
-	Trie t;
-	cin>>n;
-	for(int i=0; i<n; i++){
-		cin>>a;
-		t.insert(a);
+	int t=1;//cin>>t;
+	while(t--){
+		func();
 	}
-	cout<<t.MaxXor()<<endl;
 }

@@ -25,72 +25,76 @@ using namespace std;
 #define PNF1(a,n,m)  for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 const int nax = 1e7;
 const int mod = 1e9+7;
+ll n, cut;
+vector<ll> maxSub;
+vector<list<ll>> g;
+vector<bool> visited;
 
-class Node{
-	public:
-	Node *left, *right;
-	Node(){
-		left=NULL; right=NULL;
-	}
-};
-
-class Trie{
-	Node *root;
-	int maxAns;
-public:
-	Trie(){
-		root = new Node();
-		maxAns = 0;
-	}
-	void insert(int val){
-		Node *temp = root;
-		for(int i=30; i>=0; i--){
-			bool bit = ( (val>>i)&1 );
-			if(bit){
-				if(temp->right==NULL){temp->right = new Node();}
-				temp = temp->right;
-			}
-			else{
-				if(temp->left==NULL){temp->left = new Node();}
-				temp = temp->left;
-			}
+ll dfs(int node){
+	visited[node] = 1;
+	ll total=0;
+	for(auto child:g[node]){
+		if(visited[child] == 0){
+			ll val = dfs(child);
+			maxSub[node] = max(maxSub[node], val);
+			total += val;
 		}
-		xor_helper(val);
 	}
-	void xor_helper(int val){
-		int ans = 0;
-		Node *temp = root;
-		for(int i=30; i>=0; i--){
-			bool bit = ( (val>>i)&1 );
-			if(bit){
-				if(temp->left){ans += (1<<i); temp = temp->left;}
-				else{temp = temp->right;}
-			}
-			else{
-				if(temp->right){ans += (1<<i); temp = temp->right;}
-				else{temp = temp->left;}
-			}
+	maxSub[node] = max(maxSub[node], n-total-1);
+	return total + 1;
+}
+
+void dfs_2(int node, int emeny){
+	// cout<<node<<" "<<emeny<<endl;
+	visited[node] = 1;
+	if(node == emeny){return;}
+	if(g[node].size() == 1){
+		cut = node;
+		return;
+	}
+	for(auto child:g[node]){
+		if(visited[child]==0){
+			dfs_2(child, emeny);
 		}
-		maxAns = max(maxAns, ans);
 	}
-
-	int MaxXor(){return maxAns;}
-};
-
-
+	return;
+}
 
 int main(){
-		fastIO
+	fastIO
 	#ifndef ONLINE_JUDGE
 	freopen("../inp.txt","r",stdin);
     freopen("../out.txt","w",stdout);
     #endif
-	int n, a;
-	Trie t;
-	cin>>n;
-	for(int i=0; i<n; i++){
-		cin>>a;
-		t.insert(a);
+	int t=1;cin>>t;
+	while(t--){
+		cin>>n;
+		g = vector<list<ll>>(n);
+		maxSub = vector<ll>(n, 0);
+		visited = vector<bool>(n, 0);
+		for(int i=0; i<n-1; i++){
+			ll x, y;
+			cin>>x>>y;
+			x--;y--;
+			g[x].pb(y);
+			g[y].pb(x);
+
+		}
+		dfs(0);
+		vector<pair<ll,ll>> v;
+		for(int i=0; i<n; i++){
+			v.pb({maxSub[i], i});
+		}
+		sort(v.begin(), v.end());
+		if(v[0].fi < v[1].fi){
+			cout<<1<<" "<<g[0].back()+1<<endl;
+			cout<<1<<" "<<g[0].back()+1<<endl;
+		}
+		else{
+			visited = vector<bool>(n, 0);
+			dfs_2(v[1].si, v[0].si);
+			cout<<cut+1<<" "<<g[cut].back()+1<<endl;
+			cout<<cut+1<<" "<<v[0].si+1<<endl;
+		}
 	}
-	cout<<t.MaxXor()<<endl;
 }

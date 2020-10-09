@@ -25,72 +25,55 @@ using namespace std;
 #define PNF1(a,n,m)  for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 const int nax = 1e7;
 const int mod = 1e9+7;
+int size, path=0;
+vector<vector<bool>> visited(8, vector<bool>(8, 0));
 
-class Node{
-	public:
-	Node *left, *right;
-	Node(){
-		left=NULL; right=NULL;
-	}
-};
+int mx[] = {-2, -1, 1, 2, 2, 1, -1, -2};
+int my[] = {1, 2, 2, 1, -1, -2, -2, -1};
 
-class Trie{
-	Node *root;
-	int maxAns;
-public:
-	Trie(){
-		root = new Node();
-		maxAns = 0;
+void print(vector<pair<int, int>> v){
+	vector<vector<int>> grid(size, vector<int>(size, -1));
+	for(int i=0; i<v.size(); i++){
+		grid[v[i].fi][v[i].si] = i;
 	}
-	void insert(int val){
-		Node *temp = root;
-		for(int i=30; i>=0; i--){
-			bool bit = ( (val>>i)&1 );
-			if(bit){
-				if(temp->right==NULL){temp->right = new Node();}
-				temp = temp->right;
-			}
-			else{
-				if(temp->left==NULL){temp->left = new Node();}
-				temp = temp->left;
-			}
-		}
-		xor_helper(val);
-	}
-	void xor_helper(int val){
-		int ans = 0;
-		Node *temp = root;
-		for(int i=30; i>=0; i--){
-			bool bit = ( (val>>i)&1 );
-			if(bit){
-				if(temp->left){ans += (1<<i); temp = temp->left;}
-				else{temp = temp->right;}
-			}
-			else{
-				if(temp->right){ans += (1<<i); temp = temp->right;}
-				else{temp = temp->left;}
-			}
-		}
-		maxAns = max(maxAns, ans);
-	}
+	PNF(grid, size, size);
+}
 
-	int MaxXor(){return maxAns;}
-};
+bool func(int i, int j, vector<pair<int, int>> v){
+	// cout<<i<<" "<<j<<" "<<v.size()<<endl;
+	visited[i][j] = 1;
+	v.pb({i, j});
 
+	//8 knight moves
+	for(int k=0; k<8; k++){
+		int ii= i+ mx[k];
+		int jj= j+ my[k];
+		if(ii>=0 && ii<size && jj>=0 && jj<size && visited[ii][jj]==0){
+			bool next = func(ii, jj, v);
+			if(next){
+				return 1;
+			}
+		} 
+	}
+	if(v.size() == (size*size)){
+		print(v);
+		return 1;
+	}
+	v.pop_back();
+	visited[i][j]=0;
+	return 0;
+}
 
 
 int main(){
-		fastIO
+	fastIO
 	#ifndef ONLINE_JUDGE
 	freopen("../inp.txt","r",stdin);
     freopen("../out.txt","w",stdout);
     #endif
-	int n, a;
-	Trie t;
-	cin>>n;
-	for(int i=0; i<n; i++){
-		cin>>a;
-		t.insert(a);
-	}
-	cout<<t.MaxXor()<<endl;
+	int n, m;
+	cin>>size;
+	cin>>n>>m;
+	vector<pair<int, int>> v;
+	func(n, m, v);
 }

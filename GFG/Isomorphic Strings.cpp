@@ -26,71 +26,39 @@ using namespace std;
 const int nax = 1e7;
 const int mod = 1e9+7;
 
-class Node{
-	public:
-	Node *left, *right;
-	Node(){
-		left=NULL; right=NULL;
+void func(){
+	string s1, s2;
+	cin>>s1>>s2;
+	int n=s1.length();
+	if( n != s2.length()){
+		cout<<0<<endl;
+		return;
+	} 
+	vector<int> v1(n), v2(n), freq(26, -1);
+	for(int i=0; i<n; i++){
+		if(freq[s1[i]-'a']==-1){freq[s1[i]-'a']=i;}
+		v1[i] = freq[s1[i]-'a'];	
 	}
-};
-
-class Trie{
-	Node *root;
-	int maxAns;
-public:
-	Trie(){
-		root = new Node();
-		maxAns = 0;
+	freq = vector<int>(26, -1);
+	for(int i=0; i<n; i++){
+		if(freq[s2[i]-'a']==-1){freq[s2[i]-'a']=i;}
+		v2[i] = freq[s2[i]-'a'];
+		if(v1[i] != v2[i]){
+			cout<<0<<endl;
+			return;
+		}	
 	}
-	void insert(int val){
-		Node *temp = root;
-		for(int i=30; i>=0; i--){
-			bool bit = ( (val>>i)&1 );
-			if(bit){
-				if(temp->right==NULL){temp->right = new Node();}
-				temp = temp->right;
-			}
-			else{
-				if(temp->left==NULL){temp->left = new Node();}
-				temp = temp->left;
-			}
-		}
-		xor_helper(val);
-	}
-	void xor_helper(int val){
-		int ans = 0;
-		Node *temp = root;
-		for(int i=30; i>=0; i--){
-			bool bit = ( (val>>i)&1 );
-			if(bit){
-				if(temp->left){ans += (1<<i); temp = temp->left;}
-				else{temp = temp->right;}
-			}
-			else{
-				if(temp->right){ans += (1<<i); temp = temp->right;}
-				else{temp = temp->left;}
-			}
-		}
-		maxAns = max(maxAns, ans);
-	}
-
-	int MaxXor(){return maxAns;}
-};
-
-
+	cout<<1<<endl;
+}
 
 int main(){
-		fastIO
+	fastIO
 	#ifndef ONLINE_JUDGE
 	freopen("../inp.txt","r",stdin);
     freopen("../out.txt","w",stdout);
     #endif
-	int n, a;
-	Trie t;
-	cin>>n;
-	for(int i=0; i<n; i++){
-		cin>>a;
-		t.insert(a);
+	int t=1;cin>>t;
+	while(t--){
+		func();
 	}
-	cout<<t.MaxXor()<<endl;
 }

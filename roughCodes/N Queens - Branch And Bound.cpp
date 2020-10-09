@@ -25,72 +25,63 @@ using namespace std;
 #define PNF1(a,n,m)  for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 const int nax = 1e7;
 const int mod = 1e9+7;
+int n, mat[11][11];
 
-class Node{
-	public:
-	Node *left, *right;
-	Node(){
-		left=NULL; right=NULL;
-	}
-};
-
-class Trie{
-	Node *root;
-	int maxAns;
-public:
-	Trie(){
-		root = new Node();
-		maxAns = 0;
-	}
-	void insert(int val){
-		Node *temp = root;
-		for(int i=30; i>=0; i--){
-			bool bit = ( (val>>i)&1 );
-			if(bit){
-				if(temp->right==NULL){temp->right = new Node();}
-				temp = temp->right;
-			}
-			else{
-				if(temp->left==NULL){temp->left = new Node();}
-				temp = temp->left;
+void print(){
+	for(int i=0; i<n; i++){
+		for(int j=0; j<n; j++){
+			if(mat[i][j] == 1){
+				cout<<i<<"-"<<j<<", ";
 			}
 		}
-		xor_helper(val);
 	}
-	void xor_helper(int val){
-		int ans = 0;
-		Node *temp = root;
-		for(int i=30; i>=0; i--){
-			bool bit = ( (val>>i)&1 );
-			if(bit){
-				if(temp->left){ans += (1<<i); temp = temp->left;}
-				else{temp = temp->right;}
+	cout<<".\n";
+}
+
+bool possible(int i, int j){
+	for(int k=0; k<i; k++){
+		if(mat[k][j] == 1){return 0;}
+	}
+	int k=i, l=j;
+	while(k>=0 && l>=0){
+		if(mat[k][l] == 1){return 0;}
+		k--; l--;
+	}
+	k=i; l=j;
+	while(k>=0 && j<n){
+		if(mat[k][l] == 1){return 0;}
+		k--; l++;	
+	}
+	return 1;
+}
+
+bool func(int i){
+	//base case
+	if(i == n){
+		print();
+		return 0;
+	}
+	//recursize case
+	for(int j=0; j<n; j++){
+		if(possible(i, j)){
+			mat[i][j] = 1;
+			bool next = func(i+1);
+			if(next){
+				return 1;
 			}
-			else{
-				if(temp->right){ans += (1<<i); temp = temp->right;}
-				else{temp = temp->left;}
-			}
+			mat[i][j] = 0;
 		}
-		maxAns = max(maxAns, ans);
 	}
-
-	int MaxXor(){return maxAns;}
-};
-
-
+	return 0;
+}
 
 int main(){
-		fastIO
+	fastIO
 	#ifndef ONLINE_JUDGE
 	freopen("../inp.txt","r",stdin);
     freopen("../out.txt","w",stdout);
     #endif
-	int n, a;
-	Trie t;
 	cin>>n;
-	for(int i=0; i<n; i++){
-		cin>>a;
-		t.insert(a);
-	}
-	cout<<t.MaxXor()<<endl;
+	mem(mat, 0);
+	func(0);
 }

@@ -25,72 +25,51 @@ using namespace std;
 #define PNF1(a,n,m)  for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 const int nax = 1e7;
 const int mod = 1e9+7;
+map<string, bool> m;
+ll n;
+string s; 
 
-class Node{
-	public:
-	Node *left, *right;
-	Node(){
-		left=NULL; right=NULL;
-	}
-};
 
-class Trie{
-	Node *root;
-	int maxAns;
-public:
-	Trie(){
-		root = new Node();
-		maxAns = 0;
-	}
-	void insert(int val){
-		Node *temp = root;
-		for(int i=30; i>=0; i--){
-			bool bit = ( (val>>i)&1 );
-			if(bit){
-				if(temp->right==NULL){temp->right = new Node();}
-				temp = temp->right;
-			}
-			else{
-				if(temp->left==NULL){temp->left = new Node();}
-				temp = temp->left;
-			}
+void func(int i, vector<string> v){
+	//base case
+	if(i == n){
+		cout<<"(";
+		for(int j=0; j<v.size(); j++){
+			cout<<v[j];
+			if(j!=v.size()-1){cout<<" ";}
 		}
-		xor_helper(val);
+		cout<<")";
+		return;
 	}
-	void xor_helper(int val){
-		int ans = 0;
-		Node *temp = root;
-		for(int i=30; i>=0; i--){
-			bool bit = ( (val>>i)&1 );
-			if(bit){
-				if(temp->left){ans += (1<<i); temp = temp->left;}
-				else{temp = temp->right;}
-			}
-			else{
-				if(temp->right){ans += (1<<i); temp = temp->right;}
-				else{temp = temp->left;}
-			}
+	//recursive case
+	string t="";
+	for(int j=i; j<n; j++){
+		t += s[j];
+		if(m.count(t)){
+			v.pb(t);
+			func(j+1, v);
+			v.pop_back();
 		}
-		maxAns = max(maxAns, ans);
 	}
-
-	int MaxXor(){return maxAns;}
-};
-
-
+}
 
 int main(){
-		fastIO
+	fastIO
 	#ifndef ONLINE_JUDGE
 	freopen("../inp.txt","r",stdin);
     freopen("../out.txt","w",stdout);
     #endif
-	int n, a;
-	Trie t;
-	cin>>n;
-	for(int i=0; i<n; i++){
-		cin>>a;
-		t.insert(a);
+	int t=1;cin>>t;
+	while(t--){
+		cin>>n;
+		while(n--){
+			cin>>s;
+			m[s] = 1;
+		}
+		cin>>s;
+		n = s.length();
+		func(0, {});
+		cout<<endl;
+		m.clear();
 	}
-	cout<<t.MaxXor()<<endl;
 }

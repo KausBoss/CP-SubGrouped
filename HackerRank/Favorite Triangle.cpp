@@ -26,71 +26,38 @@ using namespace std;
 const int nax = 1e7;
 const int mod = 1e9+7;
 
-class Node{
-	public:
-	Node *left, *right;
-	Node(){
-		left=NULL; right=NULL;
-	}
-};
+double dist(double x1, double y1, double x2, double y2){
+	return sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
+}
 
-class Trie{
-	Node *root;
-	int maxAns;
-public:
-	Trie(){
-		root = new Node();
-		maxAns = 0;
-	}
-	void insert(int val){
-		Node *temp = root;
-		for(int i=30; i>=0; i--){
-			bool bit = ( (val>>i)&1 );
-			if(bit){
-				if(temp->right==NULL){temp->right = new Node();}
-				temp = temp->right;
-			}
-			else{
-				if(temp->left==NULL){temp->left = new Node();}
-				temp = temp->left;
-			}
-		}
-		xor_helper(val);
-	}
-	void xor_helper(int val){
-		int ans = 0;
-		Node *temp = root;
-		for(int i=30; i>=0; i--){
-			bool bit = ( (val>>i)&1 );
-			if(bit){
-				if(temp->left){ans += (1<<i); temp = temp->left;}
-				else{temp = temp->right;}
-			}
-			else{
-				if(temp->right){ans += (1<<i); temp = temp->right;}
-				else{temp = temp->left;}
-			}
-		}
-		maxAns = max(maxAns, ans);
-	}
+void func(){
+	double p, q, r;
+	if(p <q){swap(p, q);}
+	if(p <r){swap(p, r);}
+	cin>>p>>q>>r;
+	double ax, ay, bx, by, cx, cy;
+	ax=0.0;
+	ay=0.0;
+	bx=p;
+	by=0.0;
+	double start = 0, end=90;
+	while(start <= end){
+		if(start)
+		mid = (start + end)/2;
 
-	int MaxXor(){return maxAns;}
-};
+	}	
 
 
+}
 
 int main(){
-		fastIO
+	fastIO
 	#ifndef ONLINE_JUDGE
 	freopen("../inp.txt","r",stdin);
     freopen("../out.txt","w",stdout);
     #endif
-	int n, a;
-	Trie t;
-	cin>>n;
-	for(int i=0; i<n; i++){
-		cin>>a;
-		t.insert(a);
+	int t=1;//cin>>t;
+	while(t--){
+		func();
 	}
-	cout<<t.MaxXor()<<endl;
 }

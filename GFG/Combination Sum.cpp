@@ -25,72 +25,56 @@ using namespace std;
 #define PNF1(a,n,m)  for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 const int nax = 1e7;
 const int mod = 1e9+7;
+int n, a[12], b;
+set<vector<int>> s;
 
-class Node{
-	public:
-	Node *left, *right;
-	Node(){
-		left=NULL; right=NULL;
+void print(vector<int> v){
+	int n = v.size();
+	cout<<"(";
+	for(int i=0; i<n; i++){
+		cout<<v[i];
+		if(i!=n-1){cout<<" ";}
 	}
-};
+	cout<<")";
+}
 
-class Trie{
-	Node *root;
-	int maxAns;
-public:
-	Trie(){
-		root = new Node();
-		maxAns = 0;
+void func(int i, int b, vector<int> v){
+	//base case
+	if(b == 0){
+		s.insert(v);
+		return;
 	}
-	void insert(int val){
-		Node *temp = root;
-		for(int i=30; i>=0; i--){
-			bool bit = ( (val>>i)&1 );
-			if(bit){
-				if(temp->right==NULL){temp->right = new Node();}
-				temp = temp->right;
-			}
-			else{
-				if(temp->left==NULL){temp->left = new Node();}
-				temp = temp->left;
-			}
-		}
-		xor_helper(val);
+	if(i == n){return;}
+	//recursive case
+	if(i!=0 && a[i]==a[i-1]){func(i+1, b, v);}
+
+	for(int j=i; a[j]<=b && j<n; j++){
+		v.pb(a[j]);
+		func(j, b-a[j], v);
+		v.pop_back();
 	}
-	void xor_helper(int val){
-		int ans = 0;
-		Node *temp = root;
-		for(int i=30; i>=0; i--){
-			bool bit = ( (val>>i)&1 );
-			if(bit){
-				if(temp->left){ans += (1<<i); temp = temp->left;}
-				else{temp = temp->right;}
-			}
-			else{
-				if(temp->right){ans += (1<<i); temp = temp->right;}
-				else{temp = temp->left;}
-			}
-		}
-		maxAns = max(maxAns, ans);
-	}
-
-	int MaxXor(){return maxAns;}
-};
-
-
+}
 
 int main(){
-		fastIO
+	fastIO
 	#ifndef ONLINE_JUDGE
 	freopen("../inp.txt","r",stdin);
     freopen("../out.txt","w",stdout);
     #endif
-	int n, a;
-	Trie t;
-	cin>>n;
-	for(int i=0; i<n; i++){
-		cin>>a;
-		t.insert(a);
+	int t=1;cin>>t;
+	while(t--){
+		cin>>n;
+		F(a, n);
+		cin>>b;
+		sort(a, a+n);
+		func(0, b, {});
+		if(s.empty()){
+			cout<<"Empty";
+		}
+		for(auto x:s){
+			print(x);
+		}
+		cout<<endl;
+		s.clear();
 	}
-	cout<<t.MaxXor()<<endl;
 }

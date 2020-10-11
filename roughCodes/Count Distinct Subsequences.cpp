@@ -27,7 +27,6 @@ using namespace std;
 const int nax = 1e7;
 const int mod = 1e9+7;
 
-
 int main(){
 	fastIO
 	#ifndef ONLINE_JUDGE
@@ -36,31 +35,17 @@ int main(){
     #endif
 	string s;
 	cin>>s;
-	int n = s.length();
-	int ans=n;
-	if(n <= 1){
-		cout<<n;
-		return 0;
-	}
-	vector<vector<bool>> dp(n, vector<bool>(n, 0));
-	for(int i=0; i<n; i++){
-		dp[i][i] = 1;
-	}
-	for(int i=1; i<n; i++){
-		if(s[i-1] == s[i]){
-			dp[i-1][i]=1;
-			ans++;
+	ll n = s.length();
+	vector<ll> dp(n+1);
+	dp[0] = 1;
+	map<char, ll> m;
+	for(int i=1; i<=n; i++){
+		dp[i] = 2*dp[i-1];
+		if(m.count(s[i-1])){
+			int j = m[s[i-1]];
+			dp[i] -= dp[j - 1];
 		}
+		m[s[i-1]] = i;
 	}
-	for(int k=2; k<n; k++){
-		int j=k, i=0;
-		while(j<n){
-			if(s[i] == s[j] && dp[i+1][j-1]){
-				dp[i][j] = 1;
-			}
-			if(dp[i][j]){ans++;}
-			i++;j++;
-		}
-	}
-	cout<<ans;
+	cout<<dp[n]-1;
 }

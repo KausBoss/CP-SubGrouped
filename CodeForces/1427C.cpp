@@ -24,9 +24,10 @@ using namespace std;
 #define PNF(a,n,m)  	 	for(int i=0;i<n;i++){for(int j=0;j<m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 #define PNF1(a,n,m)  		for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 #define ceil_div(x, y) 		(((x) + (y) - 1) / (y))
-const int nax = 1e7;
+const int nax = 1e5 + 2;
 const int mod = 1e9+7;
-
+ll dp[nax] = {0}, dp2[nax] = {0};
+pair<ll, pair<ll,ll>> c[nax];
 
 int main(){
 	fastIO
@@ -34,33 +35,27 @@ int main(){
 	freopen("../inp.txt","r",stdin);
     freopen("../out.txt","w",stdout);
     #endif
-	string s;
-	cin>>s;
-	int n = s.length();
-	int ans=n;
-	if(n <= 1){
-		cout<<n;
-		return 0;
-	}
-	vector<vector<bool>> dp(n, vector<bool>(n, 0));
-	for(int i=0; i<n; i++){
-		dp[i][i] = 1;
-	}
-	for(int i=1; i<n; i++){
-		if(s[i-1] == s[i]){
-			dp[i-1][i]=1;
-			ans++;
-		}
-	}
-	for(int k=2; k<n; k++){
-		int j=k, i=0;
-		while(j<n){
-			if(s[i] == s[j] && dp[i+1][j-1]){
-				dp[i][j] = 1;
-			}
-			if(dp[i][j]){ans++;}
-			i++;j++;
-		}
-	}
-	cout<<ans;
+    ll r, n, ans=0;
+    cin>>r>>n;
+    c[0].fi = 0;
+    c[0].si.fi = 1;
+    c[0].si.si = 1; 
+    for(int i=1; i<=n; i++){
+    	cin>>c[i].fi>>c[i].si.fi>>c[i].si.si;
+    }
+    dp2[0] = 0;
+    for(int i=1; i<=n; i++){
+    	dp[i] = -1e13;
+    	for(int j=max(0ll, i-2*r); j<i; j++){
+    		if(c[i].fi-c[j].fi >= abs(c[i].si.fi - c[j].si.fi) + 
+    							  abs(c[i].si.si - c[j].si.si)){
+    			dp[i] = max(dp[i], dp[j]+1);
+    		}
+    	}
+    	if(i-2*r >= 0){
+    		dp[i] = max(dp[i], 1 + dp2[i - 2*r]);
+    	}
+    	dp2[i] = max(dp[i], dp2[i-1]);
+    }
+    cout<<dp2[n];
 }

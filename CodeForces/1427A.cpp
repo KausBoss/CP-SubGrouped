@@ -27,6 +27,32 @@ using namespace std;
 const int nax = 1e7;
 const int mod = 1e9+7;
 
+void func(){
+	int n, a[55], sum=0, neg=0, pos=0;
+	cin>>n;
+	F(a, n);
+	sort(a, a+n);
+	for(int i=0; i<n; i++){
+		sum += a[i];
+		if(a[i] < 0){neg+= a[i];}
+		else{pos += a[i];}
+	}
+	if(sum == 0){
+		cout<<"NO\n";
+		return;
+	}
+	if(a[0]==0 && a[n-1]==0){
+		cout<<"NO\n";
+		return;
+	}
+	cout<<"YES\n";
+	if(abs(neg) > pos){
+		P(a, n);
+		return ;
+	}
+	reverse(a, a+n);
+	P(a, n);
+}
 
 int main(){
 	fastIO
@@ -34,33 +60,8 @@ int main(){
 	freopen("../inp.txt","r",stdin);
     freopen("../out.txt","w",stdout);
     #endif
-	string s;
-	cin>>s;
-	int n = s.length();
-	int ans=n;
-	if(n <= 1){
-		cout<<n;
-		return 0;
+	int t=1;cin>>t;
+	while(t--){
+		func();
 	}
-	vector<vector<bool>> dp(n, vector<bool>(n, 0));
-	for(int i=0; i<n; i++){
-		dp[i][i] = 1;
-	}
-	for(int i=1; i<n; i++){
-		if(s[i-1] == s[i]){
-			dp[i-1][i]=1;
-			ans++;
-		}
-	}
-	for(int k=2; k<n; k++){
-		int j=k, i=0;
-		while(j<n){
-			if(s[i] == s[j] && dp[i+1][j-1]){
-				dp[i][j] = 1;
-			}
-			if(dp[i][j]){ans++;}
-			i++;j++;
-		}
-	}
-	cout<<ans;
 }

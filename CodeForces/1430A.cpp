@@ -27,22 +27,67 @@ using namespace std;
 const int nax = 1e7;
 const int mod = 1e9+7;
 
-class Node{
-public:
-	int val, id;
-	vector<int> path;
-	Node(int val, int id, vector<int> path){
-		this->val = val;
-		this->id = id;
-		this->path = path;
+void func(){
+	ll n;
+	cin>>n;
+	if(n == 1 || n==2 || n==4){
+		cout<<-1<<endl;
+		return;
 	}
-};
-
-void print(vector<int> p){
-	for(int i=p.size()-1; i>=0; i--){
-		cout<<p[i];
-		if(i!=0){cout<<" -> ";}
-		else{cout<<endl;}
+	ll three=0, five=0, seven=0;
+	five = (n - n%10)/5;
+	if(n%10 == 0){
+		cout<<three<<" "<<five<<" "<<seven<<endl;
+		return;
+	}
+	if(n%10 == 1){
+		five--;
+		three += 2;
+		cout<<three<<" "<<five<<" "<<seven<<endl;
+		return;
+	}
+	if(n%10 == 2){
+		five--;
+		seven++;
+		cout<<three<<" "<<five<<" "<<seven<<endl;
+		return;
+	}
+	if(n%10 == 3){
+		three++;
+		cout<<three<<" "<<five<<" "<<seven<<endl;
+		return;
+	}
+	if(n%10 == 4){
+		five -= 2;
+		seven += 2;
+		cout<<three<<" "<<five<<" "<<seven<<endl;
+		return;
+	}
+	if(n%10 == 5){
+		five++;
+		cout<<three<<" "<<five<<" "<<seven<<endl;
+		return;
+	}
+	if(n%10 == 6){
+		three += 2;
+		cout<<three<<" "<<five<<" "<<seven<<endl;
+		return;
+	}
+	if(n%10 == 7){
+		seven++;
+		cout<<three<<" "<<five<<" "<<seven<<endl;
+		return;
+	}
+	if(n%10 == 8){
+		five++;
+		three++;
+		cout<<three<<" "<<five<<" "<<seven<<endl;
+		return;
+	}
+	if(n%10 == 9){
+		three += 3;
+		cout<<three<<" "<<five<<" "<<seven<<endl;
+		return;
 	}
 }
 
@@ -50,43 +95,10 @@ int main(){
 	fastIO
 	#ifndef ONLINE_JUDGE
 	freopen("../inp.txt","r",stdin);
-	freopen("../out.txt","w",stdout);
-	#endif
-    int n, a[101], omax=0, dp[101];
-    cin>>n;
-    F(a, n);
-    for(int i=0; i<n; i++){
-    	dp[i] = 1;
-    	for(int j=0; j<i; j++){
-    		if(a[i] >= a[j]){
-    			dp[i] = max(dp[i], 1 + dp[j]);
-    		}
-    	}
-    	omax = max(omax, dp[i]);
-    }
-    cout<<omax<<endl;
-    queue<Node> q;
-    for(int i=0; i<n; i++){
-    	if(dp[i] == omax){
-    		Node n(omax, i, {a[i]});
-    		q.push(n);
-    	}
-    }
-    while(!q.empty()){
-    	Node n = q.front();
-    	q.pop();
-    	if(n.val == 1){
-    		print(n.path);
-    	}
-    	else{
-    		for(int i=n.id-1; i>=0; i--){
-    			if(dp[i] == (n.val - 1) && a[i] < a[n.id]){
-    				vector<int> path_temp(n.path);
-    				path_temp.pb(a[i]);
-    				Node temp(n.val-1, i, path_temp);
-    				q.push(temp);
-    			}
-    		}
-    	}
-    }
+    freopen("../out.txt","w",stdout);
+    #endif
+	int t=1;cin>>t;
+	while(t--){
+		func();
+	}
 }

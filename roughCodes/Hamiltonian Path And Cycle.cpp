@@ -26,22 +26,34 @@ using namespace std;
 #define ceil_div(x, y) 		(((x) + (y) - 1) / (y))
 const int nax = 1e7;
 const int mod = 1e9+7;
-int grid[100][100];
-bool visited[100][100];
-int n, m;
+vector<int> g[20];
+int n, m, src;
+vector<bool> visited(20, 0);
+vector<vector<int>> cycle, hamil;
 
-int dx[] = {0, 0, 1, -1};
-int dy[] = {1, -1, 0, 0};
-
-void dfs(int i, int j){
-	visited[i][j] = 1;
-	for(int k=0;k<4; k++){
-		int ii = i + dx[k];
-		int jj = j + dy[k];
-		if(ii>=0 && ii<n && jj>=0 && j<m && grid[ii][jj]==0 && !visited[ii][jj]){
-			dfs(ii, jj);
+void dfs(int node, vector<int> path){
+	//base case
+	visited[node] = 1;
+	path.pb(node);
+	if(path.size() == n){
+		if(std::find(g[node].begin(), g[node].end(), src) != g[node].end()){
+			cycle.pb(path);
+		}
+		else{
+			hamil.pb(path);
+		}
+		path.pop_back();
+		visited[node] = 0;
+		return;
+	}
+	//recursive case
+	for(auto child:g[node]){
+		if(visited[child] == 0){
+			dfs(child, path);
 		}
 	}
+	path.pop_back();
+	visited[node] = 0;
 }
 
 int main(){
@@ -51,20 +63,24 @@ int main(){
     freopen("../out.txt","w",stdout);
     #endif
 	cin>>n>>m;
-	for(int i=0; i<n; i++){
-		for(int j=0; j<m; j++){
-			cin>>grid[i][j];
-		}
+	for(int i=0; i<m; i++){
+		int x, y, w;
+		cin>>x>>y>>w;
+		g[x].pb(y);
+		g[y].pb(x);
 	}
-	mem(visited, 0);
-	int ans=0;
-	for(int i=0; i<n; i++){
-		for(int j=0; j<m; j++){
-			if(grid[i][j]==0 && !visited[i][j]){
-				ans++;
-				dfs(i, j);
-			}
+	cin>>src;
+	dfs(src,{});
+	for(auto x: hamil){
+		for(auto y:x){
+			cout<<y;
 		}
+		cout<<".\n";
 	}
-	cout<<ans;
+	for(auto x:cycle){
+		for(auto y:x){
+			cout<<y;
+		}
+		cout<<"*\n";
+	}
 }

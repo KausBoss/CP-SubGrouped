@@ -35,7 +35,5 @@ int main(){
     freopen("../out.txt","w",stdout);
     #endif
 	ll n, k;
-	cin>>n>>k;
-	F(a, n);
-	sort(a, a+n);
+	
 }

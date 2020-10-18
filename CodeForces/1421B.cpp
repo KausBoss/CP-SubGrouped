@@ -26,7 +26,50 @@ using namespace std;
 #define ceil_div(x, y) 		(((x) + (y) - 1) / (y))
 const int nax = 1e7;
 const int mod = 1e9+7;
+string s[201];
 
+void func(){
+	ll n;
+	cin>>n;
+	F(s, n);
+	if(s[1][0]==s[0][1] && s[n-1][n-2]==s[n-2][n-1] && s[1][0]!=s[n-2][n-1]){
+		cout<<0<<endl;
+		return;
+	}
+	if(s[1][0]==s[0][1] && s[n-1][n-2]==s[n-2][n-1] && s[1][0]==s[n-2][n-1]){
+		cout<<2<<endl;
+		cout<<1<<" "<<2<<endl;
+		cout<<2<<" "<<1<<endl;
+		return;
+	}
+	if(s[1][0]==s[0][1] && s[n-1][n-2]!=s[n-2][n-1]){
+		cout<<1<<endl;
+		if(s[1][0] == s[n-1][n-2]){
+			cout<<n<<" "<<n-1<<endl;
+			return;
+		}
+		cout<<n-1<<" "<<n<<endl;
+		return;
+	}
+	if((s[1][0]!=s[0][1] && s[n-1][n-2]==s[n-2][n-1])){
+		cout<<1<<endl;
+		if(s[1][0] == s[n-1][n-2]){
+			cout<<2<<" "<<1<<endl;
+			return;
+		}
+		cout<<1<<" "<<2<<endl;
+		return;
+	}
+	if(s[1][0] == s[n-1][n-2]){
+		cout<<2<<endl;
+		cout<<n<<" "<<n-1<<endl;
+		cout<<1<<" "<<2<<endl;
+		return;
+	}
+	cout<<2<<endl;
+	cout<<n<<" "<<n-1<<endl;
+	cout<<2<<" "<<1<<endl;
+}
 
 int main(){
 	fastIO
@@ -34,19 +77,8 @@ int main(){
 	freopen("../inp.txt","r",stdin);
     freopen("../out.txt","w",stdout);
     #endif
-	ll x, y, a, b;
-	cin>>x>>y>>a>>b;
-	ll ans=0;
-	while(x < y){
-		if(LLONG_MAX/x >= a && x*a <= b+x){
-			x *= a;
-			ans++;
-		}
-		else{
-			ans += (y-x)/b;
-			if((y-x)%b != 0){ans++;}
-			break;
-		}
+	int t=1;cin>>t;
+	while(t--){
+		func();
 	}
-	cout<<ans-1;
 }

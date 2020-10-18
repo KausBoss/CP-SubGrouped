@@ -27,6 +27,21 @@ using namespace std;
 const int nax = 1e7;
 const int mod = 1e9+7;
 
+void func(){
+	ll a, b;
+	cin>>a>>b;
+	ll a1=a, b1=b;
+	int ans=0, i=0;
+	while(a || b){
+		if((a&1) && (b&1)){
+			ans += (1<<i);
+		}
+		a /= 2;
+		b /= 2;
+		i++;
+	}
+	cout<<(a1^ans) + (b1^ans)<<endl;
+}
 
 int main(){
 	fastIO
@@ -34,19 +49,8 @@ int main(){
 	freopen("../inp.txt","r",stdin);
     freopen("../out.txt","w",stdout);
     #endif
-	ll x, y, a, b;
-	cin>>x>>y>>a>>b;
-	ll ans=0;
-	while(x < y){
-		if(LLONG_MAX/x >= a && x*a <= b+x){
-			x *= a;
-			ans++;
-		}
-		else{
-			ans += (y-x)/b;
-			if((y-x)%b != 0){ans++;}
-			break;
-		}
+	int t=1;cin>>t;
+	while(t--){
+		func();
 	}
-	cout<<ans-1;
 }

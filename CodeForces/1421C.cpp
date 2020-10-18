@@ -27,26 +27,17 @@ using namespace std;
 const int nax = 1e7;
 const int mod = 1e9+7;
 
-
 int main(){
 	fastIO
 	#ifndef ONLINE_JUDGE
 	freopen("../inp.txt","r",stdin);
     freopen("../out.txt","w",stdout);
     #endif
-	ll x, y, a, b;
-	cin>>x>>y>>a>>b;
-	ll ans=0;
-	while(x < y){
-		if(LLONG_MAX/x >= a && x*a <= b+x){
-			x *= a;
-			ans++;
-		}
-		else{
-			ans += (y-x)/b;
-			if((y-x)%b != 0){ans++;}
-			break;
-		}
-	}
-	cout<<ans-1;
+	string s;
+	cin>>s;
+	ll n = s.length();
+	cout<<3<<endl;
+	cout<<"L "<<2<<endl;
+	cout<<"R "<<2<<endl;
+	cout<<"R "<<2*n - 1<<endl;
 }

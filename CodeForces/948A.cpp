@@ -24,9 +24,11 @@ using namespace std;
 #define PNF(a,n,m)  	 	for(int i=0;i<n;i++){for(int j=0;j<m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 #define PNF1(a,n,m)  		for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 #define ceil_div(x, y) 		(((x) + (y) - 1) / (y))
-const int nax = 1e5;
+const int nax = 1e7;
 const int mod = 1e9+7;
 
+int dx[] = {0, 0, 1, -1};
+int dy[] = {1, -1, 0, 0};
 
 int main(){
 	fastIO
@@ -34,7 +36,32 @@ int main(){
 	freopen("../inp.txt","r",stdin);
     freopen("../out.txt","w",stdout);
     #endif
-	for(int i=1; i<nax; i++){
-		cout<<i<<" "<<1<<" "<<22<<"\n";
+	int n, m;
+	char farm[500][500];
+	cin>>n>>m;
+	F(farm, n);
+	for(int i=0; i<n; i++){
+		for(int j=0; j<m; j++){
+			if(farm[i][j] == 'W'){
+				for(int k=0; k<4; k++){
+					int ii = i + dx[k];
+					int jj = j + dy[k];
+					if(ii>=0 && ii<n && jj>=0 && jj<m){
+						if(farm[ii][jj]=='S'){
+							cout<<"No";
+							return 0;
+						}
+					}
+				}
+			}
+		}
+	}
+	cout<<"Yes\n";
+	for(int i=0; i<n; i++){
+		for(int j=0; j<m; j++){
+			if(farm[i][j] == '.'){cout<<"D";}
+			else{cout<<farm[i][j];}
+		}
+		cout<<endl;
 	}
 }

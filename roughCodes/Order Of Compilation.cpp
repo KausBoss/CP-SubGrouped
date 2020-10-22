@@ -24,9 +24,22 @@ using namespace std;
 #define PNF(a,n,m)  	 	for(int i=0;i<n;i++){for(int j=0;j<m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 #define PNF1(a,n,m)  		for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 #define ceil_div(x, y) 		(((x) + (y) - 1) / (y))
-const int nax = 1e5;
+const int nax = 1e7;
 const int mod = 1e9+7;
+int n, m;
+vector<list<int>> g;
+vector<bool> visited;
 
+
+void dfs(int node, stack<int> &s){
+	visited[node] = 1;
+	for(auto child:g[node]){
+		if(!visited[child]){
+			dfs(child, s);
+		}
+	}
+	s.push(node);
+}
 
 int main(){
 	fastIO
@@ -34,7 +47,22 @@ int main(){
 	freopen("../inp.txt","r",stdin);
     freopen("../out.txt","w",stdout);
     #endif
-	for(int i=1; i<nax; i++){
-		cout<<i<<" "<<1<<" "<<22<<"\n";
+	cin>>n>>m;
+	g.resize(n);
+	visited.resize(n, 0);
+	for(int i=0; i<m; i++){
+		int x, y;
+		cin>>x>>y;
+		g[x].pb(y);
+	}
+	stack<int> s;
+	for(int i=0; i<n; i++){
+		if(!visited[i]){
+			dfs(i, s);
+		}
+	}
+	while(!s.empty()){
+		cout<<s.top()<<endl;
+		s.pop();
 	}
 }

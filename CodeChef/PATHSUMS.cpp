@@ -24,9 +24,42 @@ using namespace std;
 #define PNF(a,n,m)  	 	for(int i=0;i<n;i++){for(int j=0;j<m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 #define PNF1(a,n,m)  		for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 #define ceil_div(x, y) 		(((x) + (y) - 1) / (y))
-const int nax = 1e5;
+const int nax = 1e7;
 const int mod = 1e9+7;
+vector<int> g[100], ans(100);
+int n;
+int visited[100];
 
+
+void func(){
+	cin>>n;
+	for(int i=0; i<n; i++){g[i].clear();}
+	for(int i=1; i<n; i++){
+		ll x, y;
+		cin>>x>>y;
+		x--;y--;
+		g[x].pb(y);
+		g[y].pb(x);
+	}
+	mem(visited, 0);
+	queue<int> q;
+	visited[0] = 1;
+	ans[0] = 1;
+	q.push(0);
+	while(!q.empty()){
+		int node = q.front();
+		int val = (ans[node]==1) ? 2 : 1;
+		q.pop();
+		for(auto child:g[node]){
+			if(!visited[child]){
+				ans[child] = val;
+				visited[child] = 1;
+				q.push(child);
+			}
+		}
+	}
+	P(ans, n);
+}
 
 int main(){
 	fastIO
@@ -34,7 +67,8 @@ int main(){
 	freopen("../inp.txt","r",stdin);
     freopen("../out.txt","w",stdout);
     #endif
-	for(int i=1; i<nax; i++){
-		cout<<i<<" "<<1<<" "<<22<<"\n";
+	int t=1;cin>>t;
+	while(t--){
+		func();
 	}
 }

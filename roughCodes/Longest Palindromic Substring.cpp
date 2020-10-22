@@ -24,9 +24,8 @@ using namespace std;
 #define PNF(a,n,m)  	 	for(int i=0;i<n;i++){for(int j=0;j<m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 #define PNF1(a,n,m)  		for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 #define ceil_div(x, y) 		(((x) + (y) - 1) / (y))
-const int nax = 1e5;
+const int nax = 1e7;
 const int mod = 1e9+7;
-
 
 int main(){
 	fastIO
@@ -34,7 +33,32 @@ int main(){
 	freopen("../inp.txt","r",stdin);
     freopen("../out.txt","w",stdout);
     #endif
-	for(int i=1; i<nax; i++){
-		cout<<i<<" "<<1<<" "<<22<<"\n";
-	}
+    string s;
+    cin>>s;
+    int n = s.length(), ans=1;
+    if(n==0){
+    	cout<<0;
+    	return 0;
+    }
+    vector<vector<bool>> dp(n, vector<bool>(n, 0));
+    for(int i=0; i<n; i++){
+    	dp[i][i] = 1;
+    	if(i>0 && s[i-1]==s[i]){
+    		dp[i-1][i] = 1;
+    		ans = 2;
+    	}
+    }
+    for(int k=2; k<n; k++){
+    	int i=0, j=k;
+    	while(j<n){
+    		if(s[i] == s[j] && dp[i+1][j-1]){
+    			dp[i][j] = 1;
+    		}
+    		if(dp[i][j]){
+    			ans = max(ans, j-i+1);
+    		}
+    		i++,j++;
+    	} 
+    }
+    cout<<ans;
 }

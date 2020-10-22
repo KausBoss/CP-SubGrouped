@@ -24,9 +24,8 @@ using namespace std;
 #define PNF(a,n,m)  	 	for(int i=0;i<n;i++){for(int j=0;j<m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 #define PNF1(a,n,m)  		for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 #define ceil_div(x, y) 		(((x) + (y) - 1) / (y))
-const int nax = 1e5;
+const int nax = 1e7;
 const int mod = 1e9+7;
-
 
 int main(){
 	fastIO
@@ -34,7 +33,38 @@ int main(){
 	freopen("../inp.txt","r",stdin);
     freopen("../out.txt","w",stdout);
     #endif
-	for(int i=1; i<nax; i++){
-		cout<<i<<" "<<1<<" "<<22<<"\n";
+	vector<int> g[10];
+	int n, m;
+	cin>>n>>m;
+	for(int i=0; i<m; i++){
+		int x, y, w;
+		cin>>x>>y>>w;
+		g[x].pb(y);
+		g[y].pb(x);
 	}
+	vector<int> visited(10, 0);
+	for(int i=0; i<n; i++){
+		if(visited[i]==0){
+			queue<int> q;
+			q.push(i);
+			visited[i] = 1;
+			while(!q.empty()){
+				int node = q.front();
+				q.pop();
+				for(auto child:g[node]){
+					if(visited[child]==0){
+						q.push(child);
+						visited[child] = -1*visited[node];
+					}
+					else{
+						if(visited[child] != -1*visited[node]){
+							cout<<"false";
+							return 0;
+						}
+					}
+				}
+			}
+		}
+	}
+	cout<<"true";
 }

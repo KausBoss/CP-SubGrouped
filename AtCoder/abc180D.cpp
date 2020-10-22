@@ -24,7 +24,7 @@ using namespace std;
 #define PNF(a,n,m)  	 	for(int i=0;i<n;i++){for(int j=0;j<m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 #define PNF1(a,n,m)  		for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 #define ceil_div(x, y) 		(((x) + (y) - 1) / (y))
-const int nax = 1e5;
+const int nax = 1e7;
 const int mod = 1e9+7;
 
 
@@ -34,7 +34,19 @@ int main(){
 	freopen("../inp.txt","r",stdin);
     freopen("../out.txt","w",stdout);
     #endif
-	for(int i=1; i<nax; i++){
-		cout<<i<<" "<<1<<" "<<22<<"\n";
+	ll x, y, a, b;
+	cin>>x>>y>>a>>b;
+	ll ans=0;
+	while(x < y){
+		if(LLONG_MAX/x >= a && x*a <= b+x){
+			x *= a;
+			ans++;
+		}
+		else{
+			ans += (y-x)/b;
+			if((y-x)%b != 0){ans++;}
+			break;
+		}
 	}
+	cout<<ans-1;
 }

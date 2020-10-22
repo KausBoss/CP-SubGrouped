@@ -26,7 +26,32 @@ using namespace std;
 #define ceil_div(x, y) 		(((x) + (y) - 1) / (y))
 const int nax = 1e5;
 const int mod = 1e9+7;
+ll a[nax], n, k;
 
+bool possible(ll m){
+	ll num=0;
+	for(int i=1; i<n; i++){
+		num += ceil_div(a[i] - a[i-1], m) - 1;
+	}
+	return num <= k;
+}
+
+ll func(){
+	cin>>n>>k;
+	F(a, n);
+	ll s=1, e=1e10, ans;
+	while(s <= e){
+		ll mid = (s+e)/2;
+		if(possible(mid)){
+			ans = mid;
+			e = mid - 1;
+		}
+		else{
+			s = mid + 1;
+		}
+	}
+	return ans;
+}
 
 int main(){
 	fastIO
@@ -34,7 +59,8 @@ int main(){
 	freopen("../inp.txt","r",stdin);
     freopen("../out.txt","w",stdout);
     #endif
-	for(int i=1; i<nax; i++){
-		cout<<i<<" "<<1<<" "<<22<<"\n";
+	int t=1;cin>>t;
+	for(int i=1; i<=t; i++){
+		cout<<"Case #"<<i<<": "<<func()<<"\n";
 	}
 }

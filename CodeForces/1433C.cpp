@@ -24,9 +24,41 @@ using namespace std;
 #define PNF(a,n,m)  	 	for(int i=0;i<n;i++){for(int j=0;j<m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 #define PNF1(a,n,m)  		for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 #define ceil_div(x, y) 		(((x) + (y) - 1) / (y))
-const int nax = 1e5;
+const int nax = 3e5 + 3;
 const int mod = 1e9+7;
+ll a[nax];
 
+
+void func(){
+	ll n;
+	cin>>n;
+	F(a, n);
+	bool diff=0;
+	for(int i=1; i<n; i++){
+		if(a[i] != a[0]){diff=1;}
+	}
+	if(diff == 0){
+		cout<<-1<<"\n";
+		return;
+	}
+	ll mxsize=-1;
+	for(int i=0; i<n; i++){
+		mxsize = max(mxsize, a[i]);
+	}
+	ll ans;
+	for(int i=0; i<n; i++){
+		if(a[i] == mxsize){
+			if(i+1<n && a[i+1]<mxsize){
+				cout<<i+1<<"\n";
+				return;
+			}
+			if(i-1>=0 && a[i-1] < mxsize){
+				cout<<i+1<<"\n";
+				return;
+			}
+		}
+	}
+}
 
 int main(){
 	fastIO
@@ -34,7 +66,8 @@ int main(){
 	freopen("../inp.txt","r",stdin);
     freopen("../out.txt","w",stdout);
     #endif
-	for(int i=1; i<nax; i++){
-		cout<<i<<" "<<1<<" "<<22<<"\n";
+	int t=1;cin>>t;
+	while(t--){
+		func();
 	}
 }

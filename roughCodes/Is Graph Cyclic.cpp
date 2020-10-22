@@ -24,9 +24,46 @@ using namespace std;
 #define PNF(a,n,m)  	 	for(int i=0;i<n;i++){for(int j=0;j<m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 #define PNF1(a,n,m)  		for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 #define ceil_div(x, y) 		(((x) + (y) - 1) / (y))
-const int nax = 1e5;
+const int nax = 1e7;
 const int mod = 1e9+7;
 
+class dsu{
+	vector<ll> parent, rank;
+	ll total_component;
+public:
+	dsu(int n){
+		parent.resize(n);
+		rank.resize(n);
+		for(int i=0; i<n; i++){
+			parent[i] = i;
+			rank[i] = 0;
+		}
+		total_component = n;
+	}
+
+	ll get(ll a){
+		if(parent[a] == a){
+			return a;
+		}
+		
+		return parent[a] = get(parent[a]);
+	}
+
+	void union_set(ll a, ll b){
+		a = get(a);
+		b = get(b);
+		if(a != b){
+			if(rank[a] < rank[b]){
+				swap(a, b);
+			}
+			parent[b] = a;
+			if(rank[a] == rank[b]){
+				rank[a]++;
+			}
+			total_component--;
+		}
+	}
+};
 
 int main(){
 	fastIO
@@ -34,7 +71,24 @@ int main(){
 	freopen("../inp.txt","r",stdin);
     freopen("../out.txt","w",stdout);
     #endif
-	for(int i=1; i<nax; i++){
-		cout<<i<<" "<<1<<" "<<22<<"\n";
+	int n, m;
+	bool cycle=0;
+	cin>>n>>m;
+	dsu g(n);
+	for(int i=0; i<m; i++){
+		int x, y, w;
+		cin>>x>>y>>w;
+		if(g.get(x) == g.get(y)){
+			cycle = 1;
+		}
+		else{
+			g.union_set(x, y);
+		}
+	}
+	if(cycle){
+		cout<<"true";
+	}
+	else{
+		cout<<"false";
 	}
 }

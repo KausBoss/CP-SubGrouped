@@ -24,9 +24,9 @@ using namespace std;
 #define PNF(a,n,m)  	 	for(int i=0;i<n;i++){for(int j=0;j<m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 #define PNF1(a,n,m)  		for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 #define ceil_div(x, y) 		(((x) + (y) - 1) / (y))
-const int nax = 1e5;
+const int nax = 1e5+1;
 const int mod = 1e9+7;
-
+ll dp[nax];
 
 int main(){
 	fastIO
@@ -34,7 +34,28 @@ int main(){
 	freopen("../inp.txt","r",stdin);
     freopen("../out.txt","w",stdout);
     #endif
-	for(int i=1; i<nax; i++){
-		cout<<i<<" "<<1<<" "<<22<<"\n";
+    for(ll i=1; i<nax;i++){dp[i]=i+1;}
+	for(ll i=1; i<nax; i++){
+		for(ll j=i; j<nax; j+=i){
+			dp[j] = min(dp[j], i + (ll)(j/i));
+		}
+	}
+
+	for(ll i=1; i<nax; i++){
+		for(ll j=1; j*j<=i; j++){
+			dp[i] = min(dp[i], dp[j] + dp[i-j]);
+		}
+	}
+	int t;
+	cin>>t;
+	while(t--){
+		ll n, k, x;
+		cin>>n>>k>>x;
+		if(dp[k] <= n){
+			cout<<"YES\n";
+		} 
+		else{
+			cout<<"NO\n";
+		}
 	}
 }

@@ -24,9 +24,52 @@ using namespace std;
 #define PNF(a,n,m)  	 	for(int i=0;i<n;i++){for(int j=0;j<m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 #define PNF1(a,n,m)  		for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 #define ceil_div(x, y) 		(((x) + (y) - 1) / (y))
-const int nax = 1e5;
+const int nax = 1e7;
 const int mod = 1e9+7;
+string s[201];
 
+void func(){
+	ll n;
+	cin>>n;
+	F(s, n);
+	if(s[1][0]==s[0][1] && s[n-1][n-2]==s[n-2][n-1] && s[1][0]!=s[n-2][n-1]){
+		cout<<0<<endl;
+		return;
+	}
+	if(s[1][0]==s[0][1] && s[n-1][n-2]==s[n-2][n-1] && s[1][0]==s[n-2][n-1]){
+		cout<<2<<endl;
+		cout<<1<<" "<<2<<endl;
+		cout<<2<<" "<<1<<endl;
+		return;
+	}
+	if(s[1][0]==s[0][1] && s[n-1][n-2]!=s[n-2][n-1]){
+		cout<<1<<endl;
+		if(s[1][0] == s[n-1][n-2]){
+			cout<<n<<" "<<n-1<<endl;
+			return;
+		}
+		cout<<n-1<<" "<<n<<endl;
+		return;
+	}
+	if((s[1][0]!=s[0][1] && s[n-1][n-2]==s[n-2][n-1])){
+		cout<<1<<endl;
+		if(s[1][0] == s[n-1][n-2]){
+			cout<<2<<" "<<1<<endl;
+			return;
+		}
+		cout<<1<<" "<<2<<endl;
+		return;
+	}
+	if(s[1][0] == s[n-1][n-2]){
+		cout<<2<<endl;
+		cout<<n<<" "<<n-1<<endl;
+		cout<<1<<" "<<2<<endl;
+		return;
+	}
+	cout<<2<<endl;
+	cout<<n<<" "<<n-1<<endl;
+	cout<<2<<" "<<1<<endl;
+}
 
 int main(){
 	fastIO
@@ -34,7 +77,8 @@ int main(){
 	freopen("../inp.txt","r",stdin);
     freopen("../out.txt","w",stdout);
     #endif
-	for(int i=1; i<nax; i++){
-		cout<<i<<" "<<1<<" "<<22<<"\n";
+	int t=1;cin>>t;
+	while(t--){
+		func();
 	}
 }

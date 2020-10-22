@@ -24,9 +24,33 @@ using namespace std;
 #define PNF(a,n,m)  	 	for(int i=0;i<n;i++){for(int j=0;j<m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 #define PNF1(a,n,m)  		for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 #define ceil_div(x, y) 		(((x) + (y) - 1) / (y))
-const int nax = 1e5;
+const int nax = 1e7;
 const int mod = 1e9+7;
+vector<list<ll>> g(2000);
+vector<bool> visited(2000, 0);
 
+
+void dfs(ll node, stack<ll> &s){
+	visited[node] = 1;
+	for(auto child:g[node]){
+		if(!visited[child]){
+			dfs(child, s);	
+		}
+	}
+	s.push(node);
+}
+
+
+ll dfs2(ll node){
+	visited[node] = 1;
+	ll val = 0;
+	for(auto child:g[node]){
+		if(!visited[child]){
+			val = max(val , dfs2(child));
+		}
+	}
+	return 1 + val;
+}
 
 int main(){
 	fastIO
@@ -34,7 +58,30 @@ int main(){
 	freopen("../inp.txt","r",stdin);
     freopen("../out.txt","w",stdout);
     #endif
-	for(int i=1; i<nax; i++){
-		cout<<i<<" "<<1<<" "<<22<<"\n";
+	ll n, ans=1;
+	cin>>n;
+	for(int i=0; i<n; i++){
+		int x;
+		cin>>x;
+		if(x != -1){
+			x--;
+			g[x].pb(i);
+		}
 	}
+	stack<ll> s;
+	for(int i=0; i<n; i++){
+		if(!visited[i]){
+			dfs(i, s);
+		}
+	}
+	visited = vector<bool>(n, 0);
+
+	while(!s.empty()){
+		if(!visited[s.top()]){
+			ll topper = s.top();
+			ans = max(ans, dfs2(topper));
+		}
+		s.pop();
+	}
+	cout<<ans;
 }

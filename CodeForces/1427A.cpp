@@ -24,9 +24,35 @@ using namespace std;
 #define PNF(a,n,m)  	 	for(int i=0;i<n;i++){for(int j=0;j<m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 #define PNF1(a,n,m)  		for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 #define ceil_div(x, y) 		(((x) + (y) - 1) / (y))
-const int nax = 1e5;
+const int nax = 1e7;
 const int mod = 1e9+7;
 
+void func(){
+	int n, a[55], sum=0, neg=0, pos=0;
+	cin>>n;
+	F(a, n);
+	sort(a, a+n);
+	for(int i=0; i<n; i++){
+		sum += a[i];
+		if(a[i] < 0){neg+= a[i];}
+		else{pos += a[i];}
+	}
+	if(sum == 0){
+		cout<<"NO\n";
+		return;
+	}
+	if(a[0]==0 && a[n-1]==0){
+		cout<<"NO\n";
+		return;
+	}
+	cout<<"YES\n";
+	if(abs(neg) > pos){
+		P(a, n);
+		return ;
+	}
+	reverse(a, a+n);
+	P(a, n);
+}
 
 int main(){
 	fastIO
@@ -34,7 +60,8 @@ int main(){
 	freopen("../inp.txt","r",stdin);
     freopen("../out.txt","w",stdout);
     #endif
-	for(int i=1; i<nax; i++){
-		cout<<i<<" "<<1<<" "<<22<<"\n";
+	int t=1;cin>>t;
+	while(t--){
+		func();
 	}
 }

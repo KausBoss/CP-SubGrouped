@@ -26,7 +26,7 @@ using namespace std;
 #define ceil_div(x, y) 		(((x) + (y) - 1) / (y))
 const int nax = 1e5;
 const int mod = 1e9+7;
-
+ll a[nax], dp[nax];
 
 int main(){
 	fastIO
@@ -34,7 +34,15 @@ int main(){
 	freopen("../inp.txt","r",stdin);
     freopen("../out.txt","w",stdout);
     #endif
-	for(int i=1; i<nax; i++){
-		cout<<i<<" "<<1<<" "<<22<<"\n";
+	ll n, ans=0;
+	cin>>n;
+	F(a, n);
+	for(int i=0; i<n; i++){
+		dp[i] = 1;
+		if(i!=0 && a[i] > a[i-1]){
+			dp[i] = 1 + dp[i-1];
+		}
+		ans = max(ans, dp[i]);
 	}
+	cout<<ans;
 }

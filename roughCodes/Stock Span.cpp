@@ -24,9 +24,9 @@ using namespace std;
 #define PNF(a,n,m)  	 	for(int i=0;i<n;i++){for(int j=0;j<m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 #define PNF1(a,n,m)  		for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 #define ceil_div(x, y) 		(((x) + (y) - 1) / (y))
-const int nax = 1e7;
+const int nax = 1e5 + 1;
 const int mod = 1e9+7;
-
+ll a[nax], ans[nax];
 
 int main(){
 	fastIO
@@ -34,29 +34,19 @@ int main(){
 	freopen("../inp.txt","r",stdin);
     freopen("../out.txt","w",stdout);
     #endif
-    string s;
-    cin>>s;
-    if(s[0] == '0'){
-    	cout<<0;
-    	return 0;
-    }
-    s = " " + s;
-    int n = s.length();
-    int dp[n+1] = {1};
-    dp[1] = 1;
-    for(int i=2; i<n; i++){
-    	if(s[i] == '0' && (s[i-1]-'0')*10 + (s[i]-'0') > 26 ){
-    		dp[i] = 0;
-    	}
-    	else if(s[i] == '0'){
-    		dp[i] = dp[i-2];
-    	}
-    	else if( ((s[i-1]-'0')*10 + (s[i]-'0') > 26) || ((s[i-1]-'0')*10 + (s[i]-'0') < 10) ){
-    		dp[i] = dp[i-1];
-    	}
-    	else{
-    		dp[i] = dp[i-1] + dp[i-2];
-    	}
-    }
-    cout<<dp[n-1];	
+	ll n;
+	cin>>n;
+	F1(a, n);
+	a[0] =LLONG_MAX;
+	stack<pair<ll, ll>> s;
+	for(int i=n; i>=0; i--){
+		while(!s.empty() && a[i] > s.top().fi){
+			ans[s.top().si] = s.top().si-i;
+			s.pop();
+		}
+		s.push({a[i], i});
+	}
+	for(int i=1; i<=n; i++){
+		cout<<ans[i]<<"\n";
+	}
 }

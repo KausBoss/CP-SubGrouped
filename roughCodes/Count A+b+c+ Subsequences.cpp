@@ -47,7 +47,6 @@ int main(){
 		else if(s[i] == 'c'){
 			dp[2] = dp[2]*2 + dp[1];
 		}
-		// P(dp, 3);
 	}
 	cout<<dp[2];
 }

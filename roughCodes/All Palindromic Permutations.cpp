@@ -27,16 +27,13 @@ using namespace std;
 const int nax = 1e7;
 const int mod = 1e9+7;
 
-void func(){
-	
-}
-
 int main(){
 	fastIO
 	#ifndef ONLINE_JUDGE
 	freopen("../inp.txt","r",stdin);
     freopen("../out.txt","w",stdout);
     #endif
+    string s;
 	cin>>s;
 	for(int i=0; i<s.length(); i++){
 		freq[s[i]-'a']++;

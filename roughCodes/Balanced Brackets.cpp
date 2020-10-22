@@ -34,29 +34,38 @@ int main(){
 	freopen("../inp.txt","r",stdin);
     freopen("../out.txt","w",stdout);
     #endif
-    string s;
-    cin>>s;
-    if(s[0] == '0'){
-    	cout<<0;
-    	return 0;
-    }
-    s = " " + s;
-    int n = s.length();
-    int dp[n+1] = {1};
-    dp[1] = 1;
-    for(int i=2; i<n; i++){
-    	if(s[i] == '0' && (s[i-1]-'0')*10 + (s[i]-'0') > 26 ){
-    		dp[i] = 0;
-    	}
-    	else if(s[i] == '0'){
-    		dp[i] = dp[i-2];
-    	}
-    	else if( ((s[i-1]-'0')*10 + (s[i]-'0') > 26) || ((s[i-1]-'0')*10 + (s[i]-'0') < 10) ){
-    		dp[i] = dp[i-1];
-    	}
-    	else{
-    		dp[i] = dp[i-1] + dp[i-2];
-    	}
-    }
-    cout<<dp[n-1];	
+	string str;
+	getline(cin, str);
+	stack<char> s;
+	for(char x:str){
+		if(x=='(' || x=='{' || x=='['){
+			s.push(x);
+		}
+		else if(x==')'){
+			if(s.empty() || s.top()!='('){
+				cout<<"false";
+				return 0;
+			}
+			else{s.pop();}
+		}
+		else if(x=='}'){
+			if(s.empty() || s.top()!='{'){
+				cout<<"false";
+				return 0;
+			}
+			else{s.pop();}
+		}
+		else if(x==']'){
+			if(s.empty() || s.top()!='['){
+				cout<<"false";
+				return 0;
+			}
+			else{s.pop();}
+		}
+	}
+	if(!s.empty()){
+		cout<<"false";
+		return 0;
+	}
+	cout<<"true";
 }

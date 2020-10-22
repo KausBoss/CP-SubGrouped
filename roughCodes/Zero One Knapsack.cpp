@@ -43,9 +43,9 @@ int main(){
 		for(int j=1; j<=cap; j++){
 			dp[i][j] = dp[i-1][j];
 			if(j >= w[i]){
-				dp[i][j] = max(dp[i][j], v[i] + dp[i][j - w[i]]);
+				dp[i][j] = max(dp[i][j], v[i] + dp[i-1][j - w[i]]);
 			}
 		}
 	}
 	cout<<dp[n][cap];
-}
+}	

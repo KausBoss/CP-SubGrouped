@@ -33,26 +33,15 @@ int main(){
 	freopen("../inp.txt","r",stdin);
     freopen("../out.txt","w",stdout);
     #endif
-	int n;
+	int n, amt, coins[31];
 	cin>>n;
-	bitset<21> freq;
-	int temp, amt;
-	for(int i=0; i<n; i++){
-		cin>>temp;
-		freq[temp] = 1;
-	}
+	F(coins, n);
 	cin>>amt;
-	vector<int> a, dp(amt+1, 0);
-	for(int i=1; i<=20; i++){
-		if(freq[i]){
-			a.pb(i);
-		}
-	}
-	n = a.size();
+	vector<int> dp(amt+1, 0);
 	dp[0] = 1;
 	for(int i=0; i<n; i++){
-		for(int j=a[i]; j<=amt; j++){
-			dp[j] += dp[j - a[i]]; 
+		for(int j=coins[i]; j<=amt; j++){
+			dp[j] += dp[j - coins[i]];
 		}
 	}
 	cout<<dp[amt];

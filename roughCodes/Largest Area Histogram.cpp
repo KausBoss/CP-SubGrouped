@@ -27,36 +27,40 @@ using namespace std;
 const int nax = 1e7;
 const int mod = 1e9+7;
 
-
 int main(){
 	fastIO
 	#ifndef ONLINE_JUDGE
 	freopen("../inp.txt","r",stdin);
     freopen("../out.txt","w",stdout);
     #endif
-    string s;
-    cin>>s;
-    if(s[0] == '0'){
-    	cout<<0;
-    	return 0;
-    }
-    s = " " + s;
-    int n = s.length();
-    int dp[n+1] = {1};
-    dp[1] = 1;
-    for(int i=2; i<n; i++){
-    	if(s[i] == '0' && (s[i-1]-'0')*10 + (s[i]-'0') > 26 ){
-    		dp[i] = 0;
-    	}
-    	else if(s[i] == '0'){
-    		dp[i] = dp[i-2];
-    	}
-    	else if( ((s[i-1]-'0')*10 + (s[i]-'0') > 26) || ((s[i-1]-'0')*10 + (s[i]-'0') < 10) ){
-    		dp[i] = dp[i-1];
-    	}
-    	else{
-    		dp[i] = dp[i-1] + dp[i-2];
-    	}
-    }
-    cout<<dp[n-1];	
+	int n, h[21], ans=0;
+	cin>>n;
+	F(h, n);
+	stack<int> s;
+	for(int i=0; i<n;){
+		if(!s.empty() && h[i] <= h[s.top()]){
+			int height = h[s.top()];
+			s.pop();
+			if(s.empty()){
+				ans = max(ans, height*i);
+			}
+			else{
+				ans = max(ans, height*(i-s.top()-1));
+			}
+		}
+		else{
+			s.push(i++);
+		}
+	}
+	while(!s.empty()){
+		int height = h[s.top()];
+		s.pop();
+		if(s.empty()){
+			ans = max(ans, height*n);
+		}
+		else{
+			ans = max(ans, height*(n-s.top()-1));
+		}
+	}
+	cout<<ans;
 }

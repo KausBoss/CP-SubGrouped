@@ -28,35 +28,25 @@ const int nax = 1e7;
 const int mod = 1e9+7;
 
 
+int func(int n){
+	//base case
+	if(n==0){return 0;}
+	//recursive case
+	int i=0, val=1;
+	while(val*2 <= n){
+		val *= 2;
+		i++;
+	}
+	return pow(2, i-1)*i + (n - val + 1) + func(n - val);
+}
+
 int main(){
 	fastIO
 	#ifndef ONLINE_JUDGE
 	freopen("../inp.txt","r",stdin);
     freopen("../out.txt","w",stdout);
     #endif
-    string s;
-    cin>>s;
-    if(s[0] == '0'){
-    	cout<<0;
-    	return 0;
-    }
-    s = " " + s;
-    int n = s.length();
-    int dp[n+1] = {1};
-    dp[1] = 1;
-    for(int i=2; i<n; i++){
-    	if(s[i] == '0' && (s[i-1]-'0')*10 + (s[i]-'0') > 26 ){
-    		dp[i] = 0;
-    	}
-    	else if(s[i] == '0'){
-    		dp[i] = dp[i-2];
-    	}
-    	else if( ((s[i-1]-'0')*10 + (s[i]-'0') > 26) || ((s[i-1]-'0')*10 + (s[i]-'0') < 10) ){
-    		dp[i] = dp[i-1];
-    	}
-    	else{
-    		dp[i] = dp[i-1] + dp[i-2];
-    	}
-    }
-    cout<<dp[n-1];	
+	int n;
+	cin>>n;
+	cout<<func(n);
 }

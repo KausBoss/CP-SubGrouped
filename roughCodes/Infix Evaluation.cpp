@@ -27,6 +27,19 @@ using namespace std;
 const int nax = 1e7;
 const int mod = 1e9+7;
 
+int precedence(char op){
+	if(op=='+'){return 1;}
+	if(op=='-'){return 1;}
+	if(op=='*'){return 2;}
+	return 2;
+}
+
+int opVal(int v1, int v2, char op){
+	if(op=='+'){return v1+v2;}
+	if(op=='-'){return v1-v2;}
+	if(op=='*'){return v1*v2;}
+	return v1/v2;
+}
 
 int main(){
 	fastIO
@@ -34,29 +47,50 @@ int main(){
 	freopen("../inp.txt","r",stdin);
     freopen("../out.txt","w",stdout);
     #endif
-    string s;
-    cin>>s;
-    if(s[0] == '0'){
-    	cout<<0;
-    	return 0;
-    }
-    s = " " + s;
-    int n = s.length();
-    int dp[n+1] = {1};
-    dp[1] = 1;
-    for(int i=2; i<n; i++){
-    	if(s[i] == '0' && (s[i-1]-'0')*10 + (s[i]-'0') > 26 ){
-    		dp[i] = 0;
-    	}
-    	else if(s[i] == '0'){
-    		dp[i] = dp[i-2];
-    	}
-    	else if( ((s[i-1]-'0')*10 + (s[i]-'0') > 26) || ((s[i-1]-'0')*10 + (s[i]-'0') < 10) ){
-    		dp[i] = dp[i-1];
-    	}
-    	else{
-    		dp[i] = dp[i-1] + dp[i-2];
-    	}
-    }
-    cout<<dp[n-1];	
+	string s;
+	getline(cin, s);
+	stack<int> oprand;
+	stack<char> optr;
+	for(auto x:s){
+		if(x>='0' && x<='9'){
+			oprand.push(x-'0');
+		}
+		else if(x=='('){
+			optr.push(x);
+		}
+		else if(x==')'){
+			while(optr.top() != '('){
+				char op = optr.top();
+				optr.pop();
+				int v2 = oprand.top();
+				oprand.pop();
+				int v1 = oprand.top();
+				oprand.pop();
+				oprand.push(opVal(v1, v2, op));
+			}
+			optr.pop();
+		}
+		else if(x=='+' || x=='-' || x=='*' || x=='/'){
+			while(optr.size() && optr.top()!='(' && precedence(optr.top()) >= precedence(x)){
+				char op = optr.top();
+				optr.pop();
+				int v2 = oprand.top();
+				oprand.pop();
+				int v1 = oprand.top();
+				oprand.pop();
+				oprand.push(opVal(v1, v2, op));
+			}
+			optr.push(x);
+		}
+	}
+	while(!optr.empty()){
+		char op = optr.top();
+		optr.pop();
+		int v2 = oprand.top();
+		oprand.pop();
+		int v1 = oprand.top();
+		oprand.pop();
+		oprand.push(opVal(v1, v2, op));
+	}
+	cout<<oprand.top();
 }

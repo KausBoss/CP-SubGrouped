@@ -43,7 +43,7 @@ void prims(){
 	vector<ll> weight(n, INT_MAX);//current weight of vertices
 	map<ll, ll> parent;// to retrieve the spanning tree
 
-	//Marking the node ) as src
+	//Marking the node 0 as src
 	//NOTE: we can choose any node
 	parent[0] = -1;
 	weight[0] = 0;

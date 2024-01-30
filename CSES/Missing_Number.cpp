@@ -9,7 +9,7 @@ using namespace std;
 #define vi 				 	vector<int>
 #define pb      	     	push_back
 #define fi          	 	first
-#define si      	     	second
+#define si      	     	second`
 #define pii		 		 	pair<int,int>
 #define vii 			 	vector<pair<int,int>>
 #define F(a,n)  	     	for(int i=0;i<n;i++){cin>>a[i];}
@@ -28,14 +28,14 @@ const int nax = 1e7;
 const int mod = 1e9+7;
 
 void func(){
-	ll n, num;
+	ll n, sum1 = 0, temp;
 	cin>>n;
-	ll sum = (n*(n+1))/2;
-	for(ll i=0; i<n-1; i++){
-		cin>>num;
-		sum -= num;
+	for (int i=0; i<n-1; i++) {
+		cin>>temp;
+		sum1 += temp;
 	}
-	cout<<sum;
+	ll sum = (n*(n+1)) / 2;
+	cout<<sum - sum1;
 }
 
 int main(){
@@ -44,7 +44,7 @@ int main(){
 	freopen("../inp.txt","r",stdin);
     freopen("../out.txt","w",stdout);
     #endif
-	int t=1;//cin>>t;
+	int t=1;
 	while(t--){
 		func();
 	}

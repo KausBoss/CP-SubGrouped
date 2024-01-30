@@ -24,21 +24,23 @@ using namespace std;
 #define PNF(a,n,m)  	 	for(int i=0;i<n;i++){for(int j=0;j<m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 #define PNF1(a,n,m)  		for(int i=1;i<=n;i++){for(int j=1;j<=m;j++){cout<<a[i][j]<<' ';}cout<<endl;}cout<<endl;
 #define ceil_div(x, y) 		(((x) + (y) - 1) / (y))
-const int nax = 2e5 + 10;
+const int nax = 1e7;
 const int mod = 1e9+7;
 
 void func(){
-	ll n, steps=0, v[nax];
-	cin>>n;
-	F(v, n);
-
-	for(int i=1; i<n; i++){
-		if(v[i] < v[i-1]){
-			steps += (v[i-1] - v[i]);
-			v[i] = v[i-1];
-		}
+	ll x, y;
+	cin>>x>>y;
+	ll nax = max(x, y);
+	ll ans = (nax-1) * (nax-1);
+	if (!(nax&1)) {
+		ans += x;
+		if (y < nax) ans += (nax-y);
 	}
-	cout<<steps;
+	else {
+		ans += y;
+		if (x < nax) ans += (nax-x);
+	}
+	cout<<ans<<endl; 
 }
 
 int main(){
@@ -47,7 +49,7 @@ int main(){
 	freopen("../inp.txt","r",stdin);
     freopen("../out.txt","w",stdout);
     #endif
-	int t=1;//cin>>t;
+	int t;cin>>t;
 	while(t--){
 		func();
 	}

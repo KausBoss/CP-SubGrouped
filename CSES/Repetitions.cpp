@@ -30,21 +30,16 @@ const int mod = 1e9+7;
 void func(){
 	string s;
 	cin>>s;
-	char lastChar = s[0];
-	int maxLen = 0, curLen=1;
-	for(int i=1; i<s.length();i++){
-		// cout<<s[i]<<" "<<lastChar<<" "<<maxLen<<" "<<curLen<<endl;
-		if(s[i] == lastChar){
-			curLen++;
-		}
-		else{
-			lastChar = s[i];
-			maxLen = max(maxLen, curLen);
-			curLen = 1;
+	int ans=0, curr=1;
+	for (int i=1; i<(int)s.length(); i++) {
+		if (s[i] == s[i-1]) curr++;
+		else {
+			ans=max(curr, ans);
+			curr=1;
 		}
 	}
-	maxLen = max(maxLen, curLen);
-	cout<<maxLen;
+	ans=max(ans, curr);
+	cout<<ans;
 }
 
 int main(){
@@ -53,7 +48,7 @@ int main(){
 	freopen("../inp.txt","r",stdin);
     freopen("../out.txt","w",stdout);
     #endif
-	int t=1;//cin>>t;
+	int t=1;
 	while(t--){
 		func();
 	}

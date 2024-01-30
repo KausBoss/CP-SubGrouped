@@ -28,34 +28,17 @@ const int nax = 1e7;
 const int mod = 1e9+7;
 
 void func(){
-	ll x, y;
-	cin>>x>>y;
-	if(x == y){
-		cout<<(x*x) - (x-1)<<"\n";
-		return;
-	}
-	if(x > y){
-		ll ans = (x-1)*(x-1);
-		if(x % 2){
-			cout<<ans + y<<"\n";
-			return;
-		}
-		else{
-			ans += x + (x - y);
-			cout<<ans<<"\n";
+	ll n, ans=0;
+	cin>>n;
+	vector<int> v(n);
+	F(v, n);
+	for (int i=1; i<n; i++) {
+		if (v[i] < v[i-1]) {
+			ans += (v[i-1] - v[i]);
+			v[i] = v[i-1];
 		}
 	}
-	else{
-		ll ans = (y-1)*(y-1);
-		if(y % 2 == 0){
-			cout<<ans + x<<"\n";
-			return;
-		}
-		else{
-			ans += y + (y - x);
-			cout<<ans<<"\n";
-		}
-	}
+	cout<<ans;
 }
 
 int main(){
@@ -64,7 +47,7 @@ int main(){
 	freopen("../inp.txt","r",stdin);
     freopen("../out.txt","w",stdout);
     #endif
-	int t=1;cin>>t;
+	int t=1;
 	while(t--){
 		func();
 	}

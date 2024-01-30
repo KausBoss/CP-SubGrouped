@@ -28,26 +28,18 @@ const int nax = 1e7;
 const int mod = 1e9+7;
 
 void func(){
-	int n;
+	ll n;
 	cin>>n;
-	if(n == 2 || n == 3){
+	if (n == 1) {
+		cout<<n;
+		return;
+	}
+	if (n == 2 || n == 3) {
 		cout<<"NO SOLUTION";
 		return;
 	}
-
-	if(n == 4){
-		cout<<"2 4 1 3";
-		return;
-	}
-
-	int half = (n+1)/2;
-
-	for(int i=1; i<=half; i++){
-		cout<<i<<" ";
-		if(i+half <= n){
-			cout<<(i+half)<<" ";
-		}
-	}
+	for (int i=2; i<=n; i+=2) cout<<i<<" ";
+	for (int i=1; i<=n; i+=2) cout<<i<<" ";
 }
 
 int main(){
@@ -56,7 +48,7 @@ int main(){
 	freopen("../inp.txt","r",stdin);
     freopen("../out.txt","w",stdout);
     #endif
-	int t=1;//cin>>t;
+	int t=1;
 	while(t--){
 		func();
 	}
